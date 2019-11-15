@@ -2,17 +2,16 @@ package dijkstra;
 
 import java.time.LocalTime;
 import java.time.Duration;
-import java.util.Objects;
 
-public abstract class AbstractFlight implements Flight {
+public abstract class AbstractConnection implements Connection {
 
     abstract public String getCode(); //Returns the flight identifier
 
     abstract public FlightSchedule getFlightSchedule(); //Returns a FlightSchedule
 
-    public Airport origin()
+    public Node origin()
 
-    public Airport destination();
+    public Node destination();
 
     public LocalTime departureTime() {
         return this.getFlightSchedule().getDepartureTime();

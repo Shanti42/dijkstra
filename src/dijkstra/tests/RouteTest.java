@@ -13,8 +13,6 @@ import java.time.LocalTime;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.BiFunction;
-import java.util.function.Predicate;
 
 /**
  * Tests for the RouteNode, RouteState, RouteTime, and RouteFinder classes
@@ -23,10 +21,10 @@ import java.util.function.Predicate;
 public class RouteTest  {
 
 
-    public Airport airport1;
-    public Airport airport2;
-    public Airport airport3;
-    public Airport airport4;
+    public Node node1;
+    public Node node2;
+    public Node node3;
+    public Node node4;
 
     public RouteTime routeTime1;
     public RouteTime routeTime2;
@@ -38,21 +36,21 @@ public class RouteTest  {
     public SeatConfiguration seatConfig;
     public Flight flight;
 
-    public Set<Airport> airports = new HashSet<>();
+    public Set<Node> nodes = new HashSet<>();
 
     @BeforeAll
     void initializeRoutes() {
-        airport1 = Airport.of("CLE",Duration.ofHours(5));
-        airport2 = Airport.of("CLE",Duration.ofHours(7));
-        airport3 = Airport.of("CLE",Duration.ofHours(3));
-        airport4 = Airport.of("LGA",Duration.ofHours(1));
+        node1 = Node.of("CLE",Duration.ofHours(5));
+        node2 = Node.of("CLE",Duration.ofHours(7));
+        node3 = Node.of("CLE",Duration.ofHours(3));
+        node4 = Node.of("LGA",Duration.ofHours(1));
 
         routeTime1 = new RouteTime(LocalTime.of(6,0));
         routeTime2 = new RouteTime(LocalTime.of(5,0));
         routeTime3 = new RouteTime(LocalTime.of(3,0));
         routeUnknown = new RouteTime(null);
 
-        leg = Leg.of(airport1, Airport.of("LGA", Duration.ofHours(6)));
+        leg = Leg.of(node1, Node.of("LGA", Duration.ofHours(6)));
         flightSchedule = FlightSchedule.of(LocalTime.MIN,LocalTime.NOON);
 
         seatConfig = SeatConfiguration.of(new EnumMap<SeatClass,Integer>(SeatClass.class));
@@ -60,10 +58,10 @@ public class RouteTest  {
         seatConfig.setSeats(ECONOMY, 20);
         seatConfig.setSeats(PREMIUM_ECONOMY, 5);
 
-        flight = SimpleFlight.of("A1102", leg, flightSchedule, seatConfig);
+        flight = SimpleConnection.of("A1102", leg, flightSchedule, seatConfig);
 
-        airports.add(airport1);
-        airports.add(airport4);
+        nodes.add(node1);
+        nodes.add(node4);
     }
 
     /**
@@ -127,14 +125,14 @@ public class RouteTest  {
     @Test
     void testRouteNodeBuildMethods() {
 
-        RouteNode routeNode1 = RouteNode.of(airport1, routeTime1, null);
+        RouteNode routeNode1 = RouteNode.of(node1, routeTime1, null);
         assertNotNull(routeNode1);
-        assertNotNull(RouteNode.of(airport2, routeTime2, routeNode1));
+        assertNotNull(RouteNode.of(node2, routeTime2, routeNode1));
         assertNotNull(RouteNode.of(flight,routeNode1));
-        assertNotNull(RouteNode.of(airport3));
+        assertNotNull(RouteNode.of(node3));
 
         assertThrows(NullPointerException.class, () -> RouteNode.of(null,routeTime1,null));
-        assertThrows(NullPointerException.class, () -> RouteNode.of(airport4 ,null,null));
+        assertThrows(NullPointerException.class, () -> RouteNode.of(node4,null,null));
         assertThrows(NullPointerException.class, () -> RouteNode.of(null ,routeNode1));
         assertThrows(NullPointerException.class, () -> RouteNode.of(null));
 
@@ -145,8 +143,8 @@ public class RouteTest  {
      */
     @Test
     void testRouteNodeIsArrivalTimeKnown() {
-        RouteNode knownArrival = RouteNode.of(airport1, routeTime1,  null);
-        RouteNode unknownArrival = RouteNode.of(airport1, RouteTime.UNKNOWN, null);
+        RouteNode knownArrival = RouteNode.of(node1, routeTime1,  null);
+        RouteNode unknownArrival = RouteNode.of(node1, RouteTime.UNKNOWN, null);
         assertTrue(knownArrival.isArrivalTimeKnown());
         assertFalse(unknownArrival.isArrivalTimeKnown());
     }
@@ -156,8 +154,8 @@ public class RouteTest  {
      */
     @Test
     void testRouteNodeDepartureTime() {
-        //airport1 has a connection time of 5 and arrival time is 6. Returned RouteTime should be 11
-        RouteNode routeNode = RouteNode.of(airport1, routeTime1, null);
+        //node1 has a connection time of 5 and arrival time is 6. Returned RouteTime should be 11
+        RouteNode routeNode = RouteNode.of(node1, routeTime1, null);
 
         RouteTime expectedRouteTime = new RouteTime(LocalTime.of(11,0));
         RouteTime computedRouteTime = routeTime1.plus(Duration.ofHours(5));
@@ -166,14 +164,14 @@ public class RouteTest  {
     }
 
     /**
-     * RouteNode availableFlights method test
+     * RouteNode availableConnections method test
      */
     @Test
     void testRouteNodeAvailableFlights() {
 
-        Airport origin = Airport.of("CLE",Duration.ofHours(3));
-        Airport dest1 = Airport.of("LGA",Duration.ofHours(5));
-        Airport dest2 = Airport.of("LAX",Duration.ofHours(2));
+        Node origin = Node.of("CLE",Duration.ofHours(3));
+        Node dest1 = Node.of("LGA",Duration.ofHours(5));
+        Node dest2 = Node.of("LAX",Duration.ofHours(2));
 
         Leg leg1 = Leg.of(origin,dest1);
         Leg leg2 = Leg.of(origin, dest2);
@@ -189,15 +187,15 @@ public class RouteTest  {
         seatConfig.setSeats(ECONOMY, 10);
         seatConfig.setSeats(BUSINESS, 20);
 
-        Flight flight1 = SimpleFlight.of("A101",leg1,schedule1,seatConfig);
-        Flight flight2 = SimpleFlight.of("B101",leg2,schedule2,seatConfig);
+        Flight flight1 = SimpleConnection.of("A101",leg1,schedule1,seatConfig);
+        Flight flight2 = SimpleConnection.of("B101",leg2,schedule2,seatConfig);
 
-        origin.addFlight(flight1);
-        origin.addFlight(flight2);
+        origin.addConnection(flight1);
+        origin.addConnection(flight2);
         RouteNode routeNode = RouteNode.of(origin, new RouteTime(arrive1), null);
         FareClass fareClass = FareClass.of(4, BUSINESS);
 
-        Set<Flight> flightSet = routeNode.getAirport().availableFlights(depart1,fareClass);
+        Set<Flight> flightSet = routeNode.getNode().availableConnections(depart1,fareClass);
         //System.out.println(flightSet.isEmpty());
         //System.out.println(flightSet.toString());
         assertTrue(flightSet.size() == 2);
@@ -209,9 +207,9 @@ public class RouteTest  {
      */
     @Test
     void testRouteNodeCompareTo() {
-        RouteNode routeNode1  = RouteNode.of(airport1, routeTime1, null);
-        RouteNode routeNode2 = RouteNode.of(airport2, routeTime2, routeNode1);
-        RouteNode routeNode3 = RouteNode.of(airport4, routeTime1, routeNode2);
+        RouteNode routeNode1  = RouteNode.of(node1, routeTime1, null);
+        RouteNode routeNode2 = RouteNode.of(node2, routeTime2, routeNode1);
+        RouteNode routeNode3 = RouteNode.of(node4, routeTime1, routeNode2);
 
         assertTrue(routeNode1.compareTo(routeNode1) == 0); //Compare RouteTime 6 to 6
         assertTrue(routeNode1.compareTo(routeNode2) > 0); //Compare RouteTime 6 to 5
@@ -228,7 +226,7 @@ public class RouteTest  {
     @Test
     void testRouteFinderOf() {
         assertThrows(NullPointerException.class, () -> RouteFinder.of(null));
-        assertNotNull(RouteFinder.of(airports));
+        assertNotNull(RouteFinder.of(nodes));
     }
 
     /**
@@ -237,10 +235,10 @@ public class RouteTest  {
     @Test
     void testRouteFinderRouteConnectedGraph() {
         //Connected Graph
-        Airport origin = Airport.of("CLE", Duration.ofHours(1));
-        Airport destLGA = Airport.of("LGA", Duration.ofHours(1));
-        Airport destMIA = Airport.of("MIA", Duration.ofHours(1));
-        Airport destLAX = Airport.of("LAX", Duration.ofHours(1));
+        Node origin = Node.of("CLE", Duration.ofHours(1));
+        Node destLGA = Node.of("LGA", Duration.ofHours(1));
+        Node destMIA = Node.of("MIA", Duration.ofHours(1));
+        Node destLAX = Node.of("LAX", Duration.ofHours(1));
 
         //Legs of flight from CLE to NY to LA
         Leg leg1 = Leg.of(origin, destLGA);
@@ -262,28 +260,28 @@ public class RouteTest  {
         seatConfig.setSeats(ECONOMY, 19);
         FareClass fareClass = FareClass.of(4, ECONOMY);
 
-        Flight flight1 = SimpleFlight.of("A101", leg1, schedule1, seatConfig);
-        Flight flight2 = SimpleFlight.of("B101", leg2, schedule2, seatConfig);
-        Flight flight3 = SimpleFlight.of("A102", leg3, schedule3, seatConfig);
-        Flight flight4 = SimpleFlight.of("C101", leg4, schedule4, seatConfig);
+        Flight flight1 = SimpleConnection.of("A101", leg1, schedule1, seatConfig);
+        Flight flight2 = SimpleConnection.of("B101", leg2, schedule2, seatConfig);
+        Flight flight3 = SimpleConnection.of("A102", leg3, schedule3, seatConfig);
+        Flight flight4 = SimpleConnection.of("C101", leg4, schedule4, seatConfig);
 
-        origin.addFlight(flight1);
-        origin.addFlight(flight3);
+        origin.addConnection(flight1);
+        origin.addConnection(flight3);
 
-        destLGA.addFlight(flight2);
-        destMIA.addFlight(flight4);
+        destLGA.addConnection(flight2);
+        destMIA.addConnection(flight4);
 
-        Set<Airport> airports = new HashSet<>();
-        airports.add(origin);
-        airports.add(destLGA);
-        airports.add(destMIA);
-        airports.add(destLAX);
+        Set<Node> nodes = new HashSet<>();
+        nodes.add(origin);
+        nodes.add(destLGA);
+        nodes.add(destMIA);
+        nodes.add(destLAX);
 
-        RouteFinder routeFinder = RouteFinder.of(airports);
+        RouteFinder routeFinder = RouteFinder.of(nodes);
 
-        assertEquals(destLAX.getCode(), routeFinder.route(origin, destLAX, LocalTime.of(1,0), fareClass).getAirport().getCode());
-        assertEquals(destLAX.getCode(), routeFinder.route(origin, destLAX, LocalTime.of(2,0), fareClass).getAirport().getCode());
-        assertEquals(destLAX.getCode(), routeFinder.route(origin, destLAX, LocalTime.of(0,0), fareClass).getAirport().getCode());
+        assertEquals(destLAX.getID(), routeFinder.route(origin, destLAX, LocalTime.of(1,0), fareClass).getNode().getID());
+        assertEquals(destLAX.getID(), routeFinder.route(origin, destLAX, LocalTime.of(2,0), fareClass).getNode().getID());
+        assertEquals(destLAX.getID(), routeFinder.route(origin, destLAX, LocalTime.of(0,0), fareClass).getNode().getID());
 
         //Should return null because departureTime is 1 minute later then the last available departureTime
         assertNull(routeFinder.route(origin, destLAX, LocalTime.of(2,1), fareClass));
@@ -296,10 +294,10 @@ public class RouteTest  {
     @Test
     void testRouteFinderRouteDisconnectedGraph() {
         //Connected Graph
-        Airport origin = Airport.of("CLE", Duration.ofHours(1));
-        Airport destLGA = Airport.of("LGA", Duration.ofHours(1));
-        Airport destLAX = Airport.of("LAX", Duration.ofHours(1));
-        Airport destMIA = Airport.of("MIA", Duration.ofHours(1));
+        Node origin = Node.of("CLE", Duration.ofHours(1));
+        Node destLGA = Node.of("LGA", Duration.ofHours(1));
+        Node destLAX = Node.of("LAX", Duration.ofHours(1));
+        Node destMIA = Node.of("MIA", Duration.ofHours(1));
 
         //Legs of flight from CLE to NY to LA
         Leg leg1 = Leg.of(origin, destLGA);
@@ -319,22 +317,22 @@ public class RouteTest  {
         seatConfig.setSeats(ECONOMY, 19);
         FareClass fareClass = FareClass.of(4, ECONOMY);
 
-        Flight flight1 = SimpleFlight.of("A101", leg1, schedule1, seatConfig);
-        Flight flight2 = SimpleFlight.of("B101", leg2, schedule2, seatConfig);
-        Flight flight3 = SimpleFlight.of("A102", leg3, schedule3, seatConfig);
+        Flight flight1 = SimpleConnection.of("A101", leg1, schedule1, seatConfig);
+        Flight flight2 = SimpleConnection.of("B101", leg2, schedule2, seatConfig);
+        Flight flight3 = SimpleConnection.of("A102", leg3, schedule3, seatConfig);
 
-        origin.addFlight(flight1);
-        origin.addFlight(flight3);
+        origin.addConnection(flight1);
+        origin.addConnection(flight3);
 
-        destLGA.addFlight(flight2);
+        destLGA.addConnection(flight2);
 
-        Set<Airport> airports = new HashSet<>();
-        airports.add(origin);
-        airports.add(destLAX);
-        airports.add(destLGA);
-        airports.add(destMIA);
+        Set<Node> nodes = new HashSet<>();
+        nodes.add(origin);
+        nodes.add(destLAX);
+        nodes.add(destLGA);
+        nodes.add(destMIA);
 
-        RouteFinder routeFinder = RouteFinder.of(airports);
+        RouteFinder routeFinder = RouteFinder.of(nodes);
 
         //No shortest path due to disconnected graph
         assertNull(routeFinder.route(origin, destLAX, LocalTime.of(2,0), fareClass));
@@ -342,8 +340,8 @@ public class RouteTest  {
         assertNull(routeFinder.route(origin, destLAX, LocalTime.of(0,0), fareClass));
 
         assertNull(routeFinder.route(origin, destMIA, LocalTime.of(2,0), fareClass));
-        assertEquals(destMIA.getCode(), routeFinder.route(origin, destMIA, LocalTime.of(1,0), fareClass).getAirport().getCode());
-        assertEquals(destMIA.getCode(), routeFinder.route(origin, destMIA, LocalTime.of(0,0), fareClass).getAirport().getCode());
+        assertEquals(destMIA.getID(), routeFinder.route(origin, destMIA, LocalTime.of(1,0), fareClass).getNode().getID());
+        assertEquals(destMIA.getID(), routeFinder.route(origin, destMIA, LocalTime.of(0,0), fareClass).getNode().getID());
     }
 
 

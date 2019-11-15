@@ -1,27 +1,24 @@
 package dijkstra;
 
-import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Set;
-
-import static dijkstra.RouteTime.UNKNOWN;
 
 /**
  * Re-routes passengers from an airport to a final destination
  */
 public final class RouteFinder {
 
-    private final Set<Airport> airports;
+    private final Set<Node> nodes;
 
-    private RouteFinder(Set<Airport> airports) {
-        this.airports = airports;
+    private RouteFinder(Set<Node> nodes) {
+        this.nodes = nodes;
     }
 
-    public static final RouteFinder of(Set<Airport> airports) {
-        Objects.requireNonNull(airports, "Received null Set of Airports");
+    public static final RouteFinder of(Set<Node> nodes) {
+        Objects.requireNonNull(nodes, "Received null Set of Airports");
 
-        return new RouteFinder(airports);
+        return new RouteFinder(nodes);
     }
 
     /**
@@ -31,25 +28,25 @@ public final class RouteFinder {
      * @param origin        the departure airport
      * @param destination   the final destination
      * @param departureTime the time of departure
-     * @param fareClass     the fareclass of the passenger
+     * @param connectionType     the fareclass of the passenger
      * @return
      */
-    public final RouteNode route(Airport origin, Airport destination, LocalTime departureTime, FareClass fareClass) {
+    public final RouteNode route(Node origin, Node destination, LocalTime departureTime, ConnectionType connectionType) {
         //check for null values
         Objects.requireNonNull(origin, "RouteFinder, route() -> origin null");
         Objects.requireNonNull(destination, "RouteFinder, route() -> destination null");
         Objects.requireNonNull(departureTime, "RouteFinder route() -> departureTime null");
-        Objects.requireNonNull(fareClass, "RouteFinder route() -> fareClass null");
+        Objects.requireNonNull(connectionType, "RouteFinder route() -> connectionType null");
 
-        RouteState routeState = RouteState.of(airports, origin, departureTime);
+        RouteState routeState = RouteState.of(nodes, origin, departureTime);
         while (!routeState.allReached()) {
             RouteNode currentAirportNode = routeState.closestUnreached();
-            if (currentAirportNode.getAirport().equals(destination)) {
+            if (currentAirportNode.getNode().equals(destination)) {
                 return currentAirportNode;
-            } else if (currentAirportNode.availableFlights(fareClass).isEmpty()) {
+            } else if (currentAirportNode.availableFlights(connectionType).isEmpty()) {
                 return null;
             } else {
-                findFastestConnectedFlight(currentAirportNode, fareClass, routeState);
+                findFastestConnectedFlight(currentAirportNode, connectionType, routeState);
             }
 
         }
@@ -58,11 +55,11 @@ public final class RouteFinder {
     }
 
     // Finds the fastest connected flight and sets is as the next route node
-    private void findFastestConnectedFlight(RouteNode currentAirportNode, FareClass fareClass, RouteState routeState) {
-        for (Flight flight : currentAirportNode.availableFlights(fareClass)) {
-            RouteTime destinationArrivalTime = routeState.airportNode(flight.destination()).getArrivalTime();
-            if (new RouteTime(flight.arrivalTime()).compareTo(destinationArrivalTime) < 0) {
-                routeState.replaceNode(RouteNode.of(flight, currentAirportNode));
+    private void findFastestConnectedFlight(RouteNode currentAirportNode, ConnectionType connectionType, RouteState routeState) {
+        for (Connection connection : currentAirportNode.availableFlights(connectionType)) {
+            RouteTime destinationArrivalTime = routeState.airportNode(connection.destination()).getArrivalTime();
+            if (new RouteTime(connection.arrivalTime()).compareTo(destinationArrivalTime) < 0) {
+                routeState.replaceNode(RouteNode.of(connection, currentAirportNode));
             }
         }
     }

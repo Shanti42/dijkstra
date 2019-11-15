@@ -5,14 +5,14 @@ import java.util.Set;
 
 public final class RouteNode implements Comparable<RouteNode> {
 
-    private final Airport airport;
+    private final Node node;
     private final RouteTime arrivalTime;
 
-    //Null previous denotes that this node is the original departure airport
+    //Null previous denotes that this node is the original departure node
     private final RouteNode previous;
 
-    public Airport getAirport() {
-        return airport;
+    public Node getNode() {
+        return node;
     }
 
     public RouteTime getArrivalTime() {
@@ -23,32 +23,32 @@ public final class RouteNode implements Comparable<RouteNode> {
         return previous;
     }
 
-    private RouteNode(Airport airport, RouteTime arrivalTime, RouteNode previous) {
-        this.airport = airport;
+    private RouteNode(Node node, RouteTime arrivalTime, RouteNode previous) {
+        this.node = node;
         this.arrivalTime = arrivalTime;
         this.previous = previous;
     }
 
-    public static final RouteNode of(Airport airport, RouteTime arrivalTime, RouteNode previous) {
-        Objects.requireNonNull(airport, "Received null airport");
+    public static final RouteNode of(Node node, RouteTime arrivalTime, RouteNode previous) {
+        Objects.requireNonNull(node, "Received null node");
         Objects.requireNonNull(arrivalTime, "Received null arrivalTime");
         //Previous node can be null, so no null check
 
-        return new RouteNode(airport, arrivalTime, previous);
+        return new RouteNode(node, arrivalTime, previous);
     }
 
-    public static final RouteNode of(Flight flight, RouteNode previous) {
-        Objects.requireNonNull(flight, "flight received null");
+    public static final RouteNode of(Connection connection, RouteNode previous) {
+        Objects.requireNonNull(connection, "connection received null");
         Objects.requireNonNull(previous, "previous node received is null");
-        assert (flight.getOrigin().equals(previous.airport));
+        assert (connection.getOrigin().equals(previous.node));
 
-        return new RouteNode(flight.destination(), new RouteTime(flight.arrivalTime()), previous);
+        return new RouteNode(connection.destination(), new RouteTime(connection.arrivalTime()), previous);
     }
 
-    public static final RouteNode of(Airport airport) {
-        Objects.requireNonNull(airport, "received null airport");
+    public static final RouteNode of(Node node) {
+        Objects.requireNonNull(node, "received null node");
 
-        return new RouteNode(airport, RouteTime.UNKNOWN, null);
+        return new RouteNode(node, RouteTime.UNKNOWN, null);
 
     }
 
@@ -57,14 +57,14 @@ public final class RouteNode implements Comparable<RouteNode> {
     }
 
     public final RouteTime departureTime() {
-        return getArrivalTime().plus(getAirport().getConnectionTimeMin());
+        return getArrivalTime().plus(getNode().getNodeCost());
     }
 
     //Assumes arrival time is known as per instructions
-    public Set<Flight> availableFlights(FareClass fareClass) {
+    public Set<Connection> availableFlights(ConnectionType connectionType) {
         assert (arrivalTime.isKnown());
-        Objects.requireNonNull(fareClass, "RouteNode, availableFlights() -> Null parameter for fareClass");
-        return airport.availableFlights(this.departureTime().getTime(), fareClass);
+        Objects.requireNonNull(connectionType, "RouteNode, availableConnections() -> Null parameter for connectionType");
+        return node.availableConnections(this.departureTime().getTime(), connectionType);
     }
 
     @Override
@@ -72,7 +72,7 @@ public final class RouteNode implements Comparable<RouteNode> {
         Objects.requireNonNull(other, "RouteNode, compareTo() -> Null parameter for other RouteNode");
         RouteTime otherArrivalTime = other.getArrivalTime();
         if (this.getArrivalTime().compareTo(otherArrivalTime) == 0) {
-            return this.getAirport().compareTo(other.getAirport());
+            return this.getNode().compareTo(other.getNode());
         } else {
             return this.getArrivalTime().compareTo(otherArrivalTime);
         }

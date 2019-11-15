@@ -12,15 +12,14 @@ import java.time.Duration;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeMap;
 
 import static dijkstra.SeatClass.*;
 import static dijkstra.tests.AirportCodes.CLE;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests the Flight interface, and the AbstractFlight and SimpleFlight classes
- * Tests FlightGroup and FlightSchedule classes
+ * Tests the Flight interface, and the AbstractConnection and SimpleConnection classes
+ * Tests ConnectionGroup and FlightSchedule classes
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class FlightTest {
@@ -35,8 +34,8 @@ public class FlightTest {
     public static Duration originDuration;
     public static Duration destDuration;
 
-    public static Airport origin;
-    public static Airport destination;
+    public static Node origin;
+    public static Node destination;
 
     public static EnumMap<SeatClass, Integer> map = new EnumMap<SeatClass, Integer>(SeatClass.class);
 
@@ -63,8 +62,8 @@ public class FlightTest {
     public static FareClass premFareClass = FareClass.of(8, PREMIUM_ECONOMY);
 
 
-    SimpleFlight flight1;
-    SimpleFlight flight2;
+    SimpleConnection flight1;
+    SimpleConnection flight2;
     Flight flight3;
     Flight flight4;
 
@@ -80,8 +79,8 @@ public class FlightTest {
         originDuration = Duration.ofHours(5);
         destDuration = Duration.ofHours(12);
 
-        origin = Airport.of(originCode, originDuration);
-        destination = Airport.of(destinationCode, originDuration);
+        origin = Node.of(originCode, originDuration);
+        destination = Node.of(destinationCode, originDuration);
 
         leg = Leg.of(origin, destination);
 
@@ -90,7 +89,7 @@ public class FlightTest {
         map.put(BUSINESS, 10);
         map.put(ECONOMY, 20);
         seatConfig = SeatConfiguration.of(map);
-        flight = SimpleFlight.of(flightCode, leg, flightSchedule, seatConfig);
+        flight = SimpleConnection.of(flightCode, leg, flightSchedule, seatConfig);
 
         seats1.put(ECONOMY, 10);
         seats1.put(BUSINESS, 15);
@@ -110,10 +109,10 @@ public class FlightTest {
         config4 = SeatConfiguration.of(seats4);
 
 
-        flight1 = SimpleFlight.of(CLE.toString(), leg, flightSchedule, config1);
-        flight2 = SimpleFlight.of(CLE.toString(), leg, flightSchedule, config2);
-        flight3 = SimpleFlight.of(CLE.toString(), leg, flightSchedule, config3);
-        flight4 = SimpleFlight.of(CLE.toString(), leg, flightSchedule, config4);
+        flight1 = SimpleConnection.of(CLE.toString(), leg, flightSchedule, config1);
+        flight2 = SimpleConnection.of(CLE.toString(), leg, flightSchedule, config2);
+        flight3 = SimpleConnection.of(CLE.toString(), leg, flightSchedule, config3);
+        flight4 = SimpleConnection.of(CLE.toString(), leg, flightSchedule, config4);
     }
 
     /**
@@ -131,30 +130,38 @@ public class FlightTest {
         return isSame;
     }
     /**
-     *      ---   AbstractFlights and SimpleFlight Tests ---
+     *      ---   AbstractFlights and SimpleConnection Tests ---
      */
     /**
-     *   SimpleFlight build method test - Tests exception handling for build method.
-     *   Tests SimpleFlight build method functionality
+     *   SimpleConnection build method test - Tests exception handling for build method.
+     *   Tests SimpleConnection build method functionality
      */
     @Test
     void testSimpleFlightOf(){
 
-        assertThrows(NullPointerException.class, () -> {SimpleFlight.of(null,null,null, null);});
-        assertThrows(NullPointerException.class, () -> {SimpleFlight.of(originCode,null,null, seatConfig);});
-        assertThrows(NullPointerException.class, () -> {SimpleFlight.of(originCode,null,null, null);});
-        assertThrows(NullPointerException.class, () -> {SimpleFlight.of(null,leg,null,null);});
-        assertThrows(NullPointerException.class, () -> {SimpleFlight.of(null,null,flightSchedule,null);});
-        assertThrows(NullPointerException.class, () -> {SimpleFlight.of(originCode,leg,null,null);});
-        assertThrows(NullPointerException.class, () -> {SimpleFlight.of(originCode, null,flightSchedule,null);});
-        assertThrows(NullPointerException.class, () -> {SimpleFlight.of(null,leg,flightSchedule,null);});
+        assertThrows(NullPointerException.class, () -> {
+            SimpleConnection.of(null,null,null, null);});
+        assertThrows(NullPointerException.class, () -> {
+            SimpleConnection.of(originCode,null,null, seatConfig);});
+        assertThrows(NullPointerException.class, () -> {
+            SimpleConnection.of(originCode,null,null, null);});
+        assertThrows(NullPointerException.class, () -> {
+            SimpleConnection.of(null,leg,null,null);});
+        assertThrows(NullPointerException.class, () -> {
+            SimpleConnection.of(null,null,flightSchedule,null);});
+        assertThrows(NullPointerException.class, () -> {
+            SimpleConnection.of(originCode,leg,null,null);});
+        assertThrows(NullPointerException.class, () -> {
+            SimpleConnection.of(originCode, null,flightSchedule,null);});
+        assertThrows(NullPointerException.class, () -> {
+            SimpleConnection.of(null,leg,flightSchedule,null);});
 
-        assertNotNull(SimpleFlight.of(originCode, leg, flightSchedule, seatConfig));
+        assertNotNull(SimpleConnection.of(originCode, leg, flightSchedule, seatConfig));
 
     }
 
     /**
-     * AbstractFlight isShort() method test - Tests exception handling and functionality
+     * AbstractConnection isShort() method test - Tests exception handling and functionality
      * Further testing is provided in FlightSchedule isShort() test
      */
     @Test
@@ -167,7 +174,7 @@ public class FlightTest {
     }
 
     /**
-     * AbstractFlight hasSeats() method test - Tests exception handling and functionality
+     * AbstractConnection hasSeats() method test - Tests exception handling and functionality
      * Further testing is provided is SeatConfiguration hasSeat() test
      */
     @Test
@@ -178,94 +185,99 @@ public class FlightTest {
     }
 
     /**
-     *      --- FlightGroup Tests ---
+     *      --- ConnectionGroup Tests ---
      */
 
     /**
-     * FlightGroup build method test - Tests exception handling for build method.
-     * Tests FlightGroup build method functionality
+     * ConnectionGroup build method test - Tests exception handling for build method.
+     * Tests ConnectionGroup build method functionality
      */
     @Test
     void testFlightGroupOf(){
 
-        FlightGroup flightGroup = FlightGroup.of(origin);
-        Assertions.assertThrows(NullPointerException.class, () -> {FlightGroup.of(null);});
-        assertNotNull(FlightGroup.of(origin));
+        ConnectionGroup connectionGroup = ConnectionGroup.of(origin);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            ConnectionGroup.of(null);});
+        assertNotNull(ConnectionGroup.of(origin));
     }
 
     /**
-     * FlightGroup add() method
+     * ConnectionGroup add() method
      */
     @Test
     void testFlightGroupAdd(){
 
         Flight nullFlight = null;
         //Flight intentionally created with wrong origin for testing purposes
-        Flight badOriginFlight = SimpleFlight.of("Code", Leg.of(Airport.of("JFK",Duration.ofHours(3)),destination),flightSchedule,config1);
+        Flight badOriginFlight = SimpleConnection.of("Code", Leg.of(Node.of("JFK",Duration.ofHours(3)),destination),flightSchedule,config1);
 
-        FlightGroup flightGroup = FlightGroup.of(origin);
+        ConnectionGroup connectionGroup = ConnectionGroup.of(origin);
 
-        assertThrows(NullPointerException.class, () -> {flightGroup.add(nullFlight);});
-        assertThrows(IllegalArgumentException.class, () -> {flightGroup.add(badOriginFlight);});
+        assertThrows(NullPointerException.class, () -> {
+            connectionGroup.add(nullFlight);});
+        assertThrows(IllegalArgumentException.class, () -> {
+            connectionGroup.add(badOriginFlight);});
 
-        assertTrue(flightGroup.add(flight));
+        assertTrue(connectionGroup.add(flight));
 
         Set<Flight> flights = new HashSet<>();
         flights.add(flight);
-        assertEquals(flights, flightGroup.flightsAtOrAfter(flight.departureTime()));
+        assertEquals(flights, connectionGroup.flightsAtOrAfter(flight.departureTime()));
 
-        assertFalse(flightGroup.add(flight));
+        assertFalse(connectionGroup.add(flight));
 
     }
 
     /**
-     * FlightGroup remove() method
+     * ConnectionGroup remove() method
      */
     @Test
     void testFlightGroupRemove() {
 
         Flight nullFlight = null;
         //Flight intentionally created with wrong origin for testing purposes
-        Flight badOriginFlight = SimpleFlight.of("Code", Leg.of(Airport.of("JFK",Duration.ofHours(3)),destination),flightSchedule,config1);
+        Flight badOriginFlight = SimpleConnection.of("Code", Leg.of(Node.of("JFK",Duration.ofHours(3)),destination),flightSchedule,config1);
 
-        FlightGroup flightGroup = FlightGroup.of(origin);
+        ConnectionGroup connectionGroup = ConnectionGroup.of(origin);
 
-        assertThrows(NullPointerException.class, () -> {flightGroup.add(nullFlight);});
-        assertThrows(IllegalArgumentException.class, () -> {flightGroup.add(badOriginFlight);});
+        assertThrows(NullPointerException.class, () -> {
+            connectionGroup.add(nullFlight);});
+        assertThrows(IllegalArgumentException.class, () -> {
+            connectionGroup.add(badOriginFlight);});
 
-        flightGroup.add(flight);
-        flightGroup.add(flight1);
+        connectionGroup.add(flight);
+        connectionGroup.add(flight1);
 
-        assertTrue(flightGroup.remove(flight));
-        assertFalse(flightGroup.remove(flight));
+        assertTrue(connectionGroup.remove(flight));
+        assertFalse(connectionGroup.remove(flight));
 
         Set<Flight> flights = new HashSet<>();
         flights.add(flight1);
 
-        assertEquals(flights, flightGroup.flightsAtOrAfter(flight1.departureTime()));
+        assertEquals(flights, connectionGroup.flightsAtOrAfter(flight1.departureTime()));
 
     }
 
     /**
-     * FlightGroup flightsAtOrAfter() test
+     * ConnectionGroup flightsAtOrAfter() test
      */
     @Test
     void testFlightGroupFlightsAtOrAfter() {
 
-        FlightGroup flightGroup = FlightGroup.of(Airport.of("CLE",Duration.ofHours(1)));
+        ConnectionGroup connectionGroup = ConnectionGroup.of(Node.of("CLE",Duration.ofHours(1)));
 
-        flightGroup.add(flight);
-        flightGroup.add(flight1);
-        flightGroup.add(flight2);
-        assertNotNull(flightGroup.flightsAtOrAfter(flight.departureTime()));
+        connectionGroup.add(flight);
+        connectionGroup.add(flight1);
+        connectionGroup.add(flight2);
+        assertNotNull(connectionGroup.flightsAtOrAfter(flight.departureTime()));
 
         Set<Flight> flights = new HashSet<>();
         flights.add(flight);
         flights.add(flight1);
         flights.add(flight2);
-        assertEquals(flights, flightGroup.flightsAtOrAfter(flight.departureTime()));
+        assertEquals(flights, connectionGroup.flightsAtOrAfter(flight.departureTime()));
 
-        assertEquals(new HashSet<>(), flightGroup.flightsAtOrAfter(LocalTime.of(20,0)));
+        assertEquals(new HashSet<>(), connectionGroup.flightsAtOrAfter(LocalTime.of(20,0)));
     }
 
     /**
