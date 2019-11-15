@@ -1,11 +1,8 @@
 package dijkstra;
 
-import java.time.LocalTime;
-import java.time.Duration;
-
 /**
- * Represents flights of different types.
- * A flight represents the trip of an airplane that spans a leg following a timetable
+ * Represents Connections of different types.
+ * A Connection represents a non stop path from one node to another
  */
 abstract class Connection {
 
@@ -23,30 +20,32 @@ abstract class Connection {
 
     }
 
+    String originID(){
+        return origin.getID();
+    }
 
-    public Node getOrigin() {
+
+    Node getOrigin() {
         return origin;
     }
 
-    public Node getDestination() {
+    Node getDestination() {
         return destination;
     }
 
-    public Cost getCost() {
+    Cost getCost() {
         return cost;
     }
 
-    public ConnectionType getConnectionType() {
+    ConnectionType getConnectionType() {
         return connectionType;
     }
 
-    //Returns the value of isShort method
-    public boolean isShort(Duration durationMax);
+    //Returns the value of isLowerCost method
+    abstract boolean isLowerCost(Connection connection, Object obj);
 
     @Override
-    public int hashCode();
-
-    @Override
-    public boolean equals(Object obj);
-
+    public int hashCode() {
+        return (origin.getID() + destination.getID() + connectionType.toString()).hashCode();
+    }
 }

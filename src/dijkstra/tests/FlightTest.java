@@ -161,8 +161,8 @@ public class FlightTest {
     }
 
     /**
-     * AbstractConnection isShort() method test - Tests exception handling and functionality
-     * Further testing is provided in FlightSchedule isShort() test
+     * AbstractConnection isLowerCost() method test - Tests exception handling and functionality
+     * Further testing is provided in FlightSchedule isLowerCost() test
      */
     @Test
     void testAbstractFlightIsShort() {
@@ -222,7 +222,7 @@ public class FlightTest {
 
         Set<Flight> flights = new HashSet<>();
         flights.add(flight);
-        assertEquals(flights, connectionGroup.flightsAtOrAfter(flight.departureTime()));
+        assertEquals(flights, connectionGroup.connectionsAtOrAfter(flight.departureTime()));
 
         assertFalse(connectionGroup.add(flight));
 
@@ -254,12 +254,12 @@ public class FlightTest {
         Set<Flight> flights = new HashSet<>();
         flights.add(flight1);
 
-        assertEquals(flights, connectionGroup.flightsAtOrAfter(flight1.departureTime()));
+        assertEquals(flights, connectionGroup.connectionsAtOrAfter(flight1.departureTime()));
 
     }
 
     /**
-     * ConnectionGroup flightsAtOrAfter() test
+     * ConnectionGroup connectionsAtOrAfter() test
      */
     @Test
     void testFlightGroupFlightsAtOrAfter() {
@@ -269,15 +269,15 @@ public class FlightTest {
         connectionGroup.add(flight);
         connectionGroup.add(flight1);
         connectionGroup.add(flight2);
-        assertNotNull(connectionGroup.flightsAtOrAfter(flight.departureTime()));
+        assertNotNull(connectionGroup.connectionsAtOrAfter(flight.departureTime()));
 
         Set<Flight> flights = new HashSet<>();
         flights.add(flight);
         flights.add(flight1);
         flights.add(flight2);
-        assertEquals(flights, connectionGroup.flightsAtOrAfter(flight.departureTime()));
+        assertEquals(flights, connectionGroup.connectionsAtOrAfter(flight.departureTime()));
 
-        assertEquals(new HashSet<>(), connectionGroup.flightsAtOrAfter(LocalTime.of(20,0)));
+        assertEquals(new HashSet<>(), connectionGroup.connectionsAtOrAfter(LocalTime.of(20,0)));
     }
 
     /**
@@ -297,7 +297,7 @@ public class FlightTest {
     }
 
     /**
-     * FlightSchedule isShort() test
+     * FlightSchedule isLowerCost() test
      */
     @Test
     void testFlightScheduleIsShort() {

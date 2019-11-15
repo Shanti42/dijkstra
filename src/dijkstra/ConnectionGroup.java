@@ -5,18 +5,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Represents a set of flights that have the same origin airport
+ * Represents a set of connections that have the same origin airport
  * and that is organized by departure
  */
 public final class ConnectionGroup {
 
-    //Represents origin airport for all flights in group
+    //Represents origin airport for all connections in group
     private final Node origin;
 
-    //Map of departure time to the collection of flights that have that departure time
-    private final NavigableMap<LocalTime, Set<Connection>> flights = new TreeMap<LocalTime, Set<Connection>>();
+    //Map of departure time to the collection of connections that have that departure time
+    private final NavigableMap<Cost, Set<Connection>> connections = new TreeMap<Cost, Set<Connection>>();
 
-    //flights is organized by departure time (based on Discussion board)
+    //connections is organized by departure time (based on Discussion board)
     private ConnectionGroup(Node origin) {
         this.origin = origin;
     }
@@ -28,22 +28,22 @@ public final class ConnectionGroup {
 
     //Adds a connection to the collection mapped to its departure time
     public final boolean add(Connection connection) {
-        validateFlightOrigin(connection, "add() - Flights must originate from the same airport to be added");
+        validateFlightOrigin(connection, "add() - Connections must originate from the same node to be added");
 
-        return flights.computeIfAbsent(connection.departureTime(), fl -> new HashSet<Connection>()).add(connection);
+        return connections.computeIfAbsent(connection.getCost(), fl -> new HashSet<Connection>()).add(connection);
     }
 
-    //Removes a connection if it is mapped to the collection of flights at its departure time
+    //Removes a connection if it is mapped to the collection of connections at its departure time
     public final boolean remove(Connection connection) {
-        validateFlightOrigin(connection, "remove() - Flights must originate from the same airport to be removed");
+        validateFlightOrigin(connection, "remove() - Connections must originate from the same node to be removed");
 
-        return flights.computeIfPresent(connection.departureTime(), (key, oldVal) -> oldVal).remove(connection);
+        return connections.computeIfPresent(connection.getCost(), (key, oldVal) -> oldVal).remove(connection);
     }
 
-    //Returns a set of all flights at or after the given departure time
-    public final Set<Connection> flightsAtOrAfter(LocalTime departureTime) {
-        Objects.requireNonNull(departureTime, "ConnectionGroup - flightsAtOrAfter() departureTime is null");
-        return flights.tailMap(departureTime).values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
+    //Returns a set of all connections at or after the given departure time
+    public final Set<Connection> connectionsAtOrAfter(LocalTime cuttofTime) {
+        Objects.requireNonNull(cuttofTime, "ConnectionGroup - connectionsAtOrAfter() departureTime is null");
+        return connections.tailMap(Cost.of(cuttofTime)).values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
 
     }
 

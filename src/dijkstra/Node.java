@@ -81,7 +81,7 @@ class Node implements Comparable<Node> {
         Objects.requireNonNull(departureTime, "Node availableConnections() - null departureTime");
         Objects.requireNonNull(fareclass, "Node availableConnections() - null ConnectionType");
 
-        return outConnections.flightsAtOrAfter(departureTime).stream()
+        return outConnections.connectionsAtOrAfter(departureTime).stream()
                 .filter(fl -> fl.hasSeats(fareclass))
                 .collect(Collectors.<Connection>toSet());
     }
