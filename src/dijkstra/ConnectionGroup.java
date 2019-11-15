@@ -54,7 +54,7 @@ public final class ConnectionGroup {
     //Throws if connection airport does not have the same origin airport as the ConnectionGroup
     public void validateFlightOrigin(Connection connection, String errorMsg) {
         Objects.requireNonNull(connection, "validateFlightOrigin() - Connection is null");
-        if (!origin.getID().equals(connection.origin().getID())) {
+        if (!origin.getID().equals(connection.originID())) {
             throw new IllegalArgumentException((errorMsg));
         }
     }

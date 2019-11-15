@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Tests for the RouteNode, RouteState, RouteTime, and RouteFinder classes
+ * Tests for the RouteNode, RouteState, RouteTime, and PathFinder classes
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RouteTest  {
@@ -218,19 +218,19 @@ public class RouteTest  {
     }
 
     /**
-     * RouteFinder Tests
+     * PathFinder Tests
      */
     /**
-     * RouteFinder build method tests
+     * PathFinder build method tests
      */
     @Test
     void testRouteFinderOf() {
-        assertThrows(NullPointerException.class, () -> RouteFinder.of(null));
-        assertNotNull(RouteFinder.of(nodes));
+        assertThrows(NullPointerException.class, () -> PathFinder.of(null));
+        assertNotNull(PathFinder.of(nodes));
     }
 
     /**
-     * RouteFinder route() method test #1 - Asserts the predicted output using a connected graph
+     * PathFinder route() method test #1 - Asserts the predicted output using a connected graph
      */
     @Test
     void testRouteFinderRouteConnectedGraph() {
@@ -277,19 +277,19 @@ public class RouteTest  {
         nodes.add(destMIA);
         nodes.add(destLAX);
 
-        RouteFinder routeFinder = RouteFinder.of(nodes);
+        PathFinder pathFinder = PathFinder.of(nodes);
 
-        assertEquals(destLAX.getID(), routeFinder.route(origin, destLAX, LocalTime.of(1,0), fareClass).getNode().getID());
-        assertEquals(destLAX.getID(), routeFinder.route(origin, destLAX, LocalTime.of(2,0), fareClass).getNode().getID());
-        assertEquals(destLAX.getID(), routeFinder.route(origin, destLAX, LocalTime.of(0,0), fareClass).getNode().getID());
+        assertEquals(destLAX.getID(), pathFinder.route(origin, destLAX, LocalTime.of(1,0), fareClass).getNode().getID());
+        assertEquals(destLAX.getID(), pathFinder.route(origin, destLAX, LocalTime.of(2,0), fareClass).getNode().getID());
+        assertEquals(destLAX.getID(), pathFinder.route(origin, destLAX, LocalTime.of(0,0), fareClass).getNode().getID());
 
         //Should return null because departureTime is 1 minute later then the last available departureTime
-        assertNull(routeFinder.route(origin, destLAX, LocalTime.of(2,1), fareClass));
+        assertNull(pathFinder.route(origin, destLAX, LocalTime.of(2,1), fareClass));
 
     }
 
     /**
-     * RouteFinder route() method test #2 - Test using a disconnected graph
+     * PathFinder route() method test #2 - Test using a disconnected graph
      */
     @Test
     void testRouteFinderRouteDisconnectedGraph() {
@@ -332,16 +332,16 @@ public class RouteTest  {
         nodes.add(destLGA);
         nodes.add(destMIA);
 
-        RouteFinder routeFinder = RouteFinder.of(nodes);
+        PathFinder pathFinder = PathFinder.of(nodes);
 
         //No shortest path due to disconnected graph
-        assertNull(routeFinder.route(origin, destLAX, LocalTime.of(2,0), fareClass));
-        assertNull(routeFinder.route(origin, destLAX, LocalTime.of(1,0), fareClass));
-        assertNull(routeFinder.route(origin, destLAX, LocalTime.of(0,0), fareClass));
+        assertNull(pathFinder.route(origin, destLAX, LocalTime.of(2,0), fareClass));
+        assertNull(pathFinder.route(origin, destLAX, LocalTime.of(1,0), fareClass));
+        assertNull(pathFinder.route(origin, destLAX, LocalTime.of(0,0), fareClass));
 
-        assertNull(routeFinder.route(origin, destMIA, LocalTime.of(2,0), fareClass));
-        assertEquals(destMIA.getID(), routeFinder.route(origin, destMIA, LocalTime.of(1,0), fareClass).getNode().getID());
-        assertEquals(destMIA.getID(), routeFinder.route(origin, destMIA, LocalTime.of(0,0), fareClass).getNode().getID());
+        assertNull(pathFinder.route(origin, destMIA, LocalTime.of(2,0), fareClass));
+        assertEquals(destMIA.getID(), pathFinder.route(origin, destMIA, LocalTime.of(1,0), fareClass).getNode().getID());
+        assertEquals(destMIA.getID(), pathFinder.route(origin, destMIA, LocalTime.of(0,0), fareClass).getNode().getID());
     }
 
 

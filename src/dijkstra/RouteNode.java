@@ -42,7 +42,7 @@ public final class RouteNode implements Comparable<RouteNode> {
         Objects.requireNonNull(previous, "previous node received is null");
         assert (connection.getOrigin().equals(previous.node));
 
-        return new RouteNode(connection.destination(), new RouteTime(connection.arrivalTime()), previous);
+        return new RouteNode(connection.getDestination(), new RouteTime(connection.getCost()), previous);
     }
 
     public static final RouteNode of(Node node) {

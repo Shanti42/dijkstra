@@ -6,14 +6,14 @@ import java.util.*;
 /**
  * Keeps track of the state of the route
  */
-final class RouteState {
+final class PathState {
 
     private Map<Node, RouteNode> airportNode;
 
     private final NavigableSet<RouteNode> unreached;
 
 
-    private RouteState(Set<Node> nodes, Node origin, LocalTime departureTime) {
+    private PathState(Set<Node> nodes, Node origin, LocalTime departureTime) {
         unreached = new TreeSet<>();
         airportNode = new HashMap<>();
         addToList(origin, RouteNode.of(origin, new RouteTime(departureTime), null));
@@ -32,16 +32,16 @@ final class RouteState {
     }
 
     //build method
-    static RouteState of(Set<Node> nodes, Node origin, LocalTime departureTime) {
-        Objects.requireNonNull(nodes, "RouteState, of() -> null airport set");
-        Objects.requireNonNull(origin, "RouteState, of() -> null origin airport");
-        Objects.requireNonNull(departureTime, "RouteState, of() -> null departure time");
-        return new RouteState(nodes, origin, departureTime);
+    static PathState of(Set<Node> nodes, Node origin, LocalTime departureTime) {
+        Objects.requireNonNull(nodes, "PathState, of() -> null airport set");
+        Objects.requireNonNull(origin, "PathState, of() -> null origin airport");
+        Objects.requireNonNull(departureTime, "PathState, of() -> null departure time");
+        return new PathState(nodes, origin, departureTime);
     }
 
     //replaces the route node for the corresponding airport, assumes airport is in the route state and is unreached
     final void replaceNode(RouteNode routeNode) {
-        Objects.requireNonNull(routeNode, "RouteState, replaceNode -> given route node is null");
+        Objects.requireNonNull(routeNode, "PathState, replaceNode -> given route node is null");
         Node node = routeNode.getNode();
         assert (airportNode.containsKey(node));
         assert (unreached.contains(airportNode(node)));
@@ -67,7 +67,7 @@ final class RouteState {
 
     //returns the route node corresponding to the node, assumes the node is in the route state
     final RouteNode airportNode(Node node) {
-        Objects.requireNonNull(node, "RouteState, airportNode -> node is null");
+        Objects.requireNonNull(node, "PathState, airportNode -> node is null");
         assert (airportNode.containsKey(node));
         return airportNode.get(node);
     }

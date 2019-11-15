@@ -12,12 +12,11 @@ abstract class Connection {
     private final ConnectionType connectionType;
 
 
-    private Connection(Node origin, Node destination, Cost cost, ConnectionType connectionType){
+    Connection(Node origin, Node destination, Cost cost, ConnectionType connectionType){
         this.origin = origin;
         this.destination = destination;
         this.cost = cost;
         this.connectionType = connectionType;
-
     }
 
     String originID(){
