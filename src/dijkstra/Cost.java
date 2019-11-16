@@ -14,20 +14,10 @@ public interface Cost extends Comparable{
 
     RouteTime plus(Object object);
 
-    @Override
-    public int compareTo(RouteTime other) {
-        Objects.requireNonNull(other, "RouteTime, compareTo() -> Null parameter for other RouteTime");
-        if (!this.isKnown() || !other.isKnown()) {
-            return Boolean.compare(!this.isKnown(), !other.isKnown());
-        } else {
-            return routeTime.compareTo(other.getTime());
-        }
+
+    int compareTo(Object other);
+
+    static Cost of(LocalTime time){
+        return null;
     }
-
-}
-
-
-
-
-    Cost of(LocalTime time);
 }

@@ -1,6 +1,5 @@
 package dijkstra;
 
-import java.util.Objects;
 
 public final class SimpleConnection extends Connection {
 
@@ -8,9 +7,8 @@ public final class SimpleConnection extends Connection {
         super(origin, destination, cost, connectionType);
     }
 
-    public static final SimpleConnection of(String code, Leg leg, FlightSchedule flightSchedule, SeatConfiguration seatsAvailable) {
-        origin.addFlight(newFlight);
-        return newFlight;
+    public static final SimpleConnection of(Node origin, Node destination, Cost cost, ConnectionType connectionType){
+        return new SimpleConnection(origin, destination, cost, connectionType);
     }
 
 
