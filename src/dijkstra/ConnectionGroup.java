@@ -21,29 +21,33 @@ public final class ConnectionGroup {
         this.origin = origin;
     }
 
-    public static final ConnectionGroup of(Node origin) {
+    static final ConnectionGroup of(Node origin) {
         Objects.requireNonNull(origin, "ConnectionGroup - build() origin is null");
         return new ConnectionGroup(origin);
     }
 
     //Adds a connection to the collection mapped to its departure time
-    public final boolean add(Connection connection) {
+    final boolean add(Connection connection) {
         validateConnectionOrigin(connection, "add() - Connections must originate from the same node to be added");
 
         return connections.computeIfAbsent(connection.getCost(), fl -> new HashSet<Connection>()).add(connection);
     }
 
     //Removes a connection if it is mapped to the collection of connections at its departure time
-    public final boolean remove(Connection connection) {
+    final boolean remove(Connection connection) {
         validateConnectionOrigin(connection, "remove() - Connections must originate from the same node to be removed");
 
         return connections.computeIfPresent(connection.getCost(), (key, oldVal) -> oldVal).remove(connection);
     }
 
     //Returns a set of all connections at or after the given departure time
-    public final Set<Connection> connectionsAtOrAfter(Cost cutOff) {
+    final Set<Connection> connectionsAtOrAfter(Cost cutOff) {
         Objects.requireNonNull(cutOff, "ConnectionGroup - connectionsAtOrAfter() departureTime is null");
         return connections.tailMap(cutOff).values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
+    }
+
+    final Set<Connection>  allConnections(){
+        return connections.values().stream().flatMap(Set::stream).collect(Collectors.toSet());
     }
 
     public Node getOrigin() {
@@ -57,5 +61,6 @@ public final class ConnectionGroup {
             throw new IllegalArgumentException((errorMsg));
         }
     }
+
 
 }
