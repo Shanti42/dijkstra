@@ -16,7 +16,7 @@ interface Cost extends Comparable{
     LocalTime cost(Object object);
 
     //returns a new cost after adding the cost that corresponds with the object
-    PathTime plus(Object object);
+    Cost plus(Object object);
 
     int compareTo(Object other);
 }
