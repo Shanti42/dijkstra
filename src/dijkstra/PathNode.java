@@ -72,7 +72,15 @@ public final class PathNode implements Comparable<PathNode> {
         } else {
             return this.getArrivalTime().compareTo(otherArrivalTime);
         }
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof PathNode) {
+            PathNode p = (PathNode) o;
+            return node.equals(p.getNode());
+        }
+        return false;
     }
 
 }

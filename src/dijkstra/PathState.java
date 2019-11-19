@@ -8,14 +8,14 @@ import java.util.*;
  */
 final class PathState {
 
-    private Map<Node, PathNode> airportNode;
+    private Map<Node, PathNode> nodeMap;
 
     private final NavigableSet<PathNode> unreached;
 
 
     private PathState(Set<Node> nodes, Node origin, LocalTime departureTime) {
         unreached = new TreeSet<>();
-        airportNode = new HashMap<>();
+        nodeMap = new HashMap<>();
         addToList(origin, PathNode.of(origin, new PathTime(departureTime), null));
         for (Node node : nodes) {
             if (!node.equals(origin)) {
@@ -27,7 +27,8 @@ final class PathState {
     private void addToList(Node node, PathNode pathNode) {
         Objects.requireNonNull(node, "Node null");
         Objects.requireNonNull(pathNode, "PathNode null");
-        airportNode.put(node, pathNode);
+        
+        nodeMap.put(node, pathNode);
         unreached.add(pathNode);
     }
 
@@ -66,10 +67,10 @@ final class PathState {
     }
 
     //returns the route node corresponding to the node, assumes the node is in the route state
-    final PathNode airportNode(Node node) {
+    final PathNode pathNode(Node node) {
         Objects.requireNonNull(node, "PathState, airportNode -> node is null");
-        assert (airportNode.containsKey(node));
-        return airportNode.get(node);
+        assert (nodeMap.containsKey(node));
+        return nodeMap.get(node);
     }
 
 }
