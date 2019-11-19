@@ -41,10 +41,9 @@ public final class ConnectionGroup {
     }
 
     //Returns a set of all connections at or after the given departure time
-    public final Set<Connection> connectionsAtOrAfter(LocalTime cutOffTime) {
-        Objects.requireNonNull(cutOffTime, "ConnectionGroup - connectionsAtOrAfter() departureTime is null");
-        return connections.tailMap((cutOffTime)).values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
-
+    public final Set<Connection> connectionsAtOrAfter(Cost cutOff) {
+        Objects.requireNonNull(cutOff, "ConnectionGroup - connectionsAtOrAfter() departureTime is null");
+        return connections.tailMap(cutOff).values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
     }
 
     public Node getOrigin() {
