@@ -31,7 +31,7 @@ public final class PathFinder {
      * @param connectionType     the fareclass of the passenger
      * @return
      */
-    public final RouteNode route(Node origin, Node destination, LocalTime departureTime, ConnectionType connectionType) {
+    public final PathNode route(Node origin, Node destination, LocalTime departureTime, ConnectionType connectionType) {
         //check for null values
         Objects.requireNonNull(origin, "PathFinder, route() -> origin null");
         Objects.requireNonNull(destination, "PathFinder, route() -> destination null");
@@ -40,10 +40,10 @@ public final class PathFinder {
 
         PathState pathState = PathState.of(nodes, origin, departureTime);
         while (!pathState.allReached()) {
-            RouteNode currentAirportNode = pathState.closestUnreached();
+            PathNode currentAirportNode = pathState.closestUnreached();
             if (currentAirportNode.getNode().equals(destination)) {
                 return currentAirportNode;
-            } else if (currentAirportNode.availableFlights(connectionType).isEmpty()) {
+            } else if (currentAirportNode.availableNodes(connectionType).isEmpty()) {
                 return null;
             } else {
                 findFastestConnectedFlight(currentAirportNode, connectionType, pathState);
@@ -55,11 +55,11 @@ public final class PathFinder {
     }
 
     // Finds the fastest connected flight and sets is as the next route node
-    private void findFastestConnectedFlight(RouteNode currentAirportNode, ConnectionType connectionType, PathState pathState) {
-        for (Connection connection : currentAirportNode.availableFlights(connectionType)) {
-            RouteTime destinationArrivalTime = pathState.airportNode(connection.getDestination()).getArrivalTime();
-            if (new RouteTime(connection.arrivalTime()).compareTo(destinationArrivalTime) < 0) {
-                pathState.replaceNode(RouteNode.of(connection, currentAirportNode));
+    private void findFastestConnectedFlight(PathNode currentAirportNode, ConnectionType connectionType, PathState pathState) {
+        for (Connection connection : currentAirportNode.availableNodes(connectionType)) {
+            PathTime destinationArrivalTime = pathState.airportNode(connection.getDestination()).getArrivalTime();
+            if (new PathTime(connection.arrivalTime()).compareTo(destinationArrivalTime) < 0) {
+                pathState.replaceNode(PathNode.of(connection, currentAirportNode));
             }
         }
     }

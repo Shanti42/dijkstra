@@ -1,6 +1,7 @@
 package dijkstra;
 
 import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -77,12 +78,29 @@ class Node implements Comparable<Node> {
      * @param fareclass     the fare class seats are checked for
      * @return A set of flights that leave at or after the departure time that have seats for the fare class
      */
-    Set<Connection> availableConnections(LocalTime departureTime, ConnectionType fareclass) {
+    Set<Connection> availableConnections(LocalTime departureTime, ConnectionType type) {
         Objects.requireNonNull(departureTime, "Node availableConnections() - null departureTime");
-        Objects.requireNonNull(fareclass, "Node availableConnections() - null ConnectionType");
+        Objects.requireNonNull(type, "Node availableConnections() - null ConnectionType");
 
         return outConnections.connectionsAtOrAfter(departureTime).stream()
-                .filter(fl -> fl.hasSeats(fareclass))
+                .filter(fl -> fl.getConnectionType().equals(type))
                 .collect(Collectors.<Connection>toSet());
     }
+
+    Set<Connection> availableConnections(){
+        Set<Connection> connections = new HashSet<>();
+        return outConnections.connectionsAtOrAfter(departureTime).stream()
+                .filter(fl -> fl.getConnectionType().equals(type))
+                .collect(Collectors.<Connection>toSet());
+    }
+
+    Set<Connection> availableConnections(ConnectionType){
+
+    }
+
+    Set<Connection> availableConnections(LocalTime){
+
+    }
+
+
 }

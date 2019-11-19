@@ -28,22 +28,22 @@ public final class ConnectionGroup {
 
     //Adds a connection to the collection mapped to its departure time
     public final boolean add(Connection connection) {
-        validateFlightOrigin(connection, "add() - Connections must originate from the same node to be added");
+        validateConnectionOrigin(connection, "add() - Connections must originate from the same node to be added");
 
         return connections.computeIfAbsent(connection.getCost(), fl -> new HashSet<Connection>()).add(connection);
     }
 
     //Removes a connection if it is mapped to the collection of connections at its departure time
     public final boolean remove(Connection connection) {
-        validateFlightOrigin(connection, "remove() - Connections must originate from the same node to be removed");
+        validateConnectionOrigin(connection, "remove() - Connections must originate from the same node to be removed");
 
         return connections.computeIfPresent(connection.getCost(), (key, oldVal) -> oldVal).remove(connection);
     }
 
     //Returns a set of all connections at or after the given departure time
-    public final Set<Connection> connectionsAtOrAfter(LocalTime cuttofTime) {
-        Objects.requireNonNull(cuttofTime, "ConnectionGroup - connectionsAtOrAfter() departureTime is null");
-        return connections.tailMap(Cost.of(cuttofTime)).values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
+    public final Set<Connection> connectionsAtOrAfter(LocalTime cutOffTime) {
+        Objects.requireNonNull(cutOffTime, "ConnectionGroup - connectionsAtOrAfter() departureTime is null");
+        return connections.tailMap((cutOffTime)).values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
 
     }
 
@@ -52,8 +52,8 @@ public final class ConnectionGroup {
     }
 
     //Throws if connection airport does not have the same origin airport as the ConnectionGroup
-    public void validateFlightOrigin(Connection connection, String errorMsg) {
-        Objects.requireNonNull(connection, "validateFlightOrigin() - Connection is null");
+    public void validateConnectionOrigin(Connection connection, String errorMsg) {
+        Objects.requireNonNull(connection, "validateConnectionOrigin() - Connection is null");
         if (!origin.getID().equals(connection.originID())) {
             throw new IllegalArgumentException((errorMsg));
         }

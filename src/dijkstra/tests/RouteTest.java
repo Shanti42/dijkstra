@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Tests for the RouteNode, RouteState, RouteTime, and PathFinder classes
+ * Tests for the PathNode, RouteState, PathTime, and PathFinder classes
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RouteTest  {
@@ -26,10 +26,10 @@ public class RouteTest  {
     public Node node3;
     public Node node4;
 
-    public RouteTime routeTime1;
-    public RouteTime routeTime2;
-    public RouteTime routeTime3;
-    public RouteTime routeUnknown;
+    public PathTime pathTime1;
+    public PathTime pathTime2;
+    public PathTime pathTime3;
+    public PathTime routeUnknown;
 
     public Leg leg;
     public FlightSchedule flightSchedule;
@@ -45,10 +45,10 @@ public class RouteTest  {
         node3 = Node.of("CLE",Duration.ofHours(3));
         node4 = Node.of("LGA",Duration.ofHours(1));
 
-        routeTime1 = new RouteTime(LocalTime.of(6,0));
-        routeTime2 = new RouteTime(LocalTime.of(5,0));
-        routeTime3 = new RouteTime(LocalTime.of(3,0));
-        routeUnknown = new RouteTime(null);
+        pathTime1 = new PathTime(LocalTime.of(6,0));
+        pathTime2 = new PathTime(LocalTime.of(5,0));
+        pathTime3 = new PathTime(LocalTime.of(3,0));
+        routeUnknown = new PathTime(null);
 
         leg = Leg.of(node1, Node.of("LGA", Duration.ofHours(6)));
         flightSchedule = FlightSchedule.of(LocalTime.MIN,LocalTime.NOON);
@@ -65,35 +65,35 @@ public class RouteTest  {
     }
 
     /**
-     *      --- RouteTime Tests ---
+     *      --- PathTime Tests ---
      */
     /**
-     * RouteTime isKnown() method test
+     * PathTime isKnown() method test
      */
     @Test
     void testRouteTimeIsKnown() {
-        RouteTime routeKnown = new RouteTime(LocalTime.NOON);
+        PathTime routeKnown = new PathTime(LocalTime.NOON);
 
         assertFalse(routeUnknown.isKnown());
         assertTrue(routeKnown.isKnown());
     }
 
     /**
-     * RouteTime plus() method tests
+     * PathTime plus() method tests
      */
     @Test
     void testRouteTimePlus() {
-        RouteTime routeOfFive = new RouteTime(LocalTime.of(5,0));
+        PathTime routeOfFive = new PathTime(LocalTime.of(5,0));
 
         Duration durationOne = Duration.ofHours(1);
         Duration durationThree = Duration.ofHours(3);
         Duration durationTen = Duration.ofHours(10);
 
-        RouteTime routeOfSix = new RouteTime(LocalTime.of(6,0));
-        RouteTime routeOfEight = new RouteTime(LocalTime.of(8,0));
-        RouteTime routeOfFifteen = new RouteTime(LocalTime.of(15,0));
+        PathTime routeOfSix = new PathTime(LocalTime.of(6,0));
+        PathTime routeOfEight = new PathTime(LocalTime.of(8,0));
+        PathTime routeOfFifteen = new PathTime(LocalTime.of(15,0));
 
-        assertEquals(RouteTime.UNKNOWN,routeUnknown.plus(durationOne));
+        assertEquals(PathTime.UNKNOWN,routeUnknown.plus(durationOne));
         assertNotNull(routeOfFive.plus(durationOne));
         assertTrue(routeOfSix.compareTo(routeOfFive.plus(durationOne)) ==0);
         assertTrue(routeOfEight.compareTo(routeOfFive.plus(durationThree)) ==0);
@@ -102,69 +102,69 @@ public class RouteTest  {
     }
 
     /**
-     * RouteTime compareTo method tests
+     * PathTime compareTo method tests
      */
     @Test
     void testRouteTimeCompareTo() {
 
-        assertTrue(routeTime1.compareTo(routeTime1) == 0); //Compare RouteTime 6 to 6
-        assertFalse(routeTime1.compareTo(routeTime2) == 0); //Compare RouteTime 6 to 6
-        assertTrue( routeTime1.compareTo(routeTime2) > 0); //Compare RouteTime 6 to 5
-        assertTrue(routeTime3.compareTo(routeTime1) < 0); //Compare RouteTime 3 to 6
-        assertTrue(routeTime1.compareTo(new RouteTime(null)) <0 ); //Compare RouteTime with route time with null value
+        assertTrue(pathTime1.compareTo(pathTime1) == 0); //Compare PathTime 6 to 6
+        assertFalse(pathTime1.compareTo(pathTime2) == 0); //Compare PathTime 6 to 6
+        assertTrue( pathTime1.compareTo(pathTime2) > 0); //Compare PathTime 6 to 5
+        assertTrue(pathTime3.compareTo(pathTime1) < 0); //Compare PathTime 3 to 6
+        assertTrue(pathTime1.compareTo(new PathTime(null)) <0 ); //Compare PathTime with route time with null value
 
 
     }
 
     /**
-     * RouteNode Tests
+     * PathNode Tests
      */
     /**
-     * Tests for all three of RouteNode's build methods
+     * Tests for all three of PathNode's build methods
      */
     @Test
     void testRouteNodeBuildMethods() {
 
-        RouteNode routeNode1 = RouteNode.of(node1, routeTime1, null);
-        assertNotNull(routeNode1);
-        assertNotNull(RouteNode.of(node2, routeTime2, routeNode1));
-        assertNotNull(RouteNode.of(flight,routeNode1));
-        assertNotNull(RouteNode.of(node3));
+        PathNode pathNode1 = PathNode.of(node1, pathTime1, null);
+        assertNotNull(pathNode1);
+        assertNotNull(PathNode.of(node2, pathTime2, pathNode1));
+        assertNotNull(PathNode.of(flight, pathNode1));
+        assertNotNull(PathNode.of(node3));
 
-        assertThrows(NullPointerException.class, () -> RouteNode.of(null,routeTime1,null));
-        assertThrows(NullPointerException.class, () -> RouteNode.of(node4,null,null));
-        assertThrows(NullPointerException.class, () -> RouteNode.of(null ,routeNode1));
-        assertThrows(NullPointerException.class, () -> RouteNode.of(null));
+        assertThrows(NullPointerException.class, () -> PathNode.of(null, pathTime1,null));
+        assertThrows(NullPointerException.class, () -> PathNode.of(node4,null,null));
+        assertThrows(NullPointerException.class, () -> PathNode.of(null , pathNode1));
+        assertThrows(NullPointerException.class, () -> PathNode.of(null));
 
     }
 
     /**
-     * RouteNode isArrivalTimeKnown() method
+     * PathNode isArrivalTimeKnown() method
      */
     @Test
     void testRouteNodeIsArrivalTimeKnown() {
-        RouteNode knownArrival = RouteNode.of(node1, routeTime1,  null);
-        RouteNode unknownArrival = RouteNode.of(node1, RouteTime.UNKNOWN, null);
+        PathNode knownArrival = PathNode.of(node1, pathTime1,  null);
+        PathNode unknownArrival = PathNode.of(node1, PathTime.UNKNOWN, null);
         assertTrue(knownArrival.isArrivalTimeKnown());
         assertFalse(unknownArrival.isArrivalTimeKnown());
     }
 
     /**
-     * RouteNode departureTime() method
+     * PathNode departureTime() method
      */
     @Test
     void testRouteNodeDepartureTime() {
-        //node1 has a connection time of 5 and arrival time is 6. Returned RouteTime should be 11
-        RouteNode routeNode = RouteNode.of(node1, routeTime1, null);
+        //node1 has a connection time of 5 and arrival time is 6. Returned PathTime should be 11
+        PathNode pathNode = PathNode.of(node1, pathTime1, null);
 
-        RouteTime expectedRouteTime = new RouteTime(LocalTime.of(11,0));
-        RouteTime computedRouteTime = routeTime1.plus(Duration.ofHours(5));
-        assertTrue(expectedRouteTime.compareTo(routeNode.departureTime()) ==0);
-        assertTrue(computedRouteTime.compareTo(routeNode.departureTime()) ==0);
+        PathTime expectedPathTime = new PathTime(LocalTime.of(11,0));
+        PathTime computedPathTime = pathTime1.plus(Duration.ofHours(5));
+        assertTrue(expectedPathTime.compareTo(pathNode.departureTime()) ==0);
+        assertTrue(computedPathTime.compareTo(pathNode.departureTime()) ==0);
     }
 
     /**
-     * RouteNode availableConnections method test
+     * PathNode availableConnections method test
      */
     @Test
     void testRouteNodeAvailableFlights() {
@@ -192,10 +192,10 @@ public class RouteTest  {
 
         origin.addConnection(flight1);
         origin.addConnection(flight2);
-        RouteNode routeNode = RouteNode.of(origin, new RouteTime(arrive1), null);
+        PathNode pathNode = PathNode.of(origin, new PathTime(arrive1), null);
         FareClass fareClass = FareClass.of(4, BUSINESS);
 
-        Set<Flight> flightSet = routeNode.getNode().availableConnections(depart1,fareClass);
+        Set<Flight> flightSet = pathNode.getNode().availableConnections(depart1,fareClass);
         //System.out.println(flightSet.isEmpty());
         //System.out.println(flightSet.toString());
         assertTrue(flightSet.size() == 2);
@@ -203,17 +203,17 @@ public class RouteTest  {
     }
 
     /**
-     * RouteNode compareTo() method test
+     * PathNode compareTo() method test
      */
     @Test
     void testRouteNodeCompareTo() {
-        RouteNode routeNode1  = RouteNode.of(node1, routeTime1, null);
-        RouteNode routeNode2 = RouteNode.of(node2, routeTime2, routeNode1);
-        RouteNode routeNode3 = RouteNode.of(node4, routeTime1, routeNode2);
+        PathNode pathNode1 = PathNode.of(node1, pathTime1, null);
+        PathNode pathNode2 = PathNode.of(node2, pathTime2, pathNode1);
+        PathNode pathNode3 = PathNode.of(node4, pathTime1, pathNode2);
 
-        assertTrue(routeNode1.compareTo(routeNode1) == 0); //Compare RouteTime 6 to 6
-        assertTrue(routeNode1.compareTo(routeNode2) > 0); //Compare RouteTime 6 to 5
-        assertTrue(routeNode1.compareTo(routeNode3) < 0); //RouteTimes are the same so compares 'CLE' to 'LGA'
+        assertTrue(pathNode1.compareTo(pathNode1) == 0); //Compare PathTime 6 to 6
+        assertTrue(pathNode1.compareTo(pathNode2) > 0); //Compare PathTime 6 to 5
+        assertTrue(pathNode1.compareTo(pathNode3) < 0); //RouteTimes are the same so compares 'CLE' to 'LGA'
 
     }
 
