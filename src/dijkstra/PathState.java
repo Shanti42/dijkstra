@@ -8,27 +8,27 @@ import java.util.*;
  */
 final class PathState {
 
-    private Map<Node, RouteNode> airportNode;
+    private Map<Node, PathNode> airportNode;
 
-    private final NavigableSet<RouteNode> unreached;
+    private final NavigableSet<PathNode> unreached;
 
 
     private PathState(Set<Node> nodes, Node origin, LocalTime departureTime) {
         unreached = new TreeSet<>();
         airportNode = new HashMap<>();
-        addToList(origin, RouteNode.of(origin, new RouteTime(departureTime), null));
+        addToList(origin, PathNode.of(origin, new PathTime(departureTime), null));
         for (Node node : nodes) {
             if (!node.equals(origin)) {
-                addToList(node, RouteNode.of(node));
+                addToList(node, PathNode.of(node));
             }
         }
     }
 
-    private void addToList(Node node, RouteNode routeNode) {
+    private void addToList(Node node, PathNode pathNode) {
         Objects.requireNonNull(node, "Node null");
-        Objects.requireNonNull(routeNode, "RouteNode null");
-        airportNode.put(node, routeNode);
-        unreached.add(routeNode);
+        Objects.requireNonNull(pathNode, "PathNode null");
+        airportNode.put(node, pathNode);
+        unreached.add(pathNode);
     }
 
     //build method
@@ -40,15 +40,15 @@ final class PathState {
     }
 
     //replaces the route node for the corresponding airport, assumes airport is in the route state and is unreached
-    final void replaceNode(RouteNode routeNode) {
-        Objects.requireNonNull(routeNode, "PathState, replaceNode -> given route node is null");
-        Node node = routeNode.getNode();
+    final void replaceNode(PathNode pathNode) {
+        Objects.requireNonNull(pathNode, "PathState, replaceNode -> given route node is null");
+        Node node = pathNode.getNode();
         assert (airportNode.containsKey(node));
         assert (unreached.contains(airportNode(node)));
 
-        RouteNode prevNode = airportNode.replace(node, routeNode);
+        PathNode prevNode = airportNode.replace(node, pathNode);
         unreached.remove(prevNode);
-        unreached.add(routeNode);
+        unreached.add(pathNode);
     }
 
     //returns true if all nodes are reached
@@ -56,8 +56,8 @@ final class PathState {
         return unreached.isEmpty();
     }
 
-    final RouteNode closestUnreached() {
-        RouteNode smallestArrivalTime = unreached.pollFirst();
+    final PathNode closestUnreached() {
+        PathNode smallestArrivalTime = unreached.pollFirst();
         if(smallestArrivalTime == null) {
             throw new NoSuchElementException("All Airports have been reached");
         } else {
@@ -66,7 +66,7 @@ final class PathState {
     }
 
     //returns the route node corresponding to the node, assumes the node is in the route state
-    final RouteNode airportNode(Node node) {
+    final PathNode airportNode(Node node) {
         Objects.requireNonNull(node, "PathState, airportNode -> node is null");
         assert (airportNode.containsKey(node));
         return airportNode.get(node);
