@@ -52,19 +52,15 @@ public final class PathNode implements Comparable<PathNode> {
 
     }
 
-    public final Boolean isArrivalTimeKnown() {
-        return getArrivalTime().isKnown();
-    }
-
-    public final PathTime departureTime() {
-        return getArrivalTime().plus(getNode().getNodeCost());
-    }
-
     //Assumes arrival time is known as per instructions
     final Set<Connection> availableNodes(ConnectionType connectionType) {
-        assert (arrivalTime.isKnown());
+        assert (isKnown());
         Objects.requireNonNull(connectionType, "PathNode, availableConnections() -> Null parameter for connectionType");
         return node.availableConnections(this.departureTime().getTime(), connectionType);
+    }
+
+    public final isKnown() {
+        return cost.isKnown()
     }
 
     @Override

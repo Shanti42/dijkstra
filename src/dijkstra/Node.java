@@ -71,36 +71,30 @@ class Node implements Comparable<Node> {
         return outConnections.remove(connection);
     }
 
-    /**
-     * Finds flights that leave at or after the departure time that have seats for the fare class
-     *
-     * @param departureTime the time flights must leave at or after
-     * @param fareclass     the fare class seats are checked for
-     * @return A set of flights that leave at or after the departure time that have seats for the fare class
-     */
-    Set<Connection> availableConnections(LocalTime departureTime, ConnectionType type) {
-        Objects.requireNonNull(departureTime, "Node availableConnections() - null departureTime");
-        Objects.requireNonNull(type, "Node availableConnections() - null ConnectionType");
-
-        return outConnections.connectionsAtOrAfter(departureTime).stream()
-                .filter(fl -> fl.getConnectionType().equals(type))
-                .collect(Collectors.<Connection>toSet());
-    }
 
     Set<Connection> availableConnections(){
-        Set<Connection> connections = new HashSet<>();
-        return outConnections.connectionsAtOrAfter(departureTime).stream()
-                .filter(fl -> fl.getConnectionType().equals(type))
+        return outConnections.allConnections();
+    }
+
+    Set<Connection> availableConnections(ConnectionType type){
+        Objects.requireNonNull(type, "Node availableConnections() - null type");
+        return outConnections.allConnections().stream()
+                .filter(connection -> connection.getConnectionType().equals(type))
+                .collect(Collectors.toSet());
+    }
+
+    Set<Connection> availableConnections(Cost nodeCost, ConnectionType type) {
+        Objects.requireNonNull(nodeCost, "Node availableConnections() - null departureTime");
+        Objects.requireNonNull(type, "Node availableConnections() - null ConnectionType");
+
+        return outConnections.connectionsAtOrAfter(nodeCost).stream()
+                .filter(connection -> connection.getConnectionType().equals(type))
                 .collect(Collectors.<Connection>toSet());
     }
 
-    Set<Connection> availableConnections(ConnectionType){
 
-    }
 
-    Set<Connection> availableConnections(LocalTime){
 
-    }
 
 
 }
