@@ -1,17 +1,21 @@
+// Caitlin
+
 package dijkstra;
 
 import java.math.BigInteger;
 import java.util.Objects;
 
-public class Cost<T extends Comparable> {
+public class Cost<T extends Addable> {
 	private T internalValue;
+
+	public static final Cost UNKNOWN = new Cost(null);
 
 	private Cost(T object) {
 		internalValue = object;
 	}
 
 	// Return a cost based on the input and private variable(s)
-	public static <T extends Comparable> Cost<T> of(T object) {
+	public static <T extends Addable> Cost<T> of(T object) {
 		Objects.requireNonNull(object);
 		return new Cost<T>(object);
 	}
@@ -30,10 +34,9 @@ public class Cost<T extends Comparable> {
 
 
 	// returns a new cost after adding the cost that corresponds with the object
-	public Cost plus(T object) {
+	public Cost plus(Cost object) {
 		// plus seems awakward?? not sure how to do this
-		// TODO: FIX THIS
-		return this;
+		return new Cost(internalValue.plus(object.cost()));
 	}
 
 	public int compareTo(Object other) {

@@ -62,7 +62,7 @@ public final class PathNode implements Comparable<PathNode> {
     }
 
     public final isKnown() {
-        return cost.isKnown()
+        return cost.isKnown();
     }
 
     @Override
