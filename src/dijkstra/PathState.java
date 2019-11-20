@@ -27,7 +27,7 @@ final class PathState {
     private void addToList(Node node, PathNode pathNode) {
         Objects.requireNonNull(node, "Node null");
         Objects.requireNonNull(pathNode, "PathNode null");
-        
+
         nodeMap.put(node, pathNode);
         unreached.add(pathNode);
     }
