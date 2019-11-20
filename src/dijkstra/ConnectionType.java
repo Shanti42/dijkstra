@@ -8,26 +8,26 @@ import java.util.Objects;
 class ConnectionType {
 
     //identifies the fare class
-    private final int identifier;
+    private final String identifier;
 
-    private ConnectionType(int identifier) {
+    private ConnectionType(String identifier) {
         this.identifier = identifier;
     }
 
-    static final ConnectionType of(int identifier) {
+    static final ConnectionType of(String identifier) {
         Objects.requireNonNull(identifier, "ConnectionType - of(), null identifier parameter provided");
 
         return new ConnectionType(identifier);
     }
 
-    int getIdentifier() {
+    String getIdentifier() {
         return identifier;
     }
 
 
     @Override
     public int hashCode() {
-        return identifier;
+        return identifier.hashCode();
     }
 
     @Override
