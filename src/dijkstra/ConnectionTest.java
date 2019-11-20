@@ -3,15 +3,18 @@ package dijkstra;
 import org.junit.Test;
 
 import java.lang.annotation.Target;
+import java.math.BigInteger;
 
 
 class ConnectionTest{
     Connection connection;
-    Node node = Node.of("BOB", );
-
+    Node bob = Node.of("BOB", new SimpleCost(BigInteger.valueOf(0)));
+    Node susan = Node.of("SUSAN", new SimpleCost(BigInteger.valueOf(0)));
+    Cost small = new SimpleCost(BigInteger.valueOf(10));
+    ConnectionType bus = ConnectionType.of(3);
 
     public ConnectionTest(){
-       connection = new Connection(){
+       connection = new Connection(bob, susan, small, bus){
            @Override
            boolean isLowerCost(Connection connection, Object obj) {
                return false;
