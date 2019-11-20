@@ -1,2 +1,2 @@
-package dijkstra.tests;
+package dijkstra;
 
