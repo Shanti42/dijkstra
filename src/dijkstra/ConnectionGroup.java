@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
  * Represents a set of connections that have the same origin airport
  * and that is organized by departure
  */
-public final class ConnectionGroup {
+final class ConnectionGroup {
 
     //Represents origin airport for all connections in group
     private final Node origin;
