@@ -10,10 +10,10 @@ interface Cost extends Comparable{
    boolean isKnown();
 
     //Returns a cost based on private variables only
-    LocalTime cost();
+    Cost cost();
 
     //Return a cost based on the input and private variable(s)
-    LocalTime cost(Object object);
+    Cost cost(Object object);
 
     //returns a new cost after adding the cost that corresponds with the object
     Cost plus(Object object);

@@ -16,7 +16,7 @@ public final class PathFinder {
     }
 
     public static final PathFinder of(Set<Node> nodes) {
-        Objects.requireNonNull(nodes, "Received null Set of Airports");
+        Objects.requireNonNull(nodes, "Received null set of nodes");
 
         return new PathFinder(nodes);
     }
@@ -31,31 +31,49 @@ public final class PathFinder {
      * @param connectionType     the fareclass of the passenger
      * @return
      */
-    public final PathNode route(Node origin, Node destination, LocalTime departureTime, ConnectionType connectionType) {
+    public final PathNode bestPath(Node start, Node end, ConnectionType connectionType) {
         //check for null values
-        Objects.requireNonNull(origin, "PathFinder, route() -> origin null");
-        Objects.requireNonNull(destination, "PathFinder, route() -> destination null");
-        Objects.requireNonNull(departureTime, "PathFinder route() -> departureTime null");
-        Objects.requireNonNull(connectionType, "PathFinder route() -> connectionType null");
+        Objects.requireNonNull(start, "PathFinder, bestPath() -> origin null");
+        Objects.requireNonNull(end, "PathFinder, bestPath() -> destination null");
+        Objects.requireNonNull(connectionType, "PathFinder bestPath() -> connectionType null");
 
         PathState pathState = PathState.of(nodes, origin, departureTime);
+
+        loop Search_Loop:
         while (!pathState.allReached()) {
-            PathNode currentAirportNode = pathState.closestUnreached();
-            if (currentAirportNode.getNode().equals(destination)) {
-                return currentAirportNode;
-            } else if (currentAirportNode.availableNodes(connectionType).isEmpty()) {
-                return null;
-            } else {
-                findFastestConnectedFlight(currentAirportNode, connectionType, pathState);
+            PathNode currentNode = pathState.closestUnreached();
+
+            if(!currentNode.isKnown()) {
+                break Search_Loop;
             }
+
+            if(currentNode.equals(end)) {
+                return currentNode;
+            }
+
+            /*
+            * for all available paths from “currentNode” with proper connectionType:
+            if that (destination node’s total cost via the path) < (previous cost of the node)
+            replace that node with a node that has “currentNode” as it’s “previous”
+            * */
+            findShortestPathLocal(currentNode, connectionType, pathState);
 
         }
         //no route found
         return null;
     }
 
-    // Finds the fastest connected flight and sets is as the next route node
-    private void findFastestConnectedFlight(PathNode currentAirportNode, ConnectionType connectionType, PathState pathState) {
+    private void findShortestPathLocal(PathNode currentNode, ConnectionType connectionType, PathState pathState) {
+        for (Connection connection : currentNode.availibleNodes(connectionType)) {
+            Cost destinationCost = pathState.pathNode(connection.getDestination()).getCost();
+            if(connection.cost().compareTo(destinationCost) < 0) {
+                pathState.replaceNode(PathNode.of(connection, currentAirportNode));
+            }
+        }
+
+    }
+    /*
+    * private void findFastestConnectedFlight(PathNode currentAirportNode, ConnectionType connectionType, PathState pathState) {
         for (Connection connection : currentAirportNode.availableNodes(connectionType)) {
             PathTime destinationArrivalTime = pathState.airportNode(connection.getDestination()).getArrivalTime();
             if (new PathTime(connection.arrivalTime()).compareTo(destinationArrivalTime) < 0) {
@@ -63,6 +81,5 @@ public final class PathFinder {
             }
         }
     }
-
-
+    * */
 }
