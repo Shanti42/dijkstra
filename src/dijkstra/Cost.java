@@ -4,8 +4,13 @@ package dijkstra;
 
 import java.math.BigInteger;
 import java.util.Objects;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class Cost<T extends Addable> implements Comparable{
+	private final static Logger LOGGER =
+			Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
 	private T internalValue;
 
 	public static final Cost UNKNOWN = new Cost(null);
@@ -29,7 +34,6 @@ public class Cost<T extends Addable> implements Comparable{
 
 	// Returns a cost based on private variables only
 	public T cost() {
-		assert isKnown();
 		return internalValue;
 	}
 
@@ -44,9 +48,16 @@ public class Cost<T extends Addable> implements Comparable{
 	public int compareTo(Object other) {
 		Objects.requireNonNull(other);
 		if (other instanceof Cost) {
-			Cost otherCost = (Cost)other;
-			return cost().compareTo(otherCost.cost());
+			int boolCompare = Boolean.compare(((Cost) other).isKnown(), isKnown());
+			if(boolCompare != 0) {
+				return (int) boolCompare;
+			}
+			if(!isKnown())
+				return 0;
+
+			return internalValue.compareTo(((Cost) other).internalValue);
 		} else {
+			LOGGER.log(Level.SEVERE, "Cost.compareTo: input type invalid");
 			throw new IllegalArgumentException("input's type is not correct");
 		}
 	}
