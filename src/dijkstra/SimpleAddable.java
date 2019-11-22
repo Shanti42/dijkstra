@@ -44,12 +44,12 @@ public final class SimpleAddable implements Addable {
 	}
 
 	@Override
-	public final boolean equals(Object obj) {
-		Objects.requireNonNull(obj, "SimpleAddable, equals -> object null");
-		if (obj instanceof SimpleAddable) {
-			return value.equals(((SimpleAddable) obj).value);
-		}
-		return false;
+	public final boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		return value.equals(((SimpleAddable) o).value);
 	}
 
 	// for testing

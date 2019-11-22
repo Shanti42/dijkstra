@@ -96,9 +96,9 @@ public class SimpleAddableTest {
 		SimpleAddable c = SimpleAddable.of(2);
 
 		// bad data, input is null
-		@Test(expected = NullPointerException.class)
+		@Test
 		public void badData1() {
-			a.equals(null);
+			Assert.assertFalse(a.equals(null));
 		}
 
 		// bad data, input is not SimpleAddable
