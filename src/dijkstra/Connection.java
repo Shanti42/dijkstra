@@ -1,5 +1,7 @@
 package dijkstra;
 
+import java.util.Objects;
+
 /**
  * Represents Connections of different types.
  * A Connection represents a non stop path from one node to another
@@ -41,7 +43,7 @@ abstract class Connection {
     }
 
     //Returns the value of isLowerCost method
-    abstract boolean isLowerCost(Connection connection, Object obj);
+    abstract boolean isLowerCost(Connection connection);
 
     @Override
     public int hashCode() {

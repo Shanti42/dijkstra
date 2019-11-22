@@ -13,7 +13,7 @@ public final class SimpleConnection extends Connection {
 
 
     @Override
-    boolean isLowerCost(Connection connection, Object obj) {
-        return false;
+    boolean isLowerCost(Connection connection) {
+        return getCost().compareTo(connection.getCost()) < 0;
     }
 }
