@@ -85,7 +85,7 @@ final class PathState {
 		} else {
 			return smallestArrivalTime;
 		}
-	}
+	} 
 
 	// returns the route node corresponding to the node, assumes the node is in the
 	// route state
