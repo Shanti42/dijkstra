@@ -153,5 +153,13 @@ public class PathStateTest {
         PathNode path4 = PathNode.of(node4, Cost.UNKNOWN, null);
         PathState.TESTHOOK.addToList_test(state, null, path4);
     }
+    
+    @Test(expected = IllegalStateException.class)
+    public void exceptionInOf() {
+    	Node node4 = Node.of("123", cost2);
+    	Set<Node> nodes = new HashSet<>();
+    	nodes.add(null);
+    	PathState.of(nodes, node4, cost1);
+    }
 
 }
