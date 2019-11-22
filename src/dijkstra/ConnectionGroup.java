@@ -5,62 +5,73 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Represents a set of connections that have the same origin airport
- * and that is organized by departure
+ * Represents a set of connections that have the same origin airport and that is
+ * organized by departure
  */
 final class ConnectionGroup {
 
-    //Represents origin airport for all connections in group
-    private final Node origin;
+	// Represents origin airport for all connections in group
+	private final Node origin;
 
-    //Map of departure time to the collection of connections that have that departure time
-    private final NavigableMap<Cost, Set<Connection>> connections = new TreeMap<Cost, Set<Connection>>();
+	// Map of departure time to the collection of connections that have that
+	// departure time
+	private final NavigableMap<Cost, Set<Connection>> connections = new TreeMap<Cost, Set<Connection>>();
 
-    //connections is organized by departure time (based on Discussion board)
-    private ConnectionGroup(Node origin) {
-        this.origin = origin;
-    }
+	// connections is organized by departure time (based on Discussion board)
+	private ConnectionGroup(Node origin) {
+		this.origin = origin;
+	}
 
-    static final ConnectionGroup of(Node origin) {
-        Objects.requireNonNull(origin, "ConnectionGroup - build() origin is null");
-        return new ConnectionGroup(origin);
-    }
+	static final ConnectionGroup of(Node origin) {
+		Objects.requireNonNull(origin, "ConnectionGroup - build() origin is null");
+		return new ConnectionGroup(origin);
+	}
 
-    //Adds a connection to the collection mapped to its departure time
-    final boolean add(Connection connection) {
-        validateConnectionOrigin(connection, "add() - Connections must originate from the same node to be added");
+	// Adds a connection to the collection mapped to its departure time
+	final boolean add(Connection connection) {
+		try {
+			validateConnectionOrigin(connection, "add() - Connections must originate from the same node to be added");
+			return connections.computeIfAbsent(connection.cost(), fl -> new HashSet<Connection>()).add(connection);
+		} catch (Exception e) {
+			System.out.println(e);
+			return false;
+		}
+	}
 
-        return connections.computeIfAbsent(connection.cost(), fl -> new HashSet<Connection>()).add(connection);
-    }
+	// Removes a connection if it is mapped to the collection of connections at its
+	// departure time
+	final boolean remove(Connection connection) {
+		try {
+			validateConnectionOrigin(connection,
+					"remove() - Connections must originate from the same node to be removed");
+			return connections.computeIfPresent(connection.cost(), (key, oldVal) -> oldVal).remove(connection);
+		} catch (Exception e) {
+			System.out.println(e);
+			return false;
+		}
+	}
 
-    //Removes a connection if it is mapped to the collection of connections at its departure time
-    final boolean remove(Connection connection) {
-        validateConnectionOrigin(connection, "remove() - Connections must originate from the same node to be removed");
+	// Returns a set of all connections at or after the given departure time
+	final Set<Connection> connectionsAtOrAfter(Cost cutOff) {
+		Objects.requireNonNull(cutOff, "ConnectionGroup - connectionsAtOrAfter() departureTime is null");
+		return connections.tailMap(cutOff).values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
+	}
 
-        return connections.computeIfPresent(connection.cost(), (key, oldVal) -> oldVal).remove(connection);
-    }
+	final Set<Connection> allConnections() {
+		return connections.values().stream().flatMap(Set::stream).collect(Collectors.toSet());
+	}
 
-    //Returns a set of all connections at or after the given departure time
-    final Set<Connection> connectionsAtOrAfter(Cost cutOff) {
-        Objects.requireNonNull(cutOff, "ConnectionGroup - connectionsAtOrAfter() departureTime is null");
-        return connections.tailMap(cutOff).values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
-    }
+	public Node getOrigin() {
+		return origin;
+	}
 
-    final Set<Connection>  allConnections(){
-        return connections.values().stream().flatMap(Set::stream).collect(Collectors.toSet());
-    }
-
-    public Node getOrigin() {
-        return origin;
-    }
-
-    //Throws if connection airport does not have the same origin airport as the ConnectionGroup
-    public void validateConnectionOrigin(Connection connection, String errorMsg) {
-        Objects.requireNonNull(connection, "validateConnectionOrigin() - Connection is null");
-        if (!origin.getID().equals(connection.originID())) {
-            throw new IllegalArgumentException((errorMsg));
-        }
-    }
-
+	// Throws if connection airport does not have the same origin airport as the
+	// ConnectionGroup
+	public void validateConnectionOrigin(Connection connection, String errorMsg) {
+		Objects.requireNonNull(connection, "validateConnectionOrigin() - Connection is null");
+		if (!origin.getID().equals(connection.originID())) {
+			throw new IllegalArgumentException((errorMsg));
+		}
+	}
 
 }

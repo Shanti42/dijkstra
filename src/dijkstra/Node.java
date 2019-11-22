@@ -38,6 +38,10 @@ public final class Node implements Comparable<Node> {
     Cost getNodeCost() {
         return nodeCost;
     }
+    
+    ConnectionGroup getoutConnection() {
+    	return outConnections;
+    }
 
     @Override
     public boolean equals(Object object) {
@@ -83,16 +87,17 @@ public final class Node implements Comparable<Node> {
                 .collect(Collectors.toSet());
     }
 
+    // what does taking 1 cost mean?
     Set<Connection> availableConnections(Cost nodeCost, ConnectionType type) {
         Objects.requireNonNull(nodeCost, "Node availableConnections() - null departureTime");
         Objects.requireNonNull(type, "Node availableConnections() - null ConnectionType");
 
         return outConnections.connectionsAtOrAfter(nodeCost).stream()
-                .filter(connection -> connection.connectionType().equals(type))
+                .filter(connection -> connection.connectionType().equals(type) && connection.cost().equals(nodeCost))
                 .collect(Collectors.<Connection>toSet());
     }
 
-    // should we add in an availible connection that takes in 2 costs?
+    // should we add in an available connection that takes in 2 costs?
 
 
 
