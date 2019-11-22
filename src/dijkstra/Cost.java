@@ -44,6 +44,12 @@ public class Cost<T extends Addable> implements Comparable{
 	public int compareTo(Object other) {
 		Objects.requireNonNull(other);
 		if (other instanceof Cost) {
+			int boolCompare = Boolean.compare(((Cost) other).isKnown(), isKnown());
+			if(boolCompare != 0) {
+				return (int) boolCompare;
+			}
+			if(!isKnown())
+				return 0;
 			return internalValue.compareTo(((Cost) other).internalValue);
 		} else {
 			throw new IllegalArgumentException("input's type is not correct");

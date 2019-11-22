@@ -31,6 +31,12 @@ public class PathNodeTest {
     private PathNode pathNode2;
     private PathNode pathNode3;
 
+    private ConnectionType type1 = ConnectionType.of("Jetpack");
+    private ConnectionType type2 = ConnectionType.of("Eaten by Whale");
+
+    private Node unknownNode = Node.of("AB", cost2);
+    private PathNode unknownPathNode = PathNode.of(unknownNode, Cost.UNKNOWN);
+
     // ASK ELLIS: can we call this method in the class? or shoudl we make it seperate?
     @Before
     public void resetValues() {
@@ -88,11 +94,11 @@ public class PathNodeTest {
         assertEquals(testSet2, pathNode2.availableConnections());
     }
 
+    @Test
     public void availibleNodes_Test_ConnectionTypes() {
         resetValues();
 
-        ConnectionType type1 = ConnectionType.of("Jetpack");
-        ConnectionType type2 = ConnectionType.of("Eaten by Whale");
+
         Set<Connection> testSet1 = new HashSet<>();
         Set<Connection> testSet2 = new HashSet<>();
         Set<Connection> testSet3 = new HashSet<>();
@@ -106,5 +112,36 @@ public class PathNodeTest {
         assertEquals(testSet1, pathNode1.availableConnections(type1));
         assertEquals(testSet2, pathNode1.availableConnections(type2));
         assertEquals(testSet3, pathNode1.availableConnections());
+    }
+
+    @Test(expected = AssertionError.class)
+    public void availableNodes_Test_CostUnknown() {
+        unknownPathNode.availableConnections();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void availableNodes_Test_CostUnknown_ConnectionType() {
+        unknownPathNode.availableConnections(type1);
+    }
+
+    @Test
+    public void isKnown_Test() {
+        assertFalse(unknownPathNode.isKnown());
+        assertTrue(pathNode1.isKnown());
+    }
+
+    @Test
+    public void compareTo_Test() {
+        resetValues();
+        assertTrue(pathNode1.compareTo(pathNode2) < 0);
+        assertTrue(pathNode2.compareTo(pathNode1) > 0);
+        assertTrue(pathNode1.compareTo(pathNode1) == 0);
+        assertTrue(unknownPathNode.compareTo(unknownPathNode) == 0);
+        assertTrue(pathNode1.compareTo(unknownPathNode) < 0);
+        assertTrue(unknownPathNode.compareTo(pathNode1) > 0);
+
+        PathNode sameCost1 = PathNode.of(node1, cost1);
+        PathNode sameCost2 = PathNode.of(node2, cost1);
+        assertTrue(sameCost1.compareTo(sameCost2) < 0);
     }
 }
