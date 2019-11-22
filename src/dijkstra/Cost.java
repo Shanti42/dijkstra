@@ -35,12 +35,14 @@ public class Cost<T extends Addable> implements Comparable{
 
 
 	// returns a new cost after adding the cost that corresponds with the object
-	public Cost plus(Cost object) {
+	public Cost plus(Cost c) {
+		Objects.requireNonNull(c);
 		// plus seems awakward?? not sure how to do this
-		return new Cost(internalValue.plus(object.cost()));
+		return new Cost(internalValue.plus(c.cost()));
 	}
 
 	public int compareTo(Object other) {
+		Objects.requireNonNull(other);
 		if (other instanceof Cost) {
 			return internalValue.compareTo(((Cost) other).internalValue);
 		} else {
