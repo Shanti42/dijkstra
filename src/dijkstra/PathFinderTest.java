@@ -19,6 +19,7 @@ import java.util.Set;
 
 public class PathFinderTest  {
 
+    private Node node0;
     private Node node1;
     private Node node2;
     private Node node3;
@@ -35,11 +36,13 @@ public class PathFinderTest  {
 
     @Before
     public void initializeRoutes() {
+        node0 = Node.of("123",Cost.ZERO);
         node1 = Node.of("ABC",Cost.ZERO);
         node2 = Node.of("DEF",Cost.ZERO);
         node3 = Node.of("GHI",Cost.ZERO);
         node4 = Node.of("JKL",Cost.ZERO);
 
+        Connection con0_2 = SimpleConnection.of(node0, node2, cost4);
         Connection con1_2 = SimpleConnection.of(node1, node2, cost1);
         Connection con2_3 = SimpleConnection.of(node2, node3, cost1);
         Connection con3_4 = SimpleConnection.of(node3, node4, cost1);
@@ -103,8 +106,14 @@ public class PathFinderTest  {
     @Test
     public void testFindShortestPathLocal() {
         PathState state = PathState.of(nodes, node1);
+        assertNull(state.pathNode(node2).getPrevious());
         PathFinder.TESTHOOK.findShortestPathLocal_test(finder, PathNode.of(node1, Cost.ZERO), null, state);
         assertNotNull(state.pathNode(node2).getPrevious());
+
+        PathNode prev = state.pathNode(node2);
+
+        PathFinder.TESTHOOK.findShortestPathLocal_test(finder, PathNode.of(node0, Cost.ZERO), null, state);
+        assertEquals(prev, state.pathNode(node2));
     }
 
 
