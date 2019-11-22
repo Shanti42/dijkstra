@@ -19,7 +19,7 @@ public class ConnectionTest {
     public ConnectionTest() {
         connection = SimpleConnection.of(bob, susan, small, bus);
         sameConnection = SimpleConnection.of(bob, susan, small, bus);
-        differentConnection = SimpleConnection.of(bob, susan, small, bus);
+        differentConnection = SimpleConnection.of(bob, susan, small, ConnectionType.of("FLY"));
     }
 
     @Test
