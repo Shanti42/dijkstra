@@ -27,7 +27,7 @@ public final class SimpleAddable implements Addable {
 	public final int compareTo(Object obj) {
 		Objects.requireNonNull(obj, "SimpleAddable, compareTo -> object null");
 		if (obj instanceof SimpleAddable) {
-			return value.compareTo(((SimpleAddable) obj).value);
+			return value.compareTo(((SimpleAddable) obj).getValue());
 		} else {
 			throw new IllegalArgumentException("input's type is not correct");
 		}

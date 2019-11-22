@@ -9,7 +9,7 @@ import java.util.HashSet;
 
 import static org.junit.Assert.*;
 
-public class PathNodeTest {
+public class PathNodeTest extends ConnectionTest {
     private Cost<Addable> cost1 = Cost.of(SimpleAddable.of(BigInteger.valueOf(1)));
     private Cost<Addable> cost2 = Cost.of(SimpleAddable.of(BigInteger.valueOf(2)));
     private Cost<Addable> cost3 = Cost.of(SimpleAddable.of(10));
@@ -139,4 +139,16 @@ public class PathNodeTest {
     public void compareTo_Test_null() {
         pathNode1.compareTo(null);
     }
+
+    @Test
+    public void testToString(){
+        assertEquals(pathNode1.toString(), node1.getID());
+    }
+
+    @Test(expected =  NullPointerException.class)
+    public void testOfNullConnection(){
+        PathNode.of(null, pathNode1);
+    }
+
+
 }
