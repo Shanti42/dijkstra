@@ -61,9 +61,9 @@ public class PathNodeTest extends ConnectionTest {
 
     @Test
     public void getTotalCost_Test() {
-        assertEquals(pathNode1.getTotalCost(), cost1);
-        assertEquals(pathNode2.getTotalCost(), cost1.plus(cost2));
-        assertEquals(pathNode3.getTotalCost(), cost1.plus(cost2.plus(cost3)));
+        assertEquals(pathNode1.totalCost(), cost1);
+        assertEquals(pathNode2.totalCost(), cost1.plus(cost2));
+        assertEquals(pathNode3.totalCost(), cost1.plus(cost2.plus(cost3)));
     }
 
     @Test

@@ -88,8 +88,8 @@ public class PathFinderTest  {
 
         PathNode result = finder.bestPath(node1, node4, null);
         assertTrue(result != null);
-        //result.getTotalCost();
-        //System.out.println(result.getTotalCost().cost());
+        //result.totalCost();
+        //System.out.println(result.totalCost().cost());
         assertEquals(result.getNode(), node4);
     }
 

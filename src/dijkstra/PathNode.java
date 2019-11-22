@@ -53,11 +53,11 @@ public final class PathNode implements Comparable<PathNode> {
         return cost;
     }
 
-    public Cost getTotalCost() {
+    public Cost totalCost() {
         if(previous == null) {
             return this.getCost();
         }
-        return cost.plus(previous.getTotalCost());
+        return cost.plus(previous.totalCost());
     }
 
     public final PathNode getPrevious() {
