@@ -120,7 +120,7 @@ public class ConnectionGroupTest {
 
 
         connectionGroup.add(connection);
-        connectionGroup.add(connectionLarge)
+        connectionGroup.add(connectionLarge);
 
         assertTrue(connectionGroup.remove(connection));
         assertFalse(connectionGroup.remove(connection));

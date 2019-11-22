@@ -26,19 +26,19 @@ abstract class Connection {
     }
 
 
-    Node getOrigin() {
+    Node origin() {
         return origin;
     }
 
-    Node getDestination() {
+    Node destination() {
         return destination;
     }
 
-    Cost getCost() {
+    Cost cost() {
         return cost;
     }
 
-    ConnectionType getConnectionType() {
+    ConnectionType connectionType() {
         return connectionType;
     }
 

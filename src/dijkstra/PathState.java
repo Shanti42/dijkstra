@@ -11,9 +11,7 @@ import java.util.*;
 final class PathState {
 
     private Map<Node, PathNode> nodeMap;
-
     private final NavigableSet<PathNode> unreached;
-
 
     private PathState(Set<Node> nodes, Node origin, Cost cost) {
         unreached = new TreeSet<>();
@@ -26,6 +24,20 @@ final class PathState {
         }
     }
 
+    //build method
+    static PathState of(Set<Node> nodes, Node origin, Cost cost) {
+        Objects.requireNonNull(nodes, "PathState, of() -> null nodes set");
+        Objects.requireNonNull(origin, "PathState, of() -> null origin");
+        Objects.requireNonNull(cost, "PathState, of() -> null cost time");
+        return new PathState(nodes, origin, cost);
+    }
+
+    static PathState of(Set<Node> nodes, Node origin) {
+        return PathState.of(nodes, origin, Cost.ZERO);
+    }
+
+
+
     private void addToList(Node node, PathNode pathNode) {
         Objects.requireNonNull(node, "Node null");
         Objects.requireNonNull(pathNode, "PathNode null");
@@ -34,22 +46,14 @@ final class PathState {
         unreached.add(pathNode);
     }
 
-    //build method
-    static PathState of(Set<Node> nodes, Node origin, LocalTime departureTime) {
-        Objects.requireNonNull(nodes, "PathState, of() -> null airport set");
-        Objects.requireNonNull(origin, "PathState, of() -> null origin airport");
-        Objects.requireNonNull(departureTime, "PathState, of() -> null departure time");
-        return new PathState(nodes, origin, departureTime);
-    }
-
     //replaces the route node for the corresponding airport, assumes airport is in the route state and is unreached
     final void replaceNode(PathNode pathNode) {
         Objects.requireNonNull(pathNode, "PathState, replaceNode -> given route node is null");
         Node node = pathNode.getNode();
-        assert (airportNode.containsKey(node));
-        assert (unreached.contains(airportNode(node)));
+        assert (nodeMap.containsKey(node));
+        assert (unreached.contains(nodeMap.get(node)));
 
-        PathNode prevNode = airportNode.replace(node, pathNode);
+        PathNode prevNode = nodeMap.replace(node, pathNode);
         unreached.remove(prevNode);
         unreached.add(pathNode);
     }

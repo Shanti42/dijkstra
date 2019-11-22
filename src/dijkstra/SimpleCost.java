@@ -6,7 +6,6 @@ import java.util.Objects;
 public class SimpleCost implements Cost{
 	
 	private final BigInteger cost;
-	public static final Cost UNKNOWN = new SimpleCost(null);
 
 	public SimpleCost(BigInteger cost) {
 		Objects.requireNonNull(cost, "cost cannot be null");

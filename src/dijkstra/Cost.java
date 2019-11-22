@@ -9,6 +9,7 @@ public class Cost<T extends Addable> implements Comparable{
 	private T internalValue;
 
 	public static final Cost UNKNOWN = new Cost(null);
+	public static final Cost ZERO = new Cost(SimpleAddable.of(BigInteger.ZERO));
 
 	private Cost(T object) {
 		internalValue = object;

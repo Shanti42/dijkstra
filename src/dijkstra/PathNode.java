@@ -68,11 +68,11 @@ public final class PathNode implements Comparable<PathNode> {
     @Override
     public int compareTo(PathNode other) {
         Objects.requireNonNull(other, "PathNode, compareTo() -> Null parameter for other PathNode");
-        PathTime otherArrivalTime = other.getArrivalTime();
-        if (this.getArrivalTime().compareTo(otherArrivalTime) == 0) {
+        Cost otherArrivalTime = other.getCost();
+        if (this.getCost().compareTo(otherArrivalTime) == 0) {
             return this.getNode().compareTo(other.getNode());
         } else {
-            return this.getArrivalTime().compareTo(otherArrivalTime);
+            return this.getCost().compareTo(otherArrivalTime);
         }
     }
 

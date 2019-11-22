@@ -27,9 +27,8 @@ public final class PathFinder {
      * Finds and returns tha last route node in the fastest route
      * from the departure aiprot to final destination
      *
-     * @param origin        the departure airport
-     * @param destination   the final destination
-     * @param departureTime the time of departure
+     * @param start        the departure airport
+     * @param end   the final destination
      * @param connectionType     the fareclass of the passenger
      * @return
      */
@@ -39,37 +38,42 @@ public final class PathFinder {
         Objects.requireNonNull(end, "PathFinder, bestPath() -> destination null");
         Objects.requireNonNull(connectionType, "PathFinder bestPath() -> connectionType null");
 
-        PathState pathState = PathState.of(nodes, origin, departureTime);
+        PathState pathState = PathState.of(nodes, start);
 
-        loop Search_Loop:
-        while (!pathState.allReached()) {
-            PathNode currentNode = pathState.closestUnreached();
+        Search_Loop: {
+            while (!pathState.allReached()) {
+                PathNode currentNode = pathState.closestUnreached();
 
-            if(!currentNode.isKnown()) {
-                break Search_Loop;
-            }
+                if(!currentNode.isKnown()) {
+                    break Search_Loop;
+                }
 
-            if(currentNode.equals(end)) {
-                return currentNode;
-            }
+                if(currentNode.equals(end)) {
+                    return currentNode;
+                }
 
             /*
             * for all available paths from “currentNode” with proper connectionType:
             if that (destination node’s total cost via the path) < (previous cost of the node)
             replace that node with a node that has “currentNode” as it’s “previous”
             * */
-            findShortestPathLocal(currentNode, connectionType, pathState);
+                findShortestPathLocal(currentNode, connectionType, pathState);
 
+            }
         }
+
         //no route found
         return null;
     }
 
     private void findShortestPathLocal(PathNode currentNode, ConnectionType connectionType, PathState pathState) {
-        for (Connection connection : currentNode.availibleNodes(connectionType)) {
-            Cost destinationCost = pathState.pathNode(connection.getDestination()).getCost();
+
+        for (Connection connection : currentNode.availableNodes(connectionType)) {
+
+            Cost destinationCost = pathState.pathNode(connection.destination()).getCost();
+
             if(connection.cost().compareTo(destinationCost) < 0) {
-                pathState.replaceNode(PathNode.of(connection, currentAirportNode));
+                pathState.replaceNode(PathNode.of(connection, currentNode));
             }
         }
 
