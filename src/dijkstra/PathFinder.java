@@ -23,6 +23,11 @@ public final class PathFinder {
         return new PathFinder(nodes);
     }
 
+
+    public final PathNode bestPath(Node start, Node end) {
+        return bestPath(start, end, null);
+    }
+
     /**
      * Finds and returns tha last route node in the fastest route
      * from the departure aiprot to final destination
@@ -36,7 +41,7 @@ public final class PathFinder {
         //check for null values
         Objects.requireNonNull(start, "PathFinder, bestPath() -> origin null");
         Objects.requireNonNull(end, "PathFinder, bestPath() -> destination null");
-        Objects.requireNonNull(connectionType, "PathFinder bestPath() -> connectionType null");
+        // connection type can be null
 
         PathState pathState = PathState.of(nodes, start);
 
@@ -61,13 +66,11 @@ public final class PathFinder {
 
             }
         }
-
         //no route found
         return null;
     }
 
     private void findShortestPathLocal(PathNode currentNode, ConnectionType connectionType, PathState pathState) {
-
         for (Connection connection : currentNode.availableConnections(connectionType)) {
 
             Cost destinationCost = pathState.pathNode(connection.destination()).getCost();
@@ -76,16 +79,15 @@ public final class PathFinder {
                 pathState.replaceNode(PathNode.of(connection, currentNode));
             }
         }
-
     }
-    /*
-    * private void findFastestConnectedFlight(PathNode currentAirportNode, ConnectionType connectionType, PathState pathState) {
-        for (Connection connection : currentAirportNode.availableNodes(connectionType)) {
-            PathTime destinationArrivalTime = pathState.airportNode(connection.getDestination()).getArrivalTime();
-            if (new PathTime(connection.arrivalTime()).compareTo(destinationArrivalTime) < 0) {
-                pathState.replaceNode(PathNode.of(connection, currentAirportNode));
-            }
+
+    public static class TESTHOOK {
+        public static void findShortestPathLocal_test(PathFinder finder, PathNode currentNode, ConnectionType connectionType, PathState pathState) {
+            finder.findShortestPathLocal(currentNode, connectionType, pathState);
+        }
+
+        public static Set<Node> getNodes_test(PathFinder finder) {
+            return finder.nodes;
         }
     }
-    * */
 }
