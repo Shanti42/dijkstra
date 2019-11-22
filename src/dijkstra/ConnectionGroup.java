@@ -33,7 +33,6 @@ final class ConnectionGroup {
 			validateConnectionOrigin(connection, "add() - Connections must originate from the same node to be added");
 			return connections.computeIfAbsent(connection.cost(), fl -> new HashSet<Connection>()).add(connection);
 		} catch (Exception e) {
-			System.out.println(e);
 			return false;
 		}
 	}
@@ -46,7 +45,6 @@ final class ConnectionGroup {
 					"remove() - Connections must originate from the same node to be removed");
 			return connections.computeIfPresent(connection.cost(), (key, oldVal) -> oldVal).remove(connection);
 		} catch (Exception e) {
-			System.out.println(e);
 			return false;
 		}
 	}

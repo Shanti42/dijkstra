@@ -31,7 +31,6 @@ public class PathNodeTest {
     private Node unknownNode = Node.of("AB", cost2);
     private PathNode unknownPathNode = PathNode.of(unknownNode, Cost.UNKNOWN);
 
-    // ASK ELLIS: can we call this method in the class? or shoudl we make it seperate?
     @Before
     public void resetValues() {
         node1 = Node.of("ABC", cost1);
