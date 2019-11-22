@@ -90,7 +90,7 @@ public final class Node implements Comparable<Node> {
         Objects.requireNonNull(type, "Node availableConnections() - null ConnectionType");
 
         return outConnections.connectionsAtOrAfter(nodeCost).stream()
-                .filter(connection -> connection.connectionType().equals(type) && connection.cost().equals(nodeCost))
+                .filter(connection -> connection.connectionType().equals(type))
                 .collect(Collectors.<Connection>toSet());
     }
 

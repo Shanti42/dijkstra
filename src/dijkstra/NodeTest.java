@@ -35,8 +35,8 @@ public class NodeTest {
 		@Test
 		public void codeCoverage() {
 			Node node = Node.of(id, cost);
-			Assert.assertEquals("123", node.getID());
-			Assert.assertEquals(Cost.ZERO, node.getNodeCost());
+			assertEquals("123", node.getID());
+			assertEquals(Cost.ZERO, node.getNodeCost());
 		}
 	}
 

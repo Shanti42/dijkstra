@@ -6,7 +6,7 @@ import java.util.Objects;
  * Represents Connections of different types.
  * A Connection represents a non stop path from one node to another
  */
-abstract class Connection {
+public abstract class Connection {
 
     private final Node origin;
     private final Node destination;
