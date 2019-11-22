@@ -144,4 +144,9 @@ public class PathNodeTest {
         PathNode sameCost2 = PathNode.of(node2, cost1);
         assertTrue(sameCost1.compareTo(sameCost2) < 0);
     }
+
+    @Test(expected = NullPointerException.class)
+    public void compareTo_Test_null() {
+        pathNode1.compareTo(null);
+    }
 }
