@@ -3,6 +3,7 @@ package dijkstra;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * Keeps track of the state of the route
@@ -34,9 +35,15 @@ final class PathState {
         try {
             return new PathState(nodes, origin, cost);
         } catch(Exception e) {
-            
+            if(e instanceof NullPointerException) {
+                LOGGER.log(Level.SEVERE, "Null pointer exception found when generating PathState.");
+            }
+            if(e instanceof IllegalArgumentException) {
+                LOGGER.log(Level.SEVERE, "Illegal argument exception found when generating PathState.");
+            }
+
+            throw new IllegalStateException("Error when creating PathState");
         }
-        return null;
     }
 
     static PathState of(Set<Node> nodes, Node origin) {
@@ -73,7 +80,8 @@ final class PathState {
     final PathNode closestUnreached() {
         PathNode smallestArrivalTime = unreached.pollFirst();
         if(smallestArrivalTime == null) {
-            throw new NoSuchElementException("All Airports have been reached");
+            LOGGER.log(Level.SEVERE, "Searching for unreached node in PathState when all nodes have been reached");
+            throw new NoSuchElementException("All Nodes have been reached");
         } else if(smallestArrivalTime.getCost().equals(Cost.UNKNOWN)) {
             return null;
         } else {
@@ -83,7 +91,7 @@ final class PathState {
 
     //returns the route node corresponding to the node, assumes the node is in the route state
     final PathNode pathNode(Node node) {
-        Objects.requireNonNull(node, "PathState, airportNode -> node is null");
+        Objects.requireNonNull(node, "PathState, pathNode -> node is null");
         assert (nodeMap.containsKey(node));
         return nodeMap.get(node);
     }

@@ -2,8 +2,13 @@ package dijkstra;
 
 import java.math.BigInteger;
 import java.util.Objects;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public final class SimpleAddable implements Addable {
+	private final static Logger LOGGER =
+			Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
 	private final BigInteger value;
 
 	private SimpleAddable(BigInteger value) {
@@ -29,6 +34,7 @@ public final class SimpleAddable implements Addable {
 		if (obj instanceof SimpleAddable) {
 			return value.compareTo(((SimpleAddable) obj).value);
 		} else {
+			LOGGER.log(Level.SEVERE, "SimpleAddable, compareTo: input type is invalid (doesn't match type)");
 			throw new IllegalArgumentException("input's type is not correct");
 		}
 	}
@@ -39,6 +45,7 @@ public final class SimpleAddable implements Addable {
 		if (a instanceof SimpleAddable) {
 			return SimpleAddable.of(value.add(((SimpleAddable) a).value));
 		} else {
+			LOGGER.log(Level.SEVERE, "SimpleAddable, plus: input type is invalid (doesn't match type)");
 			throw new IllegalArgumentException("input's type is not correct");
 		}
 	}

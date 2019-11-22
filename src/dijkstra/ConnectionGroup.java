@@ -2,6 +2,7 @@ package dijkstra;
 
 import java.time.LocalTime;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.logging.Logger;
 
@@ -10,6 +11,10 @@ import java.util.logging.Logger;
  * organized by departure
  */
 final class ConnectionGroup {
+
+	private final static Logger LOGGER =
+			Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
 
 	// Represents origin airport for all connections in group
 	private final Node origin;
@@ -69,6 +74,7 @@ final class ConnectionGroup {
 	public void validateConnectionOrigin(Connection connection, String errorMsg) {
 		Objects.requireNonNull(connection, "validateConnectionOrigin() - Connection is null");
 		if (!origin.getID().equals(connection.originID())) {
+			LOGGER.log(Level.SEVERE, "Connection origin was invalid");
 			throw new IllegalArgumentException((errorMsg));
 		}
 	}

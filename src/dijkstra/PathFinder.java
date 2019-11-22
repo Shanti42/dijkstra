@@ -47,23 +47,27 @@ public final class PathFinder {
 
         Search_Loop: {
             while (!pathState.allReached()) {
-                PathNode currentNode = pathState.closestUnreached();
+                try{
+                    PathNode currentNode = pathState.closestUnreached();
 
-                if(!currentNode.isKnown()) {
-                    break Search_Loop;
+                    if(!currentNode.isKnown()) {
+                        break Search_Loop;
+                    }
+
+                    if(currentNode.equals(end)) {
+                        return currentNode;
+                    }
+
+                    /*
+                     * for all available paths from “currentNode” with proper connectionType:
+                     if that (destination node’s total cost via the path) < (previous cost of the node)
+                     replace that node with a node that has “currentNode” as it’s “previous”
+                     * */
+                    findShortestPathLocal(currentNode, connectionType, pathState);
+
+                } catch (Exception e) {
+                    throw new IllegalStateException("Error while searching for best path");
                 }
-
-                if(currentNode.equals(end)) {
-                    return currentNode;
-                }
-
-            /*
-            * for all available paths from “currentNode” with proper connectionType:
-            if that (destination node’s total cost via the path) < (previous cost of the node)
-            replace that node with a node that has “currentNode” as it’s “previous”
-            * */
-                findShortestPathLocal(currentNode, connectionType, pathState);
-
             }
         }
         //no route found
