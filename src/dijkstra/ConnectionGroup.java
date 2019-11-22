@@ -30,14 +30,14 @@ final class ConnectionGroup {
     final boolean add(Connection connection) {
         validateConnectionOrigin(connection, "add() - Connections must originate from the same node to be added");
 
-        return connections.computeIfAbsent(connection.getCost(), fl -> new HashSet<Connection>()).add(connection);
+        return connections.computeIfAbsent(connection.cost(), fl -> new HashSet<Connection>()).add(connection);
     }
 
     //Removes a connection if it is mapped to the collection of connections at its departure time
     final boolean remove(Connection connection) {
         validateConnectionOrigin(connection, "remove() - Connections must originate from the same node to be removed");
 
-        return connections.computeIfPresent(connection.getCost(), (key, oldVal) -> oldVal).remove(connection);
+        return connections.computeIfPresent(connection.cost(), (key, oldVal) -> oldVal).remove(connection);
     }
 
     //Returns a set of all connections at or after the given departure time

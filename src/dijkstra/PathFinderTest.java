@@ -1,14 +1,13 @@
 // CAITLIN DO THIS!!!!!!
-
-package dijkstra.tests;
-import static dijkstra.SeatClass.*;
+/*
+package dijkstra;//.tests;
 
 import dijkstra.*;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.Before;
+import org.junit.Test;
+//import org.junit.TestInstance;
 
-import static org.junit.jupiter.api.Assertions.*;
+//import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -18,7 +17,7 @@ import java.util.Set;
 
 /**
  * Tests for the PathNode, RouteState, PathTime, and PathFinder classes
- */
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RouteTest  {
 
@@ -71,7 +70,7 @@ public class RouteTest  {
      */
     /**
      * PathTime isKnown() method test
-     */
+
     @Test
     void testRouteTimeIsKnown() {
         PathTime routeKnown = new PathTime(LocalTime.NOON);
@@ -82,7 +81,7 @@ public class RouteTest  {
 
     /**
      * PathTime plus() method tests
-     */
+
     @Test
     void testRouteTimePlus() {
         PathTime routeOfFive = new PathTime(LocalTime.of(5,0));
@@ -105,7 +104,7 @@ public class RouteTest  {
 
     /**
      * PathTime compareTo method tests
-     */
+
     @Test
     void testRouteTimeCompareTo() {
 
@@ -123,7 +122,7 @@ public class RouteTest  {
      */
     /**
      * Tests for all three of PathNode's build methods
-     */
+
     @Test
     void testRouteNodeBuildMethods() {
 
@@ -142,7 +141,7 @@ public class RouteTest  {
 
     /**
      * PathNode isArrivalTimeKnown() method
-     */
+
     @Test
     void testRouteNodeIsArrivalTimeKnown() {
         PathNode knownArrival = PathNode.of(node1, pathTime1,  null);
@@ -153,7 +152,7 @@ public class RouteTest  {
 
     /**
      * PathNode departureTime() method
-     */
+
     @Test
     void testRouteNodeDepartureTime() {
         //node1 has a connection time of 5 and arrival time is 6. Returned PathTime should be 11
@@ -167,7 +166,7 @@ public class RouteTest  {
 
     /**
      * PathNode availableConnections method test
-     */
+
     @Test
     void testRouteNodeAvailableFlights() {
 
@@ -206,7 +205,7 @@ public class RouteTest  {
 
     /**
      * PathNode compareTo() method test
-     */
+
     @Test
     void testRouteNodeCompareTo() {
         PathNode pathNode1 = PathNode.of(node1, pathTime1, null);
@@ -224,7 +223,7 @@ public class RouteTest  {
      */
     /**
      * PathFinder build method tests
-     */
+
     @Test
     void testRouteFinderOf() {
         assertThrows(NullPointerException.class, () -> PathFinder.of(null));
@@ -233,7 +232,7 @@ public class RouteTest  {
 
     /**
      * PathFinder route() method test #1 - Asserts the predicted output using a connected graph
-     */
+
     @Test
     void testRouteFinderRouteConnectedGraph() {
         //Connected Graph
@@ -292,7 +291,7 @@ public class RouteTest  {
 
     /**
      * PathFinder route() method test #2 - Test using a disconnected graph
-     */
+
     @Test
     void testRouteFinderRouteDisconnectedGraph() {
         //Connected Graph
@@ -348,3 +347,4 @@ public class RouteTest  {
 
 
 }
+*/

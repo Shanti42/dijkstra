@@ -29,22 +29,22 @@ public class ConnectionTest {
 
     @Test
     public void testGetOrigin() {
-        assertEquals(connection.getOrigin(), bob);
+        assertEquals(connection.origin(), bob);
     }
 
     @Test
     public void testGetDestination() {
-        assertEquals(connection.getDestination(), susan);
+        assertEquals(connection.destination(), susan);
     }
 
     @Test
     public void testGetCost() {
-        assertEquals(connection.getCost(), small);
+        assertEquals(connection.cost(), small);
     }
 
     @Test
     public void testGetConnectionType() {
-        assertEquals(connection.getConnectionType(), bus);
+        assertEquals(connection.connectionType(), bus);
     }
 
 

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * The Node on a route, including the identification ID and the connection time of the airport
  */
-class Node implements Comparable<Node> {
+public final class Node implements Comparable<Node> {
 
     // short string identifier for the Node
     private final String ID;
@@ -79,7 +79,7 @@ class Node implements Comparable<Node> {
     Set<Connection> availableConnections(ConnectionType type){
         Objects.requireNonNull(type, "Node availableConnections() - null type");
         return outConnections.allConnections().stream()
-                .filter(connection -> connection.getConnectionType().equals(type))
+                .filter(connection -> connection.connectionType().equals(type))
                 .collect(Collectors.toSet());
     }
 
@@ -88,7 +88,7 @@ class Node implements Comparable<Node> {
         Objects.requireNonNull(type, "Node availableConnections() - null ConnectionType");
 
         return outConnections.connectionsAtOrAfter(nodeCost).stream()
-                .filter(connection -> connection.getConnectionType().equals(type))
+                .filter(connection -> connection.connectionType().equals(type))
                 .collect(Collectors.<Connection>toSet());
     }
 
