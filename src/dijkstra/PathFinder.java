@@ -54,7 +54,7 @@ public final class PathFinder {
                         break Search_Loop;
                     }
 
-                    if(currentNode.equals(end)) {
+                    if(currentNode.getNode().equals(end)) {
                         return currentNode;
                     }
 
