@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * The Node on a route, including the identification ID and the connection time of the airport
+ * The Node on a route, including the identification ID and the cost of the node
  */
 public final class Node implements Comparable<Node> {
 

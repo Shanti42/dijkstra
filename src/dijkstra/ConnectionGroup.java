@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 import java.util.logging.Logger;
 
 /**
- * Represents a set of connections that have the same origin airport and that is
- * organized by departure
+ * Represents a set of connections that have the same origin node and that is
+ * organized by cost
  */
 final class ConnectionGroup {
 
@@ -15,7 +15,7 @@ final class ConnectionGroup {
 			Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 
-	// Represents origin airport for all connections in group
+	// Represents origin node for all connections in group
 	private final Node origin;
 
 	// Map of departure time to the collection of connections that have that
@@ -68,7 +68,7 @@ final class ConnectionGroup {
 		return origin;
 	}
 
-	// Throws if connection airport does not have the same origin airport as the
+	// Throws if connection node does not have the same origin node as the
 	// ConnectionGroup
 	public void validateConnectionOrigin(Connection connection, String errorMsg) {
 		Objects.requireNonNull(connection, "validateConnectionOrigin() - Connection is null");
