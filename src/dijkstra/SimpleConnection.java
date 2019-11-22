@@ -11,6 +11,10 @@ public final class SimpleConnection extends Connection {
         return new SimpleConnection(origin, destination, cost, connectionType);
     }
 
+    public static final SimpleConnection of(Node origin, Node destination, Cost cost) {
+        return new SimpleConnection(origin, destination, cost, null);
+    }
+
 
     @Override
     boolean isLowerCost(Connection connection) {

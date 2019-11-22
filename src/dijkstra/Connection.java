@@ -14,6 +14,9 @@ abstract class Connection {
     private final ConnectionType connectionType;
 
 
+    /*
+    * ASK ELLIS: ABSTRACT CLASSES: HOW DEAL WITH NEEDING A BUILDER CLASS??
+    * */
     Connection(Node origin, Node destination, Cost cost, ConnectionType connectionType){
         this.origin = origin;
         this.destination = destination;
