@@ -92,7 +92,7 @@ class Node implements Comparable<Node> {
                 .collect(Collectors.<Connection>toSet());
     }
 
-
+    // should we add in an availible connection that takes in 2 costs?
 
 
 

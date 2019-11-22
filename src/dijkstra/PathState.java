@@ -15,10 +15,10 @@ final class PathState {
     private final NavigableSet<PathNode> unreached;
 
 
-    private PathState(Set<Node> nodes, Node origin, LocalTime departureTime) {
+    private PathState(Set<Node> nodes, Node origin, Cost cost) {
         unreached = new TreeSet<>();
         nodeMap = new HashMap<>();
-        addToList(origin, PathNode.of(origin, new PathTime(departureTime), null));
+        addToList(origin, PathNode.of(origin, cost, null));
         for (Node node : nodes) {
             if (!node.equals(origin)) {
                 addToList(node, PathNode.of(node));
