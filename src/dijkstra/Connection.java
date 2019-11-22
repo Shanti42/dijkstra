@@ -13,23 +13,17 @@ public abstract class Connection {
     private final Cost cost;
     private final ConnectionType connectionType;
 
-
-    /*
-    * ASK ELLIS: ABSTRACT CLASSES: HOW DEAL WITH NEEDING A BUILDER CLASS??
-    * */
     Connection(Node origin, Node destination, Cost cost, ConnectionType connectionType){
         this.origin = origin;
         this.destination = destination;
         this.cost = cost;
         this.connectionType = connectionType;
-
         this.origin.addConnection(this);
     }
 
     String originID(){
         return origin.getID();
     }
-
 
     Node origin() {
         return origin;
