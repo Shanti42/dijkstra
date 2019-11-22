@@ -148,4 +148,25 @@ public class PathStateTest {
         state.pathNode(node4);
     }
 
+    @Test
+    public void addToList_test() {
+        Node node4 = Node.of("123", cost2);
+        PathNode path4 = PathNode.of(node4, Cost.UNKNOWN, null);
+        PathState.TESTHOOK.addToList_test(state, node4, path4);
+        assertEquals(path4, state.pathNode(node4));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void assToList_test_null_pathNode() {
+        Node node4 = Node.of("123", cost2);
+        PathState.TESTHOOK.addToList_test(state, node4, null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void assToList_test_null_node() {
+        Node node4 = Node.of("123", cost2);
+        PathNode path4 = PathNode.of(node4, Cost.UNKNOWN, null);
+        PathState.TESTHOOK.addToList_test(state, null, path4);
+    }
+
 }

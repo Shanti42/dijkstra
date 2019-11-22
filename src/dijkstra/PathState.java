@@ -79,4 +79,9 @@ final class PathState {
         return nodeMap.get(node);
     }
 
+    public static class TESTHOOK {
+        public static void addToList_test(PathState state, Node node, PathNode pathNode) {
+            state.addToList(node, pathNode);
+        }
+    }
 }
