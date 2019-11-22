@@ -3,6 +3,7 @@ package dijkstra;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.logging.Logger;
 
 /**
  * Represents a set of connections that have the same origin airport and that is

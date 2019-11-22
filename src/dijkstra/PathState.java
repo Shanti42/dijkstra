@@ -2,11 +2,15 @@ package dijkstra;
 
 import java.time.LocalTime;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Keeps track of the state of the route
  */
 final class PathState {
+
+    private final static Logger LOGGER =
+            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     private Map<Node, PathNode> nodeMap;
     private final NavigableSet<PathNode> unreached;
@@ -27,7 +31,12 @@ final class PathState {
         Objects.requireNonNull(nodes, "PathState, of() -> null nodes set");
         Objects.requireNonNull(origin, "PathState, of() -> null origin");
         Objects.requireNonNull(cost, "PathState, of() -> null cost time");
-        return new PathState(nodes, origin, cost);
+        try {
+            return new PathState(nodes, origin, cost);
+        } catch(Exception e) {
+            
+        }
+        return null;
     }
 
     static PathState of(Set<Node> nodes, Node origin) {
