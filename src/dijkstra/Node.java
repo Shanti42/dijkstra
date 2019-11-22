@@ -84,7 +84,6 @@ public final class Node implements Comparable<Node> {
                 .collect(Collectors.toSet());
     }
 
-    // what does taking 1 cost mean?
     Set<Connection> availableConnections(Cost nodeCost, ConnectionType type) {
         Objects.requireNonNull(nodeCost, "Node availableConnections() - null departureTime");
         Objects.requireNonNull(type, "Node availableConnections() - null ConnectionType");
