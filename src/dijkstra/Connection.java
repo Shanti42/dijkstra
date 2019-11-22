@@ -22,6 +22,8 @@ abstract class Connection {
         this.destination = destination;
         this.cost = cost;
         this.connectionType = connectionType;
+
+        this.origin.addConnection(this);
     }
 
     String originID(){
@@ -50,6 +52,9 @@ abstract class Connection {
 
     @Override
     public int hashCode() {
+        if(connectionType == null) {
+            return (origin.getID() + destination.getID()).hashCode();
+        }
         return (origin.getID() + destination.getID() + connectionType.toString()).hashCode();
     }
 }

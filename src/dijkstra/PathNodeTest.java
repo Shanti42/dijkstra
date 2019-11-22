@@ -6,6 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 import java.math.BigInteger;
 import org.junit.Assert;
+import java.util.Set;
+import java.util.HashSet;
+
 
 import static org.junit.Assert.*;
 
@@ -23,10 +26,6 @@ public class PathNodeTest {
     private Node node1 = Node.of("ABC", cost1);
     private Node node2 = Node.of("XYZ", cost2);
     private Node node3 = Node.of("MNO", cost3);
-
-    private Connection connection1_2 = SimpleConnection.of(node1, node2, cost4);
-    private Connection connection1_3 = SimpleConnection.of(node1, node3, cost5);
-    private Connection connection2_3 = SimpleConnection.of(node2, node3, cost6);
 
     private PathNode pathNode1;
     private PathNode pathNode2;
@@ -70,6 +69,29 @@ public class PathNodeTest {
 
     @Test
     public void availableNodes_Test() {
+        // testing no connection types
+        Set<Connection> testSet = new HashSet<>();
+        assertEquals(testSet, node1.availableConnections());
 
+        Connection connection1_2 = SimpleConnection.of(node1, node2, cost4);
+        assertEquals(testSet, node2.availableConnections());
+        testSet.add(connection1_2);
+        assertEquals(testSet, node1.availableConnections());
+
+        Connection connection1_3 = SimpleConnection.of(node1, node3, cost5);
+        testSet.add(connection1_3);
+        assertEquals(testSet, node1.availableConnections());
+
+        Connection connection2_3 = SimpleConnection.of(node2, node3, cost6);
+        Set<Connection> testSet2 = new HashSet<>();
+        testSet2.add(connection2_3);
+        assertEquals(testSet2, node2.availableConnections());
+    }
+
+    public void availibleNodes_Test_ConnectionTypes() {
+        ConnectionType type1 = ConnectionType.of("Jetpack");
+        ConnectionType type2 = ConnectionType.of("Eaten by Whale");
+
+        
     }
 }
