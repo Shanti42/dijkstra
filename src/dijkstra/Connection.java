@@ -1,7 +1,5 @@
 package dijkstra;
 
-import java.util.Objects;
-
 /**
  * Represents Connections of different types.
  * A Connection represents a non stop path from one node to another
