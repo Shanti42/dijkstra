@@ -11,30 +11,15 @@ public class ConnectionTest {
     private Connection connection;
     private Connection sameConnection;
     private Connection differentConnection;
-    private Node bob = Node.of("BOB", new SimpleCost(BigInteger.valueOf(0)));
-    private Node susan = Node.of("SUSAN", new SimpleCost(BigInteger.valueOf(0)));
-    private Cost small = new SimpleCost(BigInteger.valueOf(10));
+    private Node bob = Node.of("BOB", Cost.of(SimpleAddable.of(BigInteger.valueOf(3))));
+    private Node susan = Node.of("Susan", Cost.of(SimpleAddable.of(BigInteger.valueOf(3))));
+    private Cost small = Cost.of(SimpleAddable.of(BigInteger.valueOf(0)));
     private ConnectionType bus = ConnectionType.of("BUS");
 
     public ConnectionTest() {
-        connection = new Connection(bob, susan, small, bus) {
-            @Override
-            boolean isLowerCost(Connection connection, Object obj) {
-                return false;
-            }
-        };
-        sameConnection = new Connection(bob, susan, small, bus) {
-            @Override
-            boolean isLowerCost(Connection connection, Object obj) {
-                return false;
-            }
-        };
-        differentConnection = new Connection(bob, susan, small, bus) {
-            @Override
-            boolean isLowerCost(Connection connection, Object obj) {
-                return false;
-            }
-        };
+        connection = SimpleConnection.of(bob, susan, small, bus);
+        sameConnection = SimpleConnection.of(bob, susan, small, bus);
+        differentConnection = SimpleConnection.of(bob, susan, small, bus);
     }
 
     @Test
@@ -62,10 +47,6 @@ public class ConnectionTest {
         assertEquals(connection.getConnectionType(), bus);
     }
 
-    @Test
-    public void testIsLowerCost() {
-        assertFalse(connection.isLowerCost(null, null));
-    }
 
     @Test
     public void testHashCode() {

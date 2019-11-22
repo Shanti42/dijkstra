@@ -11,39 +11,37 @@ import static org.junit.Assert.*;
 
 public class ConnectionGroupTest {
 
-    public static String connectionCode;
-    public static String originCode;
-    public static String destinationCode;
+    static String connectionCode;
+    static String originCode;
+    static String destinationCode;
 
-    public static Node origin;
-    public static Node destination;
-    public static Node other;
+    static Node origin;
+    static Node destination;
+    static Node other;
 
-    public static Cost noCost = Cost.of(SimpleAddable.of(null));
-    public static Cost cost2 = Cost.of(SimpleAddable.of(BigInteger.valueOf(2)));
-    public static Cost cost3 = Cost.of(SimpleAddable.of(BigInteger.valueOf(3)));
-    public static Cost cost4 = Cost.of(SimpleAddable.of(BigInteger.valueOf(4)));
-    public static Cost costBig = Cost.of(SimpleAddable.of(BigInteger.valueOf(10)));
+    static Cost noCost = Cost.of(SimpleAddable.of(BigInteger.valueOf(0)));
+    static Cost cost2 = Cost.of(SimpleAddable.of(BigInteger.valueOf(2)));
+    static Cost cost3 = Cost.of(SimpleAddable.of(BigInteger.valueOf(3)));
+    static Cost cost4 = Cost.of(SimpleAddable.of(BigInteger.valueOf(4)));
+    static Cost costBig = Cost.of(SimpleAddable.of(BigInteger.valueOf(10)));
     Connection nullConnection = null;
 
     public static Connection connection;
+    ConnectionGroup connectionGroup;
 
 
 
-    Node origin = Node.of("BOB", new SimpleCost(BigInteger.valueOf(0)));
-    ConnectionGroup connectionGroup = ConnectionGroup.of(origin);
-
-    public static ConnectionType busConnectionType = ConnectionType.of("BUS");
-    public static ConnectionType trainConnectionType = ConnectionType.of("TRAIN");
-    public static ConnectionType opticalConnectionTypeLow = ConnectionType.of("OPTICAL");
-    public static ConnectionType attackConnectionType = ConnectionType.of("ATTACK");
+    static ConnectionType busConnectionType = ConnectionType.of("BUS");
+    static ConnectionType trainConnectionType = ConnectionType.of("TRAIN");
+    static ConnectionType opticalConnectionTypeLow = ConnectionType.of("OPTICAL");
+    static ConnectionType attackConnectionType = ConnectionType.of("ATTACK");
 
     Connection badOriginConnection;
     Connection connectionLarge;
     Connection connectionSmall;
 
     @Before
-    void initializeConnections() {
+    public void initializeConnections() {
         connectionCode = "A112";
         originCode = "CLE";
         destinationCode = "LGA";
@@ -52,6 +50,7 @@ public class ConnectionGroupTest {
         origin = Node.of(originCode, noCost);
         destination = Node.of(destinationCode, noCost);
         other = Node.of("blank", noCost);
+        connectionGroup = ConnectionGroup.of(origin);
 
 
         connection = SimpleConnection.of(origin, destination, cost3, busConnectionType);
@@ -64,7 +63,7 @@ public class ConnectionGroupTest {
 
 
     @Test
-    void testSimpleConnectionIsLowerCost() {
+    public void testSimpleConnectionIsLowerCost() {
         assertTrue(connection.isLowerCost(connectionLarge));
         assertFalse(connection.isLowerCost(connectionSmall));
         assertFalse(connection.isLowerCost(connection));
@@ -72,7 +71,7 @@ public class ConnectionGroupTest {
 
 
     @Test
-    void testConnectionGroupOf() {
+    public void testConnectionGroupOf() {
         assertNotNull(ConnectionGroup.of(origin));
     }
 
@@ -80,7 +79,7 @@ public class ConnectionGroupTest {
      * ConnectionGroup add() method
      */
     @Test
-    void testConnectionGroupAdd() {
+    public void testConnectionGroupAdd() {
 
 
         //Connection intentionally created with wrong origin for testing purposes
@@ -115,18 +114,19 @@ public class ConnectionGroupTest {
      * ConnectionGroup remove() method
      */
     @Test
-    void testConnectionGroupRemove() {
+    public void testConnectionGroupRemove() {
 
         ConnectionGroup connectionGroup = ConnectionGroup.of(origin);
 
 
         connectionGroup.add(connection);
+        connectionGroup.add(connectionLarge)
 
         assertTrue(connectionGroup.remove(connection));
         assertFalse(connectionGroup.remove(connection));
 
         Set<Connection> connections = new HashSet<>();
-        connections.add(connection);
+        connections.add(connectionLarge);
 
         assertEquals(connections, connectionGroup.connectionsAtOrAfter(cost2));
 
@@ -147,14 +147,14 @@ public class ConnectionGroupTest {
      * ConnectionGroup connectionsAtOrAfter() test
      */
     @Test
-    void testConnectionGroupConnectionsAtOrAfter() {
+    public void testConnectionGroupConnectionsAtOrAfter() {
 
         ConnectionGroup connectionGroup = ConnectionGroup.of(origin);
 
         connectionGroup.add(connection);
         connectionGroup.add(connectionSmall);
         connectionGroup.add(connectionLarge);
-        assertNotNull(connectionGroup.connectionsAtOrAfter(cost2);
+        assertNotNull(connectionGroup.connectionsAtOrAfter(cost2));
 
         Set<Connection> connections = new HashSet<>();
         connections.add(connection);
@@ -176,7 +176,7 @@ public class ConnectionGroupTest {
     public void testOfNullVal() {
         ConnectionGroup.of(null);
     }
-    
+
     @Test
     public void testGetOrigin() {
         assertEquals(connectionGroup.getOrigin(), origin);

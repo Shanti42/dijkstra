@@ -5,7 +5,7 @@ package dijkstra;
 import java.math.BigInteger;
 import java.util.Objects;
 
-public class Cost<T extends Addable> {
+public class Cost<T extends Addable> implements Comparable{
 	private T internalValue;
 
 	public static final Cost UNKNOWN = new Cost(null);
