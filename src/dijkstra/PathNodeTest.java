@@ -149,5 +149,11 @@ public class PathNodeTest extends ConnectionTest {
         PathNode.of(null, pathNode1);
     }
 
+    @Test
+    public void testOf(){
+        PathNode path = PathNode.of(connection, null);
+        assertEquals(path.getCost(), connection.cost());
+    }
+
 
 }
