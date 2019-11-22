@@ -38,10 +38,7 @@ public final class Node implements Comparable<Node> {
     Cost getNodeCost() {
         return nodeCost;
     }
-    
-    ConnectionGroup getoutConnection() {
-    	return outConnections;
-    }
+
 
     @Override
     public boolean equals(Object object) {

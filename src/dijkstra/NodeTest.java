@@ -1,5 +1,9 @@
 package dijkstra;
 
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import java.math.BigInteger;
 
 import org.junit.Assert;
@@ -54,19 +58,19 @@ public class NodeTest {
 		// branch coverage, IDs are not equal
 		@Test
 		public void branchCoverage() {
-			Assert.assertFalse(node1.equals(node3));
+			assertFalse(node1.equals(node3));
 		}
 
 		// bad data, branch coverage, when input is null
 		@Test
 		public void badData1() {
-			Assert.assertFalse(node1.equals(null));
+			assertFalse(node1.equals(null));
 		}
 
 		// bad data, branch coverage, when input is not an instance of node
 		@Test
 		public void badData2() {
-			Assert.assertFalse(node1.equals("123"));
+			assertFalse(node1.equals("123"));
 		}
 	}
 
@@ -139,25 +143,25 @@ public class NodeTest {
 		// bad data, connection is null
 		@Test
 		public void badData1() {
-			Assert.assertFalse(node1.addConnection(null));
+			assertFalse(node1.addConnection(null));
 		}
 
 		// bad data, origins are not the same
 		@Test
 		public void badData2() {
-			Assert.assertFalse(node1.addConnection(connection2));
+			assertFalse(node1.addConnection(connection2));
 		}
 
 		// good data, code coverage
 		public void codeCoverage() {
-			Assert.assertTrue(node1.addConnection(connection1));
-			Assert.assertTrue(node1.getoutConnection().allConnections().contains(connection1));
+			assertTrue(node1.addConnection(connection1));
+			assertTrue(node1.availableConnections().contains(connection1));
 		}
 
 		// branch coverage, when connection is already there
 		public void branchCoverage() {
-			Assert.assertTrue(node1.addConnection(connection1));
-			Assert.assertFalse(node1.addConnection(connection1));
+			assertTrue(node1.addConnection(connection1));
+			assertFalse(node1.addConnection(connection1));
 		}
 	}
 
@@ -175,26 +179,26 @@ public class NodeTest {
 		// bad data, connection is null
 		@Test
 		public void badData1() {
-			Assert.assertFalse(node1.removeConnection(null));
+			assertFalse(node1.removeConnection(null));
 		}
 
 		// bad data, origins are not the same
 		@Test
 		public void badData2() {
-			Assert.assertFalse(node1.removeConnection(connection2));
+			assertFalse(node1.removeConnection(connection2));
 		}
 
 		// good data, code coverage
 		public void codeCoverage() {
 			node1.addConnection(connection1);
-			Assert.assertTrue(node1.getoutConnection().allConnections().contains(connection1));
-			Assert.assertTrue(node1.removeConnection(connection1));
-			Assert.assertFalse(node1.getoutConnection().allConnections().contains(connection1));
+			assertTrue(node1.availableConnections().contains(connection1));
+			assertTrue(node1.removeConnection(connection1));
+			assertFalse(node1.availableConnections().contains(connection1));
 		}
 
 		// branch coverage, when the connection is not there
 		public void branchCoverage() {
-			Assert.assertFalse(node1.removeConnection(connection1));
+			assertFalse(node1.removeConnection(connection1));
 		}
 	}
 
@@ -240,7 +244,9 @@ public class NodeTest {
 		@Test
 		public void codeCoverageTwoParams() {
 			node1.addConnection(connection);
-			Assert.assertTrue(node1.availableConnections(cost, type1).contains(connection));
+			assertTrue(node1.availableConnections(cost, type1).contains(connection));
+			assertFalse(node1.availableConnections(cost, type2).contains(connection));
+
 		}
 
 		// branch coverage, with 2 parameter

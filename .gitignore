@@ -4,3 +4,8 @@
 /bin/
 .classpath
 *.xml
+/production
+.project
+
+build/*
+report/*

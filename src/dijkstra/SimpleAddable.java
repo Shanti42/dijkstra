@@ -44,12 +44,10 @@ public final class SimpleAddable implements Addable {
 	}
 
 	@Override
-	public final boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
+	public final boolean equals(Object other) {
+		if (other == null || getClass() != other.getClass())
 			return false;
-		return value.equals(((SimpleAddable) o).value);
+		return value.equals(((SimpleAddable) other).value);
 	}
 
 	// for testing
