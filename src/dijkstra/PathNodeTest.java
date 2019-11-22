@@ -37,7 +37,7 @@ public class PathNodeTest {
     public void getTotalCost_Test() {
         Cost cost_a = pathNode2.getTotalCost();
         Cost cost_b = cost1.plus(cost2);
-        assertEquals(cost_a.cost(), cost_b.cost());
+        assertEquals(cost_a, cost_b);
         assertEquals(pathNode1.getTotalCost(), cost1);
     }
 
