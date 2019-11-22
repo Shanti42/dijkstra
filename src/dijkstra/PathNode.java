@@ -109,4 +109,10 @@ public final class PathNode implements Comparable<PathNode> {
                 Objects.equals(previous, pathNode.previous);
     }
 
+    // for testing purposes
+    @Override
+    public String toString() {
+        return node.getID();
+    }
+
 }

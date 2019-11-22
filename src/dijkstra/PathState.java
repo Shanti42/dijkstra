@@ -65,6 +65,8 @@ final class PathState {
         PathNode smallestArrivalTime = unreached.pollFirst();
         if(smallestArrivalTime == null) {
             throw new NoSuchElementException("All Airports have been reached");
+        } else if(smallestArrivalTime.getCost().equals(Cost.UNKNOWN)) {
+            return null;
         } else {
             return smallestArrivalTime;
         }

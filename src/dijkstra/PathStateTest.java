@@ -94,4 +94,58 @@ public class PathStateTest {
         state.closestUnreached(); // pops node3
         assertTrue(state.allReached());
     }
+
+    @Test
+    public void closestUnreached_test() {
+        PathNode replace1 = PathNode.of(node2, cost5, state.pathNode(node1));
+        PathNode replace2 = PathNode.of(node3, cost6.plus(cost5), state.pathNode(node2));
+
+        state.replaceNode(replace1);
+        state.replaceNode(replace2);
+
+        assertEquals(state.pathNode(node1), state.closestUnreached());
+        assertEquals(replace1, state.closestUnreached());
+        assertEquals(replace2, state.closestUnreached());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void closestUnreached_test_tooMany() {
+        PathNode replace1 = PathNode.of(node2, cost5, state.pathNode(node1));
+        PathNode replace2 = PathNode.of(node3, cost6.plus(cost5), state.pathNode(node2));
+
+        state.replaceNode(replace1);
+        state.replaceNode(replace2);
+
+        assertEquals(state.pathNode(node1), state.closestUnreached());
+        state.closestUnreached();
+        state.closestUnreached();
+        state.closestUnreached();
+        state.closestUnreached();
+    }
+
+    @Test
+    public void closestUnreached_test_notReachable() {
+        state.replaceNode(PathNode.of(node2, cost5, state.pathNode(node1)));
+        state.closestUnreached(); // node1
+        state.closestUnreached(); // node2
+        assertNull(state.closestUnreached()); // node3 (unreachable, no path)
+    }
+
+    @Test
+    public void pathNode_test() {
+        PathNode expected = PathNode.of(node2, Cost.UNKNOWN, null);
+        assertEquals(expected, state.pathNode(node2));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void pathNode_null() {
+        state.pathNode(null);
+    }
+
+    @Test(expected = AssertionError.class)
+    public void pathNode_invalidArgument() {
+        Node node4 = Node.of("Not here", cost1);
+        state.pathNode(node4);
+    }
+
 }
