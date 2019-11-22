@@ -1,5 +1,3 @@
-// CAITLIN
-
 package dijkstra;
 
 import org.junit.Test;
@@ -11,19 +9,6 @@ import static org.junit.Assert.*;
 import java.math.BigInteger;
 
 public class PathStateTest {
-    /*
-    * To test:
-    *
-    * PathState of(Set<Node> nodes, Node origin, Cost cost) {
-    * PathState of(Set<Node> nodes, Node origin)
-    *
-    * addToList(Node node, PathNode pathNode)
-    * replaceNode(PathNode pathNode)
-    * allReached()
-    *
-    * PathNode closestUnreached()
-    * PathNode pathNode(Node node)
-     * */
 
     private Cost<Addable> cost1 = Cost.of(SimpleAddable.of(1));
     private Cost<Addable> cost2 = Cost.of(SimpleAddable.of(2));

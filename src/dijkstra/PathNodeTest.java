@@ -1,5 +1,3 @@
-// CAITLIN DO THIS!!! YOU FOOL!!!
-
 package dijkstra;
 
 import org.junit.Before;
@@ -10,9 +8,6 @@ import java.util.HashSet;
 
 
 import static org.junit.Assert.*;
-
-
-//import static junit.framework.TestCase.assertEquals;
 
 public class PathNodeTest {
     private Cost<Addable> cost1 = Cost.of(SimpleAddable.of(BigInteger.valueOf(1)));
