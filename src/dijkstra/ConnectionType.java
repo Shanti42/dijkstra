@@ -32,10 +32,11 @@ class ConnectionType {
 
     @Override
     public boolean equals(Object object) {
-        if (object != null && object instanceof ConnectionType) {
+        if (object instanceof ConnectionType) {
             ConnectionType connectionType = (ConnectionType) object;
             return this.getIdentifier() == connectionType.getIdentifier();
+        } else {
+            return false;
         }
-        return false;
     }
 }
