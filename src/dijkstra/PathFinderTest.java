@@ -90,61 +90,22 @@ public class PathFinderTest  {
         assertEquals(result.getNode(), node4);
     }
 
-    /**
-     * PathFinder route() method test #2 - Test using a disconnected graph
-
     @Test
-    void testRouteFinderRouteDisconnectedGraph() {
-        //Connected Graph
-        Node origin = Node.of("CLE", Duration.ofHours(1));
-        Node destLGA = Node.of("LGA", Duration.ofHours(1));
-        Node destLAX = Node.of("LAX", Duration.ofHours(1));
-        Node destMIA = Node.of("MIA", Duration.ofHours(1));
+    public void testRouteFinderDisconnectedGraph() {
+        Node node5 = Node.of("QWER", cost3);
+        nodes.add(node5);
+        PathFinder pathFinderDisconnected = PathFinder.of(nodes);
 
-        //Legs of flight from CLE to NY to LA
-        Leg leg1 = Leg.of(origin, destLGA);
-        Leg leg2 = Leg.of(destLGA, destLAX);
-
-        //Legs of flight from CLE to Miami
-        Leg leg3 = Leg.of(origin, destMIA);
-
-        //Flight Schedule for CLE to NY to LA
-        FlightSchedule schedule1 = FlightSchedule.of(LocalTime.of(2,0), LocalTime.of(3,0)); //1 Hour Flight
-        FlightSchedule schedule2 = FlightSchedule.of(LocalTime.of(5,0), LocalTime.of(8,0)); //3 Hours Flight
-
-        //Flight Schedule for CLE to Miami
-        FlightSchedule schedule3 = FlightSchedule.of(LocalTime.of(2,0), LocalTime.of(4, 0)); //2 Hour Flight
-
-        SeatConfiguration seatConfig = SeatConfiguration.of(new EnumMap<SeatClass, Integer>(SeatClass.class));
-        seatConfig.setSeats(ECONOMY, 19);
-        FareClass fareClass = FareClass.of(4, ECONOMY);
-
-        Flight flight1 = SimpleConnection.of("A101", leg1, schedule1, seatConfig);
-        Flight flight2 = SimpleConnection.of("B101", leg2, schedule2, seatConfig);
-        Flight flight3 = SimpleConnection.of("A102", leg3, schedule3, seatConfig);
-
-        origin.addConnection(flight1);
-        origin.addConnection(flight3);
-
-        destLGA.addConnection(flight2);
-
-        Set<Node> nodes = new HashSet<>();
-        nodes.add(origin);
-        nodes.add(destLAX);
-        nodes.add(destLGA);
-        nodes.add(destMIA);
-
-        PathFinder pathFinder = PathFinder.of(nodes);
-
-        //No shortest path due to disconnected graph
-        assertNull(pathFinder.route(origin, destLAX, LocalTime.of(2,0), fareClass));
-        assertNull(pathFinder.route(origin, destLAX, LocalTime.of(1,0), fareClass));
-        assertNull(pathFinder.route(origin, destLAX, LocalTime.of(0,0), fareClass));
-
-        assertNull(pathFinder.route(origin, destMIA, LocalTime.of(2,0), fareClass));
-        assertEquals(destMIA.getID(), pathFinder.route(origin, destMIA, LocalTime.of(1,0), fareClass).getNode().getID());
-        assertEquals(destMIA.getID(), pathFinder.route(origin, destMIA, LocalTime.of(0,0), fareClass).getNode().getID());
+        PathNode result = pathFinderDisconnected.bestPath(node1, node5);
+        assertNull(result);
     }
 
-*/
+    @Test
+    public void testFindShortestPathLocal() {
+        PathState state = PathState.of(nodes, node1);
+        PathFinder.TESTHOOK.findShortestPathLocal_test(finder, PathNode.of(node1, Cost.ZERO), null, state);
+        assertNotNull(state.pathNode(node2).getPrevious());
+    }
+
+
 }
