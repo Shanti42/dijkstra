@@ -23,20 +23,20 @@ public class PathNodeTest {
     private Cost<Addable> cost5 = Cost.of(SimpleAddable.of(11));
     private Cost<Addable> cost6 = Cost.of(SimpleAddable.of(12));
 
-    private Node node1 = Node.of("ABC", cost1);
-    private Node node2 = Node.of("XYZ", cost2);
-    private Node node3 = Node.of("MNO", cost3);
+    private Node node1;
+    private Node node2;
+    private Node node3;
 
     private PathNode pathNode1;
     private PathNode pathNode2;
     private PathNode pathNode3;
 
-    private PathNode unknownCost = PathNode.of(node1);
-
+    // ASK ELLIS: can we call this method in the class? or shoudl we make it seperate?
     @Before
-    public void setup() {
-
-
+    public void resetValues() {
+        node1 = Node.of("ABC", cost1);
+        node2 = Node.of("XYZ", cost2);
+        node3 = Node.of("MNO", cost3);
 
         pathNode1 = PathNode.of(node1, cost1);
         pathNode2 = PathNode.of(node2, cost2, pathNode1);
@@ -71,27 +71,40 @@ public class PathNodeTest {
     public void availableNodes_Test() {
         // testing no connection types
         Set<Connection> testSet = new HashSet<>();
-        assertEquals(testSet, node1.availableConnections());
+        assertEquals(testSet, pathNode1.availableConnections());
 
         Connection connection1_2 = SimpleConnection.of(node1, node2, cost4);
-        assertEquals(testSet, node2.availableConnections());
+        assertEquals(testSet, pathNode2.availableConnections());
         testSet.add(connection1_2);
-        assertEquals(testSet, node1.availableConnections());
+        assertEquals(testSet, pathNode1.availableConnections());
 
         Connection connection1_3 = SimpleConnection.of(node1, node3, cost5);
         testSet.add(connection1_3);
-        assertEquals(testSet, node1.availableConnections());
+        assertEquals(testSet, pathNode1.availableConnections());
 
         Connection connection2_3 = SimpleConnection.of(node2, node3, cost6);
         Set<Connection> testSet2 = new HashSet<>();
         testSet2.add(connection2_3);
-        assertEquals(testSet2, node2.availableConnections());
+        assertEquals(testSet2, pathNode2.availableConnections());
     }
 
     public void availibleNodes_Test_ConnectionTypes() {
+        resetValues();
+
         ConnectionType type1 = ConnectionType.of("Jetpack");
         ConnectionType type2 = ConnectionType.of("Eaten by Whale");
+        Set<Connection> testSet1 = new HashSet<>();
+        Set<Connection> testSet2 = new HashSet<>();
+        Set<Connection> testSet3 = new HashSet<>();
 
-        
+        Connection connection1_2 = SimpleConnection.of(node1, node2, cost1, type1);
+        Connection connection1_3 = SimpleConnection.of(node1, node3, cost1, type2);
+        testSet1.add(connection1_2);
+        testSet2.add(connection1_3);
+        testSet3.add(connection1_2);
+        testSet3.add(connection1_3);
+        assertEquals(testSet1, pathNode1.availableConnections(type1));
+        assertEquals(testSet2, pathNode1.availableConnections(type2));
+        assertEquals(testSet3, pathNode1.availableConnections());
     }
 }

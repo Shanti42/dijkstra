@@ -68,8 +68,13 @@ public final class PathNode implements Comparable<PathNode> {
         return previous;
     }
 
-    //Assumes arrival time is known as per instructions
-    final Set<Connection> availableNodes(ConnectionType connectionType) {
+    // MIGHT NEED TO CHANGE THIS ASK ELLIS (COST, SEE NODE)
+    final Set<Connection> availableConnections() {
+        assert (isKnown());
+        return node.availableConnections();
+    }
+
+    final Set<Connection> availableConnections(ConnectionType connectionType) {
         assert (isKnown());
         Objects.requireNonNull(connectionType, "PathNode, availableConnections() -> Null parameter for connectionType");
         return node.availableConnections(cost, connectionType);

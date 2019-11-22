@@ -68,7 +68,7 @@ public final class PathFinder {
 
     private void findShortestPathLocal(PathNode currentNode, ConnectionType connectionType, PathState pathState) {
 
-        for (Connection connection : currentNode.availableNodes(connectionType)) {
+        for (Connection connection : currentNode.availableConnections(connectionType)) {
 
             Cost destinationCost = pathState.pathNode(connection.destination()).getCost();
 
