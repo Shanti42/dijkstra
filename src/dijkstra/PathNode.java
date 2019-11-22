@@ -21,6 +21,13 @@ public final class PathNode implements Comparable<PathNode> {
         return cost;
     }
 
+    public Cost getTotalCost() {
+        if(previous == null) {
+            return this.getCost();
+        }
+        return cost.plus(previous.getTotalCost());
+    }
+
     public final PathNode getPrevious() {
         return previous;
     }
@@ -54,6 +61,13 @@ public final class PathNode implements Comparable<PathNode> {
 
     }
 
+    public static final PathNode of(Node node, Cost cost) {
+        Objects.requireNonNull(node, "received null node");
+
+        return new PathNode(node, cost, null);
+
+    }
+
     //Assumes arrival time is known as per instructions
     final Set<Connection> availableNodes(ConnectionType connectionType) {
         assert (isKnown());
@@ -69,10 +83,10 @@ public final class PathNode implements Comparable<PathNode> {
     public int compareTo(PathNode other) {
         Objects.requireNonNull(other, "PathNode, compareTo() -> Null parameter for other PathNode");
         Cost otherArrivalTime = other.getCost();
-        if (this.getCost().compareTo(otherArrivalTime) == 0) {
+        if (this.getCost().equals(otherArrivalTime)) {
             return this.getNode().compareTo(other.getNode());
         } else {
-            return this.getCost().compareTo(otherArrivalTime);
+            return this.getCost().compareTo(otherArrivalTime.cost());
         }
     }
 
