@@ -3,50 +3,58 @@ package dijkstra;
 import java.math.BigInteger;
 import java.util.Objects;
 
-public class SimpleAddable implements Addable{
-    BigInteger value;
+public final class SimpleAddable implements Addable {
+	private final BigInteger value;
 
+	private SimpleAddable(BigInteger value) {
+		this.value = value;
+	}
 
-    private SimpleAddable(BigInteger value) {
-        this.value = value;
-    }
+	public BigInteger getValue() {
+		return value;
+	}
 
-    public static Addable of(int value) {
-        return new SimpleAddable(BigInteger.valueOf(value));
-    }
+	public final static SimpleAddable of(int value) {
+		return new SimpleAddable(BigInteger.valueOf(value));
+	}
 
-    public static Addable of(BigInteger value){
-        Objects.requireNonNull(value, "SimpleAddable, of -> value null");
-        return new SimpleAddable(value);
-    }
+	public final static SimpleAddable of(BigInteger value) {
+		Objects.requireNonNull(value, "SimpleAddable, of -> value null");
+		return new SimpleAddable(value);
+	}
 
+	@Override
+	public final int compareTo(Object obj) {
+		Objects.requireNonNull(obj, "SimpleAddable, compareTo -> object null");
+		if (obj instanceof SimpleAddable) {
+			return value.compareTo(((SimpleAddable) obj).value);
+		} else {
+			throw new IllegalArgumentException("input's type is not correct");
+		}
+	}
 
+	@Override
+	public final SimpleAddable plus(Addable a) {
+		Objects.requireNonNull(a, "SimpleAddable, plus -> object null");
+		if (a instanceof SimpleAddable) {
+			return SimpleAddable.of(value.add(((SimpleAddable) a).value));
+		} else {
+			throw new IllegalArgumentException("input's type is not correct");
+		}
+	}
 
-    @Override
-    public int compareTo(Object o) {
-        return 0;
-    }
+	@Override
+	public final boolean equals(Object obj) {
+		Objects.requireNonNull(obj, "SimpleAddable, equals -> object null");
+		if (obj instanceof SimpleAddable) {
+			return value.equals(((SimpleAddable) obj).value);
+		}
+		return false;
+	}
 
-    @Override
-    public Addable plus(Addable a) {
-        if(a instanceof SimpleAddable) {
-            return SimpleAddable.of(value.add(((SimpleAddable) a).value));
-        }
-        return null;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj instanceof SimpleAddable) {
-            return value.equals(((SimpleAddable) obj).value);
-        }
-        return false;
-    }
-
-
-    // for testing
-    @Override
-    public String toString() {
-        return value.toString();
-    }
+	// for testing
+	@Override
+	public final String toString() {
+		return value.toString();
+	}
 }

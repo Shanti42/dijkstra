@@ -1,5 +1,6 @@
 package dijkstra;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -98,14 +99,14 @@ public class ConnectionGroupTest {
 
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testConnectionGroupAddNullConnect() {
-        connectionGroup.add(nullConnection);
+    	Assert.assertFalse(connectionGroup.add(nullConnection));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConnectionGroupAddBadOrigin() {
-        connectionGroup.add(badOriginConnection);
+    	Assert.assertFalse(connectionGroup.add(badOriginConnection));
     }
 
 
@@ -132,14 +133,14 @@ public class ConnectionGroupTest {
 
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testConnectionGroupRemoveNullConnect() {
-        connectionGroup.remove(nullConnection);
+        Assert.assertFalse(connectionGroup.remove(nullConnection));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConnectionGroupRemoveBadOrigin() {
-        connectionGroup.remove(badOriginConnection);
+    	Assert.assertFalse(connectionGroup.remove(badOriginConnection));
     }
 
 
@@ -158,7 +159,6 @@ public class ConnectionGroupTest {
 
         Set<Connection> connections = new HashSet<>();
         connections.add(connection);
-        connections.add(connectionSmall);
         connections.add(connectionLarge);
         assertEquals(connections, connectionGroup.connectionsAtOrAfter(cost3));
 
@@ -184,7 +184,10 @@ public class ConnectionGroupTest {
 
     @Test
     public void testAllConnections() {
-
+    	connectionGroup.add(connection);
+        connectionGroup.add(connectionSmall);
+        connectionGroup.add(connectionLarge);
+    	Assert.assertEquals(connectionGroup.allConnections().size(),3);
     }
 
 }
