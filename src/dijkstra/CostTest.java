@@ -87,16 +87,34 @@ public class CostTest {
 			Assert.assertTrue(c2.compareTo(c3) == 0);
 		}
 
-		// branch coverage
+		// branch test
 		@Test
-		public void branchCoverage1() {
+		public void branchTest1() {
 			Assert.assertTrue(c2.compareTo(c4) < 0);
 		}
 
-		// branch coverage
+		// branch test
 		@Test
-		public void branchCoverage2() {
+		public void branchTest2() {
 			Assert.assertTrue(c2.compareTo(c1) > 0);
+		}
+
+		// branch test
+		@Test
+		public void branchTest3() {
+			Assert.assertTrue(Cost.UNKNOWN.compareTo(c1) > 0);
+		}
+
+		// branch test
+		@Test
+		public void branchTest4() {
+			Assert.assertTrue(Cost.UNKNOWN.compareTo(Cost.UNKNOWN) == 0);
+		}
+
+		// branch test
+		@Test
+		public void branchTest5() {
+			Assert.assertTrue(c1.compareTo(Cost.UNKNOWN) < 0);
 		}
 	}
 
