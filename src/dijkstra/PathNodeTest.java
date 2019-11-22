@@ -6,8 +6,7 @@ import org.junit.Test;
 import java.math.BigInteger;
 import org.junit.Assert;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 //import static junit.framework.TestCase.assertEquals;
@@ -34,6 +33,13 @@ public class PathNodeTest {
     @Test
     public void getCost_Test() {
         assertEquals(pathNode1.getCost(), cost1);
+    }
+
+    @Test
+    public void getPrevious_Test() {
+        assertNull(pathNode1.getPrevious());
+        assertEquals(pathNode2.getPrevious(), pathNode1);
+        assertEquals(pathNode3.getPrevious(), pathNode2);
     }
 
     @Test
