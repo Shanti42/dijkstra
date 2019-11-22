@@ -57,7 +57,7 @@ final class PathState {
 		unreached.add(pathNode);
 	}
 
-	// replaces the route node for the corresponding airport, assumes airport is in
+	// replaces the route node for the corresponding node, assumes node is in
 	// the route state and is unreached
 	final void replaceNode(PathNode pathNode) {
 		Objects.requireNonNull(pathNode, "PathState, replaceNode -> given route node is null");

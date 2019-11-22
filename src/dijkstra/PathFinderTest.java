@@ -16,6 +16,8 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.List;
 
 public class PathFinderTest  {
 
@@ -114,6 +116,34 @@ public class PathFinderTest  {
 
         PathFinder.TESTHOOK.findShortestPathLocal_test(finder, PathNode.of(node0, Cost.ZERO), null, state);
         assertEquals(prev, state.pathNode(node2));
+    }
+
+    @Test
+    public void stressTest() {
+
+        int NUMBER_OF_NODES = 100;
+        int MAX_WEIGHT = 20;
+        int RUN_COUNT = 1000;
+
+        for(int j = 0; j < RUN_COUNT; j++) {
+            Set<Node> my_nodes = new HashSet<>();
+            for(int i = 0; i < NUMBER_OF_NODES; i++) {
+                String str = i + "!";
+                Cost c = Cost.of(SimpleAddable.of((int) Math.floor(Math.random() * MAX_WEIGHT)));
+
+                my_nodes.add(Node.of(str, c));
+            }
+
+            PathFinder finder = PathFinder.of(my_nodes);
+
+            int start = (int) Math.floor(Math.random() * NUMBER_OF_NODES);
+            int end = (int) Math.floor(Math.random() * NUMBER_OF_NODES);
+            List<Node> my_nodes_list = my_nodes.stream().collect(Collectors.toList());
+
+            if(start != end) {
+                finder.bestPath(my_nodes_list.get(start), my_nodes_list.get(end));
+            }
+        }
     }
 
 
