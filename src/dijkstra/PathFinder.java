@@ -47,7 +47,7 @@ public final class PathFinder {
 
         Search_Loop: {
             while (!pathState.allReached()) {
-                try{
+                try {
                     PathNode currentNode = pathState.closestUnreached();
 
                     if(currentNode == null || !currentNode.isKnown()) {

@@ -102,7 +102,9 @@ public class PathFinderTest  {
 
     @Test
     public void testFindShortestPathLocal() {
-        //PathFinder.TESTHOOK.findShortestPathLocal_test();
+        PathState state = PathState.of(nodes, node1);
+        PathFinder.TESTHOOK.findShortestPathLocal_test(finder, PathNode.of(node1, Cost.ZERO), null, state);
+        assertNotNull(state.pathNode(node2).getPrevious());
     }
 
 
