@@ -10,7 +10,7 @@ public class ConnectionTypeTest {
     private String identifier = "Stuff";
     private ConnectionType connectionType = ConnectionType.of(identifier);
     private ConnectionType sameConnectionType = ConnectionType.of(identifier);
-    private ConnectionType differConnectionType = ConnectionType.of(identifier);
+    private ConnectionType differConnectionType = ConnectionType.of("Stuff2");
 
     @Test
     public void testOf() {
