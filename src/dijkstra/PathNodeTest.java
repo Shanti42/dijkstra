@@ -5,7 +5,6 @@ package dijkstra;
 import org.junit.Before;
 import org.junit.Test;
 import java.math.BigInteger;
-import org.junit.Assert;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -96,9 +95,6 @@ public class PathNodeTest {
 
     @Test
     public void availibleNodes_Test_ConnectionTypes() {
-        resetValues();
-
-
         Set<Connection> testSet1 = new HashSet<>();
         Set<Connection> testSet2 = new HashSet<>();
         Set<Connection> testSet3 = new HashSet<>();
@@ -132,7 +128,6 @@ public class PathNodeTest {
 
     @Test
     public void compareTo_Test() {
-        resetValues();
         assertTrue(pathNode1.compareTo(pathNode2) < 0);
         assertTrue(pathNode2.compareTo(pathNode1) > 0);
         assertTrue(pathNode1.compareTo(pathNode1) == 0);
