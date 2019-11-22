@@ -77,14 +77,17 @@ public class PathFinderTest  {
         finder.bestPath(node1, null);
     }
 
+
+
     @Test
     public void testRouteFinderRouteConnectedGraph() {
         //Connected Graph
 
-        //PathNode result = finder.bestPath(node1, node1, null);
+        PathNode result = finder.bestPath(node1, node4, null);
+        assertTrue(result != null);
         //result.getTotalCost();
-        //assertEquals(result.getTotalCost(), Cost.ZERO);
-
+        //System.out.println(result.getTotalCost().cost());
+        assertEquals(result.getNode(), node4);
     }
 
     /**
