@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(Enclosed.class)
 public class CostTest {
 
@@ -23,7 +25,7 @@ public class CostTest {
 		@Test
 		public void codeCoverage() {
 			Cost c = Cost.of(SimpleAddable.of(BigInteger.ONE));
-			Assert.assertEquals(SimpleAddable.of(BigInteger.ONE), c.cost());
+			assertEquals(SimpleAddable.of(BigInteger.ONE), c.cost());
 		}
 	}
 
@@ -58,7 +60,7 @@ public class CostTest {
 		public void codeCoverage() {
 			Cost c1 = Cost.ZERO;
 			Cost c2 = Cost.of(SimpleAddable.of(BigInteger.ONE));
-			Assert.assertEquals(SimpleAddable.of(BigInteger.ONE), c1.plus(c2).cost());
+			assertEquals(SimpleAddable.of(BigInteger.ONE), c1.plus(c2).cost());
 		}
 	}
 
@@ -100,6 +102,8 @@ public class CostTest {
 		}
 	}
 
+
+
 	// test equals
 	public static class EqualsTest {
 		Cost c1 = Cost.ZERO;
@@ -128,6 +132,28 @@ public class CostTest {
 		@Test
 		public void branchCoverage() {
 			Assert.assertFalse(c2.equals(c1));
+		}
+
+		@Test(expected = IllegalArgumentException.class)
+		public void simpleAddablePlusBadType(){
+			SimpleAddable addable = SimpleAddable.of(BigInteger.valueOf(2));
+			addable.plus(new Addable() {
+				@Override
+				public int compareTo(Object o) {
+					return 0;
+				}
+
+				@Override
+				public Addable plus(Addable a) {
+					return null;
+				}
+			});
+		}
+
+		@Test
+		public void simpleAddableToString(){
+			SimpleAddable addable = SimpleAddable.of(BigInteger.valueOf(2));
+			assertEquals(addable.toString(), "2");
 		}
 	}
 }
