@@ -102,6 +102,7 @@ public class PathNodeTest extends ConnectionTest {
         assertEquals(testSet1, pathNode1.availableConnections(type1));
         assertEquals(testSet2, pathNode1.availableConnections(type2));
         assertEquals(testSet3, pathNode1.availableConnections());
+        assertEquals(pathNode1.availableConnections(), pathNode1.availableConnections(null));
     }
 
     @Test(expected = AssertionError.class)
