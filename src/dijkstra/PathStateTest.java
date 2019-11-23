@@ -1,12 +1,14 @@
 package dijkstra;
 
-import org.junit.Test;
 import org.junit.Before;
-import java.util.*;
+import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.NoSuchElementException;
+import java.util.Set;
+
 import static org.junit.Assert.*;
-
-
-import java.math.BigInteger;
 
 public class PathStateTest {
 
@@ -153,13 +155,13 @@ public class PathStateTest {
         PathNode path4 = PathNode.of(node4, Cost.UNKNOWN, null);
         PathState.TESTHOOK.addToList_test(state, null, path4);
     }
-    
+
     @Test(expected = IllegalStateException.class)
     public void exceptionInOf() {
-    	Node node4 = Node.of("123", cost2);
-    	Set<Node> nodes = new HashSet<>();
-    	nodes.add(null);
-    	PathState.of(nodes, node4, cost1);
+        Node node4 = Node.of("123", cost2);
+        Set<Node> nodes = new HashSet<>();
+        nodes.add(null);
+        PathState.of(nodes, node4, cost1);
     }
 
 }

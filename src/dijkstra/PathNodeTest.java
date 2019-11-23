@@ -2,10 +2,10 @@ package dijkstra;
 
 import org.junit.Before;
 import org.junit.Test;
-import java.math.BigInteger;
-import java.util.Set;
-import java.util.HashSet;
 
+import java.math.BigInteger;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -141,19 +141,19 @@ public class PathNodeTest extends ConnectionTest {
     }
 
     @Test
-    public void testToString(){
+    public void testToString() {
         assertEquals(pathNode1.toString(), node1.getID());
     }
 
-    @Test(expected =  NullPointerException.class)
-    public void testOfNullConnection(){
+    @Test(expected = NullPointerException.class)
+    public void testOfNullConnection() {
         PathNode.of(null, pathNode1);
     }
 
     @Test
-    public void testOf(){
+    public void testOf() {
         PathNode path = PathNode.of(connection, null);
-        assertEquals(path.getCost(), connection.cost());
+        assertEquals(path.getCost(), connection.getCost());
     }
 
 

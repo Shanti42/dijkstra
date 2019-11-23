@@ -31,7 +31,6 @@ public class ConnectionGroupTest {
     ConnectionGroup connectionGroup;
 
 
-
     static ConnectionType busConnectionType = ConnectionType.of("BUS");
     static ConnectionType trainConnectionType = ConnectionType.of("TRAIN");
     static ConnectionType opticalConnectionTypeLow = ConnectionType.of("OPTICAL");
@@ -101,14 +100,13 @@ public class ConnectionGroupTest {
 
     @Test
     public void testConnectionGroupAddNullConnect() {
-    	Assert.assertFalse(connectionGroup.add(nullConnection));
+        Assert.assertFalse(connectionGroup.add(nullConnection));
     }
 
     @Test
     public void testConnectionGroupAddBadOrigin() {
-    	Assert.assertFalse(connectionGroup.add(badOriginConnection));
+        Assert.assertFalse(connectionGroup.add(badOriginConnection));
     }
-
 
 
     /**
@@ -140,7 +138,7 @@ public class ConnectionGroupTest {
 
     @Test
     public void testConnectionGroupRemoveBadOrigin() {
-    	Assert.assertFalse(connectionGroup.remove(badOriginConnection));
+        Assert.assertFalse(connectionGroup.remove(badOriginConnection));
     }
 
 
@@ -166,7 +164,6 @@ public class ConnectionGroupTest {
     }
 
 
-
     @Test
     public void testOf() {
         assertEquals(connectionGroup.getOrigin(), ConnectionGroup.of(origin).getOrigin());
@@ -184,10 +181,10 @@ public class ConnectionGroupTest {
 
     @Test
     public void testAllConnections() {
-    	connectionGroup.add(connection);
+        connectionGroup.add(connection);
         connectionGroup.add(connectionSmall);
         connectionGroup.add(connectionLarge);
-    	Assert.assertEquals(connectionGroup.allConnections().size(),3);
+        Assert.assertEquals(connectionGroup.allConnections().size(), 3);
     }
 
 }

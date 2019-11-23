@@ -2,7 +2,6 @@
 
 package dijkstra;
 
-import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Set;
 
@@ -32,9 +31,9 @@ public final class PathFinder {
      * Finds and returns tha last route node in the fastest route
      * from the departure aiprot to final destination
      *
-     * @param start        the departure node
-     * @param end   the final destination
-     * @param connectionType     the fareclass of the passenger
+     * @param start          the departure node
+     * @param end            the final destination
+     * @param connectionType the fareclass of the passenger
      * @return
      */
     public final PathNode bestPath(Node start, Node end, ConnectionType connectionType) {
@@ -45,16 +44,17 @@ public final class PathFinder {
 
         PathState pathState = PathState.of(nodes, start);
 
-        Search_Loop: {
+        Search_Loop:
+        {
             while (!pathState.allReached()) {
                 try {
                     PathNode currentNode = pathState.closestUnreached();
 
-                    if(currentNode == null) {
+                    if (currentNode == null) {
                         break Search_Loop;
                     }
 
-                    if(currentNode.getNode().equals(end)) {
+                    if (currentNode.getNode().equals(end)) {
                         return currentNode;
                     }
 
@@ -77,9 +77,9 @@ public final class PathFinder {
     private void findShortestPathLocal(PathNode currentNode, ConnectionType connectionType, PathState pathState) {
         for (Connection connection : currentNode.availableConnections(connectionType)) {
 
-            Cost destinationCost = pathState.pathNode(connection.destination()).getCost();
+            Cost destinationCost = pathState.pathNode(connection.getDestination()).getCost();
 
-            if(connection.cost().compareTo(destinationCost) < 0) {
+            if (connection.getCost().compareTo(destinationCost) < 0) {
                 pathState.replaceNode(PathNode.of(connection, currentNode));
             }
         }

@@ -1,14 +1,12 @@
 package dijkstra;
 
-import java.time.LocalTime;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 
 /**
- * The Node on a route, including the identification ID and the cost of the node
+ * The Node on a route, including the identification ID and the getCost of the node
  */
 public final class Node implements Comparable<Node> {
 
@@ -73,13 +71,18 @@ public final class Node implements Comparable<Node> {
     }
 
 
-    Set<Connection> availableConnections(){
+    Set<Connection> availableConnections() {
         return outConnections.allConnections();
     }
 
-    Set<Connection> availableConnections(ConnectionType type){
+    Set<Connection> availableConnections(ConnectionType type) {
         Objects.requireNonNull(type, "Node availableConnections() - null type");
         return filterByType(outConnections.allConnections(), type);
+    }
+
+    Set<Connection> availableConnections(Cost nodeCost) {
+        Objects.requireNonNull(nodeCost, "Node availableConnections() - null cost");
+        return outConnections.connectionsAtOrAfter(nodeCost);
     }
 
     Set<Connection> availableConnections(Cost nodeCost, ConnectionType type) {
@@ -92,13 +95,11 @@ public final class Node implements Comparable<Node> {
 
     private Set<Connection> filterByType(Set<Connection> toModify, ConnectionType type) {
         return toModify.stream()
-                .filter(connection -> connection.connectionType().equals(type))
+                .filter(connection -> connection.getConnectionType().equals(type))
                 .collect(Collectors.<Connection>toSet());
     }
 
     // should we add in an available connection that takes in 2 costs?
-
-
 
 
 }

@@ -3,7 +3,7 @@ package dijkstra;
 import java.util.Objects;
 
 /**
- * Represents the fare class of a certain seat class
+ * Represents the type of a connection
  */
 public class ConnectionType {
 
@@ -14,7 +14,7 @@ public class ConnectionType {
         this.identifier = identifier;
     }
 
-    static final ConnectionType of(String identifier) {
+    public static ConnectionType of(String identifier) {
         Objects.requireNonNull(identifier, "ConnectionType - of(), null identifier parameter provided");
 
         return new ConnectionType(identifier);

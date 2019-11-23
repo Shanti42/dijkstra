@@ -4,7 +4,8 @@ import org.junit.Test;
 
 import java.math.BigInteger;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class ConnectionTest {
 
@@ -31,22 +32,22 @@ public class ConnectionTest {
 
     @Test
     public void testGetOrigin() {
-        assertEquals(connection.origin(), bob);
+        assertEquals(connection.getOrigin(), bob);
     }
 
     @Test
     public void testGetDestination() {
-        assertEquals(connection.destination(), susan);
+        assertEquals(connection.getDestination(), susan);
     }
 
     @Test
     public void testGetCost() {
-        assertEquals(connection.cost(), small);
+        assertEquals(connection.getCost(), small);
     }
 
     @Test
     public void testGetConnectionType() {
-        assertEquals(connection.connectionType(), bus);
+        assertEquals(connection.getConnectionType(), bus);
     }
 
 

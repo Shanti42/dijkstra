@@ -1,25 +1,20 @@
 // CAITLIN DO THIS!!!!!!
 
-package dijkstra;//.tests;
+package dijkstra;
 
-import dijkstra.*;
+
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
-
-//import static org.junit.jupiter.api.Assertions.*;
-
-import java.time.Duration;
-import java.time.LocalTime;
 import java.util.Arrays;
-import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.List;
 
-public class PathFinderTest  {
+import static org.junit.Assert.*;
+
+public class PathFinderTest {
 
     private Node node0;
     private Node node1;
@@ -38,11 +33,11 @@ public class PathFinderTest  {
 
     @Before
     public void initializeRoutes() {
-        node0 = Node.of("123",Cost.ZERO);
-        node1 = Node.of("ABC",Cost.ZERO);
-        node2 = Node.of("DEF",Cost.ZERO);
-        node3 = Node.of("GHI",Cost.ZERO);
-        node4 = Node.of("JKL",Cost.ZERO);
+        node0 = Node.of("123", Cost.ZERO);
+        node1 = Node.of("ABC", Cost.ZERO);
+        node2 = Node.of("DEF", Cost.ZERO);
+        node3 = Node.of("GHI", Cost.ZERO);
+        node4 = Node.of("JKL", Cost.ZERO);
 
         Connection con0_2 = SimpleConnection.of(node0, node2, cost4);
         Connection con1_2 = SimpleConnection.of(node1, node2, cost1);
@@ -59,7 +54,7 @@ public class PathFinderTest  {
      */
     /**
      * PathFinder build method tests
-     * */
+     */
 
     @Test
     public void testRouteFinderOf_valid() {
@@ -81,7 +76,6 @@ public class PathFinderTest  {
     public void testbestPath_null2() {
         finder.bestPath(node1, null);
     }
-
 
 
     @Test
@@ -125,9 +119,9 @@ public class PathFinderTest  {
         int MAX_WEIGHT = 20;
         int RUN_COUNT = 1000;
 
-        for(int j = 0; j < RUN_COUNT; j++) {
+        for (int j = 0; j < RUN_COUNT; j++) {
             Set<Node> my_nodes = new HashSet<>();
-            for(int i = 0; i < NUMBER_OF_NODES; i++) {
+            for (int i = 0; i < NUMBER_OF_NODES; i++) {
                 String str = i + "!";
                 Cost c = Cost.of(SimpleAddable.of((int) Math.floor(Math.random() * MAX_WEIGHT)));
 
@@ -140,7 +134,7 @@ public class PathFinderTest  {
             int end = (int) Math.floor(Math.random() * NUMBER_OF_NODES);
             List<Node> my_nodes_list = my_nodes.stream().collect(Collectors.toList());
 
-            if(start != end) {
+            if (start != end) {
                 finder.bestPath(my_nodes_list.get(start), my_nodes_list.get(end));
             }
         }

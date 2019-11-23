@@ -2,7 +2,7 @@ package dijkstra;
 
 /**
  * Represents Connections of different types.
- * A Connection represents a non stop path from one node to another
+ * A Connection represents a non stop path from one node to another node
  */
 public abstract class Connection {
 
@@ -11,7 +11,15 @@ public abstract class Connection {
     private final Cost cost;
     private final ConnectionType connectionType;
 
-    Connection(Node origin, Node destination, Cost cost, ConnectionType connectionType){
+    /**
+     * The constructor for the connection class
+     *
+     * @param origin         node the connection begins at
+     * @param destination    the node the connection ends at
+     * @param cost           the cost of the connection
+     * @param connectionType the type of the connection
+     */
+    Connection(Node origin, Node destination, Cost cost, ConnectionType connectionType) {
         this.origin = origin;
         this.destination = destination;
         this.cost = cost;
@@ -19,32 +27,70 @@ public abstract class Connection {
         this.origin.addConnection(this);
     }
 
-    String originID(){
+    /**
+     * Return the origin id of the Connection
+     *
+     * @return the origin id of the Connection
+     */
+    String originID() {
         return origin.getID();
     }
 
-    Node origin() {
+    /**
+     * Returns the origin of the Connection
+     *
+     * @return the origin of the Connection
+     */
+    Node getOrigin() {
         return origin;
     }
 
-    Node destination() {
+    /**
+     * Returns the destination of the Connection
+     *
+     * @return the destination of the Connection
+     */
+    Node getDestination() {
         return destination;
     }
 
-    Cost cost() {
+    /**
+     * Returns the cost of the Connection
+     *
+     * @return the cost of the Connection
+     */
+    Cost getCost() {
         return cost;
     }
 
-    ConnectionType connectionType() {
+    /**
+     * Returns the connection type of the Connection
+     *
+     * @return the connection type of the Connection
+     */
+    ConnectionType getConnectionType() {
         return connectionType;
     }
 
     //Returns the value of isLowerCost method
+
+    /**
+     * Indicates if this connection has a lower cost than the given connection
+     *
+     * @param connection the connection being compared
+     * @return true if this connection has a lower cost than the given connection, false otherwise
+     */
     abstract boolean isLowerCost(Connection connection);
 
+
+    /**
+     * Returns the hash code of this Connection
+     *
+     * @return the hash code of this Connection
+     */
     @Override
     public int hashCode() {
-        if(connectionType == null) {
+        if (connectionType == null) {
             return (origin.getID() + destination.getID()).hashCode();
         }
         return (origin.getID() + destination.getID() + connectionType.toString()).hashCode();
