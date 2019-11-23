@@ -5,12 +5,12 @@ import java.util.Objects;
 /**
  * Represents the fare class of a certain seat class
  */
-class ConnectionType {
+public class ConnectionType {
 
     //identifies the fare class
     private final String identifier;
 
-    private ConnectionType(String identifier) {
+    public ConnectionType(String identifier) {
         this.identifier = identifier;
     }
 

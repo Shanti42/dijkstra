@@ -80,12 +80,12 @@ final class PathState {
 		if (smallestArrivalTime == null) {
 			LOGGER.log(Level.SEVERE, "Searching for unreached node in PathState when all nodes have been reached");
 			throw new NoSuchElementException("All Nodes have been reached");
-		} else if (smallestArrivalTime.getCost().equals(Cost.UNKNOWN)) {
+		} else if (!smallestArrivalTime.isKnown()) {
 			return null;
 		} else {
 			return smallestArrivalTime;
 		}
-	} 
+	}
 
 	// returns the route node corresponding to the node, assumes the node is in the
 	// route state

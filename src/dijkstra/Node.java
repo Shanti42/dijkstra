@@ -20,7 +20,7 @@ public final class Node implements Comparable<Node> {
     //New additions based on ConnectionGroup section of Assignment
     private final ConnectionGroup outConnections = ConnectionGroup.of(this);
 
-    private Node(String ID, Cost nodeCost) {
+    private Node(String ID, Cost<Addable> nodeCost) {
         this.ID = ID;
         this.nodeCost = nodeCost;
     }
@@ -79,16 +79,19 @@ public final class Node implements Comparable<Node> {
 
     Set<Connection> availableConnections(ConnectionType type){
         Objects.requireNonNull(type, "Node availableConnections() - null type");
-        return outConnections.allConnections().stream()
-                .filter(connection -> connection.connectionType().equals(type))
-                .collect(Collectors.toSet());
+        return filterByType(outConnections.allConnections(), type);
     }
 
     Set<Connection> availableConnections(Cost nodeCost, ConnectionType type) {
         Objects.requireNonNull(nodeCost, "Node availableConnections() - null departureTime");
         Objects.requireNonNull(type, "Node availableConnections() - null ConnectionType");
 
-        return outConnections.connectionsAtOrAfter(nodeCost).stream()
+        return filterByType(outConnections.connectionsAtOrAfter(nodeCost), type);
+
+    }
+
+    private Set<Connection> filterByType(Set<Connection> toModify, ConnectionType type) {
+        return toModify.stream()
                 .filter(connection -> connection.connectionType().equals(type))
                 .collect(Collectors.<Connection>toSet());
     }

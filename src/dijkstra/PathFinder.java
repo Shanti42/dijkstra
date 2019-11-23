@@ -50,7 +50,7 @@ public final class PathFinder {
                 try {
                     PathNode currentNode = pathState.closestUnreached();
 
-                    if(currentNode == null || !currentNode.isKnown()) {
+                    if(currentNode == null) {
                         break Search_Loop;
                     }
 
@@ -66,7 +66,7 @@ public final class PathFinder {
                     findShortestPathLocal(currentNode, connectionType, pathState);
 
                 } catch (Exception e) {
-                    throw new IllegalStateException("Error while searching for best path");
+                    throw new IllegalStateException("Error while searching for best path", e);
                 }
             }
         }
