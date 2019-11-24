@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * The Node on a route, including the identification ID and the getCost of the node
+ * Represents a node on a path
  */
 public final class Node implements Comparable<Node> {
 

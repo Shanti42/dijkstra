@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Keeps track of the state of the route
+ * Keeps track of the state of the path
  */
 final class PathState {
 

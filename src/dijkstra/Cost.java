@@ -7,6 +7,10 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Represents the cost of a Node or a Connection
+ * @param <T> the object used to compute the value of the cost
+ */
 public class Cost<T extends Addable> implements Comparable {
     private final static Logger LOGGER =
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);

@@ -3,6 +3,9 @@ package dijkstra;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Represents a link along a path, containing a node and optionally the previous node on the path
+ */
 public final class PathNode implements Comparable<PathNode> {
 
     private final Node node;

@@ -5,6 +5,9 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Represents a simple addable object which calculates cost by value of integers
+ */
 public final class SimpleAddable implements Addable {
     private final static Logger LOGGER =
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);

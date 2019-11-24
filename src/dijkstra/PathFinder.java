@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * Re-routes passengers from an node to a final destination
+ * Finds the best path from node to a final destination
  */
 public final class PathFinder {
 
@@ -29,11 +29,11 @@ public final class PathFinder {
 
     /**
      * Finds and returns tha last route node in the fastest route
-     * from the departure aiprot to final destination
+     * from the departure node to final destination
      *
      * @param start          the departure node
      * @param end            the final destination
-     * @param connectionType the fareclass of the passenger
+     * @param connectionType the connectionType of the passenger
      * @return
      */
     public final PathNode bestPath(Node start, Node end, ConnectionType connectionType) {

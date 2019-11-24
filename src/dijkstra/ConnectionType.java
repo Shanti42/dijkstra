@@ -7,7 +7,7 @@ import java.util.Objects;
  */
 public class ConnectionType {
 
-    //identifies the fare class
+    //identifies the connection type
     private final String identifier;
 
     public ConnectionType(String identifier) {

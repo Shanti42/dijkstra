@@ -2,6 +2,9 @@ package dijkstra;
 
 import java.util.Objects;
 
+/**
+ * A simple implementation of a connection
+ */
 public final class SimpleConnection extends Connection {
 
     private SimpleConnection(Node origin, Node destination, Cost cost, ConnectionType connectionType) {
