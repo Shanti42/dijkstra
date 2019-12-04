@@ -33,6 +33,7 @@ final class ConnectionGroup {
      *
      * @param origin the node connections in the connection group must originate from
      * @return the connection group with the given node as it's origin
+     * @throws NullPointerException if the given origin is null
      */
     static final ConnectionGroup of(Node origin) {
         Objects.requireNonNull(origin, "ConnectionGroup - build() origin is null");
@@ -112,6 +113,7 @@ final class ConnectionGroup {
      * @param errorMsg   the error message to be added to the exception if the origins don't match
      * @throws IllegalArgumentException if the given connection's origin is not equal
      *                                  to the origin of the connection group
+     * @throws NullPointerException if the given connection is null
      */
     public void validateConnectionOrigin(Connection connection, String errorMsg) {
         Objects.requireNonNull(connection, "validateConnectionOrigin() - Connection is null");
