@@ -1,11 +1,11 @@
-//caitlin
+// Caitlin -- done!
 
 package dijkstra;
 
 import java.util.Objects;
 
 /**
- * A simple implementation of a connection
+ * A simple implementation of Connection.
  */
 public final class SimpleConnection extends Connection {
 
@@ -13,6 +13,20 @@ public final class SimpleConnection extends Connection {
         super(origin, destination, cost, connectionType);
     }
 
+    /**
+     * Returns a new SimpleConnection based on the specified parameters, where the SimpleConnection
+     * has a specified ConnectionType
+     * If any of the inputs are null, throws an exception.
+     *
+     * @param origin the node that the connection starts at
+     * @param destination the node that the connection goes to
+     * @param cost the weight of the node/the cost of traversing the node
+     * @param connectionType the type of connection that this simpleConnection represents
+     *
+     * @return a new SimpleConnection based on the input parameters
+     *
+     * @throw NullPointerException is thrown if origin, destination, cost, and/or connectionType is null
+     */
     public static final SimpleConnection of(Node origin, Node destination, Cost cost, ConnectionType connectionType) {
         Objects.requireNonNull(origin, "SimpleCollection, of -> origin null");
         Objects.requireNonNull(destination, "SimpleCollection, of -> destination null");
@@ -21,11 +35,32 @@ public final class SimpleConnection extends Connection {
         return new SimpleConnection(origin, destination, cost, connectionType);
     }
 
+    /**
+     * Returns a new SimpleConnection based on the specified parameters (with no specified ConnectionType).
+     * If any of the inputs are null, throws an exception.
+     *
+     * @param origin the node that the connection starts at
+     * @param destination the node that the connection goes to
+     * @param cost the weight of the node/the cost of traversing the node
+     *
+     * @return a new SimpleConnection based on the input parameters
+     *
+     * @throw NullPointerException is thrown if origin, destination, and/or cost is null
+     */
     public static final SimpleConnection of(Node origin, Node destination, Cost cost) {
         return new SimpleConnection(origin, destination, cost, null);
     }
 
 
+    /**
+     * Determines if the input connection represents a lower cost edge than this edge
+     *
+     * @param connection the Connection to be compared with this object.
+     *
+     * @return true if this cost is less than "connection"'s cost, false otherwise
+     *
+     * @throw NullPointerException is thrown if connection is null
+     */
     @Override
     boolean isLowerCost(Connection connection) {
         Objects.requireNonNull(connection, "SimpleCollection, isLowerCost -> connection null");

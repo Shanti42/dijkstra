@@ -1,4 +1,4 @@
-//caitlin
+// Caitlin
 
 package dijkstra;
 
@@ -23,6 +23,9 @@ public final class PathNode implements Comparable<PathNode> {
         this.previous = previous;
     }
 
+    /**
+     *
+     */
     public static final PathNode of(Node node, Cost cost, PathNode previous) {
         Objects.requireNonNull(node, "Received null node");
         Objects.requireNonNull(cost, "Received null getCost");
