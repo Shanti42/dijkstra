@@ -79,7 +79,7 @@ public final class PathFinder {
 
             Cost destinationCost = pathState.pathNode(connection.getDestination()).getCost();
 
-            if (connection.getCost().compareTo(destinationCost) < 0) {
+            if (connection.getCost().compare(destinationCost) < 0) {
                 pathState.replaceNode(PathNode.of(connection, currentNode));
             }
         }

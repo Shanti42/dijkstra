@@ -99,7 +99,7 @@ public final class PathNode implements Comparable<PathNode> {
         if (this.getCost().equals(otherCost)) {
             return this.getNode().compareTo(other.getNode());
         } else {
-            return this.getCost().compareTo(otherCost);
+            return this.getCost().compare(otherCost);
         }
     }
 

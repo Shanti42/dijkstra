@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * Represents the cost of a Node or a Connection
  * @param <T> the object used to compute the value of the cost
  */
-public class Cost<T extends Addable> implements Comparable {
+public final class Cost<T extends Addable> {
     private final static Logger LOGGER =
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
@@ -51,7 +51,7 @@ public class Cost<T extends Addable> implements Comparable {
         return new Cost(internalValue.plus(c.cost()));
     }
 
-    public int compareTo(Object other) {
+    public int compare(Object other) {
         Objects.requireNonNull(other);
         if (other instanceof Cost) {
             int boolCompare = Boolean.compare(((Cost) other).isKnown(), isKnown());
