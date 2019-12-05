@@ -8,7 +8,7 @@ public abstract class Connection {
 
     private final Node origin;
     private final Node destination;
-    private final Cost cost;
+    private final Cost<Addable> cost;
     private final ConnectionType connectionType;
 
     /**
@@ -59,7 +59,7 @@ public abstract class Connection {
      *
      * @return the cost of the Connection
      */
-    Cost getCost() {
+    Cost<Addable> getCost() {
         return cost;
     }
 

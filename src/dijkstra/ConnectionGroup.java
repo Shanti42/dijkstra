@@ -18,6 +18,7 @@ final class ConnectionGroup {
     // Represents origin node for all connections in group
     private final Node origin;
 
+    // ***** TODO: when I change Cost here to Cost<Addable it breaks :( (or maybe ask Ellis)
     // Map of departure time to the collection of connections that have that departure time
     private final NavigableMap<Cost, Set<Connection>> connections = new TreeMap<Cost, Set<Connection>>();
 
@@ -35,7 +36,7 @@ final class ConnectionGroup {
      * @return the connection group with the given node as it's origin
      * @throws NullPointerException if the given origin is null
      */
-    static final ConnectionGroup of(Node origin) {
+    static ConnectionGroup of(Node origin) {
         Objects.requireNonNull(origin, "ConnectionGroup - build() origin is null");
         return new ConnectionGroup(origin);
     }

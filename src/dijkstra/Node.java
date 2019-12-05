@@ -16,7 +16,7 @@ public final class Node implements Comparable<Node> {
     // short string identifier for the Node
     private final String ID;
     // the shortest length of time for a passenger to transfer planes
-    private final Cost nodeCost;
+    private final Cost<Addable> nodeCost;
 
     //New additions based on ConnectionGroup section of Assignment
     private final ConnectionGroup outConnections = ConnectionGroup.of(this);
@@ -26,7 +26,7 @@ public final class Node implements Comparable<Node> {
         this.nodeCost = nodeCost;
     }
 
-    static final Node of(String code, Cost nodeCost) {
+    static final Node of(String code, Cost<Addable> nodeCost) {
         Objects.requireNonNull(code, "Node identifier ID is null");
         Objects.requireNonNull(nodeCost, "Connection time parameter is null");
         return new Node(code, nodeCost);
@@ -83,12 +83,12 @@ public final class Node implements Comparable<Node> {
         return filterByType(outConnections.allConnections(), type);
     }
 
-    Set<Connection> availableConnections(Cost nodeCost) {
+    Set<Connection> availableConnections(Cost<Addable> nodeCost) {
         Objects.requireNonNull(nodeCost, "Node availableConnections() - null cost");
         return outConnections.connectionsAtOrAfter(nodeCost);
     }
 
-    Set<Connection> availableConnections(Cost nodeCost, ConnectionType type) {
+    Set<Connection> availableConnections(Cost<Addable> nodeCost, ConnectionType type) {
         Objects.requireNonNull(nodeCost, "Node availableConnections() - null departureTime");
         Objects.requireNonNull(type, "Node availableConnections() - null ConnectionType");
 

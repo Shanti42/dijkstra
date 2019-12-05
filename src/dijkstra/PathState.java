@@ -16,7 +16,7 @@ final class PathState {
     private Map<Node, PathNode> nodeMap;
     private final NavigableSet<PathNode> unreached;
 
-    private PathState(Set<Node> nodes, Node origin, Cost cost) {
+    private PathState(Set<Node> nodes, Node origin, Cost<Addable> cost) {
         unreached = new TreeSet<>();
         nodeMap = new HashMap<>();
         addToList(origin, PathNode.of(origin, cost, null));
@@ -28,7 +28,7 @@ final class PathState {
     }
 
     // build method
-    static PathState of(Set<Node> nodes, Node origin, Cost cost) {
+    static PathState of(Set<Node> nodes, Node origin, Cost<Addable> cost) {
         Objects.requireNonNull(nodes, "PathState, of() -> null nodes set");
         Objects.requireNonNull(origin, "PathState, of() -> null origin");
         Objects.requireNonNull(cost, "PathState, of() -> null cost time");

@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 final class SimpleConnection extends Connection {
 
-    private SimpleConnection(Node origin, Node destination, Cost cost, ConnectionType connectionType) {
+    private SimpleConnection(Node origin, Node destination, Cost<Addable> cost, ConnectionType connectionType) {
         super(origin, destination, cost, connectionType);
     }
 
@@ -27,7 +27,7 @@ final class SimpleConnection extends Connection {
      *
      * @throw NullPointerException is thrown if origin, destination, cost, and/or connectionType is null
      */
-    static final SimpleConnection of(Node origin, Node destination, Cost cost, ConnectionType connectionType) {
+    static final SimpleConnection of(Node origin, Node destination, Cost<Addable> cost, ConnectionType connectionType) {
         Objects.requireNonNull(origin, "SimpleCollection, of -> origin null");
         Objects.requireNonNull(destination, "SimpleCollection, of -> destination null");
         Objects.requireNonNull(cost, "SimpleCollection, of -> cost null");
@@ -47,7 +47,7 @@ final class SimpleConnection extends Connection {
      *
      * @throw NullPointerException is thrown if origin, destination, and/or cost is null
      */
-    static final SimpleConnection of(Node origin, Node destination, Cost cost) {
+    static final SimpleConnection of(Node origin, Node destination, Cost<Addable> cost) {
         return new SimpleConnection(origin, destination, cost, null);
     }
 
