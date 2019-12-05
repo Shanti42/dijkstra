@@ -16,6 +16,11 @@ public final class SimpleAddable implements Addable {
 
     private final BigInteger value;
 
+    /**
+     * The private constructor for the SimpleAddable class
+     *
+     * @param value        represents (BigInteger) cost in this example  
+     */
     private SimpleAddable(BigInteger value) {
         this.value = value;
     }
@@ -24,15 +29,32 @@ public final class SimpleAddable implements Addable {
         return value;
     }
 
+    /**
+     * The public constructor for the SimpleAddable class
+     *
+     * @param value        represents (int) cost in this example  
+     */
     public final static SimpleAddable of(int value) {
         return new SimpleAddable(BigInteger.valueOf(value));
     }
 
+    /**
+     * The public constructor for the SimpleAddable class
+     *
+     * @param value        represents (BigInteger) cost in this example  
+     */
     public final static SimpleAddable of(BigInteger value) {
         Objects.requireNonNull(value, "SimpleAddable, of -> value null");
         return new SimpleAddable(value);
     }
 
+    /**
+    * Compares one simpleAddable to the other.
+    * A simpleAddable can be compared by internal values it holds
+    *
+    * @param the other simpleAddable to be compared
+    * @return -1, 0 or 1 if this simpleAddable's value is less than, equal to, or greater than the other's.
+    */
     @Override
     public final int compareTo(Object obj) {
         Objects.requireNonNull(obj, "SimpleAddable, compareTo -> object null");
@@ -44,6 +66,13 @@ public final class SimpleAddable implements Addable {
         }
     }
 
+    /**
+     * Returns a new simpleAddable, which is the result of the addition of this simpleAddable and the given simpleAddable.
+     * Two simpleAddables can be added by internal values they hold
+     *
+     * @param the other simpleAddable to be added
+     * @return the simpleAddable resulting from this simpleAddable and the other
+     */
     @Override
     public final SimpleAddable plus(Addable a) {
         Objects.requireNonNull(a, "SimpleAddable, plus -> object null");
@@ -55,6 +84,13 @@ public final class SimpleAddable implements Addable {
         }
     }
 
+    /**
+     * Check whether one simpleAddable and the other are equal.
+     * A simpleAddable can be compared by internal values it holds
+     *
+     * @param the other simpleAddable to be compared
+     * @return true or false if this simpleAddable's value is equal to, or not equal to the other's.
+     */
     @Override
     public final boolean equals(Object other) {
         if (other == null || getClass() != other.getClass())
