@@ -123,8 +123,9 @@ public class PathStateTest {
 
     @Test
     public void pathNode_test() {
-        PathNode expected = PathNode.of(node2, null);
-        assertEquals(expected, state.pathNode(node2));
+        PathNode expected = PathNode.of(node2, null,null);
+        PathNode actual = state.pathNode(node2);
+        assertEquals(expected, actual);
     }
 
     @Test(expected = NullPointerException.class)
