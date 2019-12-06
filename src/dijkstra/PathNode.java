@@ -15,14 +15,13 @@ import java.util.Set;
 public final class PathNode implements Comparable<PathNode> {
 
     private final Node node;
-    private final Cost cost;
+    // TALK ABOUT: I don't think we need a "cost" here
 
     //Null previous denotes that this node is the original departure node
     private final PathNode previous;
 
     private PathNode(Node node, Cost cost, PathNode previous) {
         this.node = node;
-        this.cost = cost;
         this.previous = previous;
     }
 
@@ -62,14 +61,14 @@ public final class PathNode implements Comparable<PathNode> {
     }
 
     public Cost getCost() {
-        return cost;
+        return node.getNodeCost();
     }
 
     public Cost totalCost() {
         if (previous == null) {
             return this.getCost();
         }
-        return cost.plus(previous.totalCost());
+        return getCost().plus(previous.totalCost());
     }
 
     public final PathNode getPrevious() {
@@ -88,11 +87,11 @@ public final class PathNode implements Comparable<PathNode> {
             return availableConnections();
         }
 
-        return node.availableConnections(cost, connectionType);
+        return node.availableConnections(getCost(), connectionType);
     }
 
     public final boolean isKnown() {
-        return cost.isKnown();
+        return getCost().isKnown();
     }
 
     @Override
@@ -115,7 +114,7 @@ public final class PathNode implements Comparable<PathNode> {
         if (o == null || getClass() != o.getClass()) return false;
         PathNode pathNode = (PathNode) o;
         return node.equals(pathNode.node) &&
-                Objects.equals(cost, pathNode.cost) &&
+                Objects.equals(getCost(), pathNode.getCost()) &&
                 Objects.equals(previous, pathNode.previous);
     }
 
