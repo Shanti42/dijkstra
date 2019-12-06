@@ -127,6 +127,21 @@ public class PathNodeTest {
     }
 
     @Test
+    public void equalsTest(){
+        pathNode1 = PathNode.of(node1);
+        pathNode2 = PathNode.of(node2, pathNode1);
+        PathNode pathNode4 = PathNode.of(node2, pathNode2);
+        PathNode pathNode5 = PathNode.of(node3, pathNode1);
+        assertEquals(pathNode1, pathNode1);
+        assertNotEquals(pathNode1, null);
+        assertNotEquals(pathNode1, new Object());
+        assertNotEquals(pathNode1, pathNode2);
+        assertNotEquals(pathNode2, pathNode4);
+        assertNotEquals(pathNode2, pathNode5);
+
+    }
+
+    @Test
     public void compareTo_Test() {
         assertTrue(pathNode1.compareTo(pathNode2) < 0);
         assertTrue(pathNode2.compareTo(pathNode1) > 0);
