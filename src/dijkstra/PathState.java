@@ -127,11 +127,12 @@ final class PathState {
      * @throws NoSuchElementException if all nodes are reached
      */
     final PathNode closestUnreached() {
-        PathNode smallestArrivalTime = unreached.pollFirst();
-        if (smallestArrivalTime == null) {
+        if(allReached()) {
             LOGGER.log(Level.SEVERE, "Searching for unreached node in PathState when all nodes have been reached");
             throw new NoSuchElementException("All Nodes have been reached");
-        } else if (!smallestArrivalTime.isKnown()) {
+        }
+        PathNode smallestArrivalTime = unreached.pollFirst();
+        if (smallestArrivalTime == null || !smallestArrivalTime.isKnown()) {
             return null;
         } else {
             return smallestArrivalTime;

@@ -117,7 +117,8 @@ public class PathStateTest {
         state.replaceNode(PathNode.of(node2, state.pathNode(node1)));
         state.closestUnreached(); // node1
         state.closestUnreached(); // node2
-        assertNull(state.closestUnreached()); // node3 (unreachable, no path)
+        PathNode shouldBeNull = state.closestUnreached();
+        assertNull(shouldBeNull); // node3 (unreachable, no path)
     }
 
     @Test
