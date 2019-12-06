@@ -1,5 +1,5 @@
-// CAITLIN
-// CAITLIN
+// Caitlin
+
 package dijkstra;
 
 import java.util.Objects;

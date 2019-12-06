@@ -1,4 +1,4 @@
-//caitlin
+// Caitlin -- done (package private, so no javadoc) 
 
 package dijkstra;
 
@@ -7,7 +7,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Keeps track of the state of the path
+ * A class that represents a connected graph of possible paths starting
+ * at an origin point.
+ *
+ * If the graph/list of nodes are not fully connected, then it won't contain connections
+ * to all points on the graph
  */
 final class PathState {
 
@@ -96,7 +100,7 @@ final class PathState {
         return nodeMap.get(node);
     }
 
-    public static class TESTHOOK {
+    static class TESTHOOK {
         public static void addToList_test(PathState state, Node node, PathNode pathNode) {
             state.addToList(node, pathNode);
         }
