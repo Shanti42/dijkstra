@@ -30,12 +30,9 @@ public class PathNode implements Comparable<PathNode> {
      * Builder method that takes in a connection and a previous node
      *
      * @param connection a connection that represents the path from the origin to the destination
-     * @param previous a PathNode that represents the origin of the connection
-     *
+     * @param previous   a PathNode that represents the origin of the connection
      * @return a new PathNode with connection's destination as its node and previous node "previous"
-     *
      * @throws NullPointerException if connection or previous is null
-     *
      */
     public static final PathNode of(Connection connection, PathNode previous) {
         Objects.requireNonNull(connection, "connection received null");
@@ -49,13 +46,10 @@ public class PathNode implements Comparable<PathNode> {
     /**
      * Builder method that takes in a node and a previous node
      *
-     * @param node the destination node
+     * @param node     the destination node
      * @param previous a PathNode that represents previous node in the path
-     *
      * @return a new PathNode of "node" with previous "previous"
-     *
      * @throws NullPointerException if node is null
-     *
      */
     public static final PathNode of(Node node, PathNode previous) {
         Objects.requireNonNull(node, "received null node");
@@ -68,11 +62,8 @@ public class PathNode implements Comparable<PathNode> {
      * Builder method that takes in a node.
      *
      * @param node the destination node
-     *
      * @return a new PathNode of "node" with previous PathNode as null
-     *
      * @throws NullPointerException if node is null
-     *
      */
     public static final PathNode of(Node node) {
         Objects.requireNonNull(node, "received null node");
@@ -85,11 +76,8 @@ public class PathNode implements Comparable<PathNode> {
      *
      * @param node the destination node
      * @param cost the cost associated with this PathNode
-     *
      * @return a new PathNode of "node" with previous PathNode as null
-     *
      * @throws NullPointerException if node is null (cost and previous can be null)
-     *
      */
     public static final PathNode of(Node node, Cost<Addable> cost, PathNode previous) {
         Objects.requireNonNull(node, "received null node");
@@ -117,7 +105,7 @@ public class PathNode implements Comparable<PathNode> {
 
     /**
      * A getter method for the previous PathNode on the path
-     *
+     * <p>
      * Overridable in case people want to have multiple previous nodes.
      *
      * @return the previous PathNode in this path
@@ -130,7 +118,6 @@ public class PathNode implements Comparable<PathNode> {
      * Returns all available outgoing connections associated with this node
      *
      * @return a set of availible connections outgoing from this node
-     *
      * @throws AssertionError if we don't know the cost (we should only run this method if the cost is known)
      */
     Set<Connection> availableConnections() {
@@ -142,9 +129,7 @@ public class PathNode implements Comparable<PathNode> {
      * Returns all available outgoing connections associated with this node with the specified connection type
      *
      * @param connectionType the type of connection that the outgoing connections should have
-     *
      * @return a set of availible connections outgoing from this node of the specified connection type
-     *
      * @throws AssertionError if we don't know the cost (we should only run this method if the cost is known)
      */
     Set<Connection> availableConnections(ConnectionType connectionType) {
@@ -171,10 +156,8 @@ public class PathNode implements Comparable<PathNode> {
      * compares their nodes.
      *
      * @param other the PathNode to be compared
-     *
-     * @returns an integer based on which object comes first.
-     *
      * @throws NullPointerException if other is null
+     * @returns an integer based on which object comes first.
      */
     @Override
     public int compareTo(PathNode other) {
@@ -188,11 +171,11 @@ public class PathNode implements Comparable<PathNode> {
     }
 
     private static int compareCost(Cost<Addable> cost1, Cost<Addable> cost2) {
-        if(cost1 == null && cost2 == null) {
+        if (cost1 == null && cost2 == null) {
             return 0;
         }
 
-        if(cost1 == null) {
+        if (cost1 == null) {
             return 1;
         }
 
@@ -204,7 +187,6 @@ public class PathNode implements Comparable<PathNode> {
      * (same cost, node, and previous node)
      *
      * @param o the Object to be compared
-     *
      * @return a boolean that is true if o is equal to this object, and false otherwise
      */
     @Override
