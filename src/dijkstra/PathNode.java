@@ -149,7 +149,7 @@ public class PathNode implements Comparable<PathNode> {
      * @return boolean that is true if the PathNode's cost is known, and false otherwise
      */
     public final boolean isKnown() {
-        return cost.isKnown();
+        return cost != null;
     }
 
     /**

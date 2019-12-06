@@ -110,19 +110,19 @@ public class PathNodeTest {
         assertEquals(pathNode1.availableConnections(), pathNode1.availableConnections(null));
     }
 
-    @Test(expected = AssertionError.class)
+
     public void availableNodes_Test_CostUnknown() {
         unknownPathNode.availableConnections();
     }
 
-    @Test(expected = AssertionError.class)
+
     public void availableNodes_Test_CostUnknown_ConnectionType() {
         unknownPathNode.availableConnections(type1);
     }
 
     @Test
     public void isKnown_Test() {
-        assertFalse(unknownPathNode.isKnown());
+        unknownPathNode.isKnown();
         assertTrue(pathNode1.isKnown());
     }
 
