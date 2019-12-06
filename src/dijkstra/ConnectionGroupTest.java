@@ -80,13 +80,9 @@ public class ConnectionGroupTest {
      */
     @Test
     public void testConnectionGroupAdd() {
-
-
         //Connection intentionally created with wrong origin for testing purposes
 
-
         ConnectionGroup connectionGroup = ConnectionGroup.of(origin);
-
 
         assertTrue(connectionGroup.add(connection));
 
