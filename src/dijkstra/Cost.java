@@ -81,6 +81,7 @@ public final class Cost<T extends Addable> implements Comparable{
      * Unknown values always come after known values.
      *
      * @param other the object to compare
+     * @throws NullPointerException if the input object is null
      */
     public int compareTo(Object other) {
         Objects.requireNonNull(other);
