@@ -23,10 +23,10 @@ final class PathState {
     private PathState(Set<Node> nodes, Node origin, Cost<Addable> cost) {
         unreached = new TreeSet<>();
         nodeMap = new HashMap<>();
-        addToList(origin, PathNode.of(origin));
+        addToList(origin, PathNode.of(origin, cost, null));
         for (Node node : nodes) {
             if (!node.equals(origin)) {
-                addToList(node, PathNode.of(node));
+                addToList(node, PathNode.of(node, null, null));
             }
         }
     }
@@ -46,7 +46,7 @@ final class PathState {
     static PathState of(Set<Node> nodes, Node origin, Cost<Addable> cost) {
         Objects.requireNonNull(nodes, "PathState, of() -> null nodes set");
         Objects.requireNonNull(origin, "PathState, of() -> null origin");
-        Objects.requireNonNull(cost, "PathState, of() -> null cost time");
+        //Objects.requireNonNull(cost, "PathState, of() -> null cost time");
         try {
             return new PathState(nodes, origin, cost);
         } catch (RuntimeException e) {

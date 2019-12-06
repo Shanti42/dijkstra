@@ -179,12 +179,24 @@ public class PathNode implements Comparable<PathNode> {
     @Override
     public int compareTo(PathNode other) {
         Objects.requireNonNull(other, "PathNode, compareTo() -> Null parameter for other PathNode");
-        Cost otherCost = other.getCost();
-        if (this.getCost().equals(otherCost)) {
+
+        if (compareCost(this.getCost(), other.getCost()) == 0) {
             return this.getNode().compareTo(other.getNode());
         } else {
-            return this.getCost().compareTo(otherCost);
+            return compareCost(this.getCost(), other.getCost());
         }
+    }
+
+    private static int compareCost(Cost<Addable> cost1, Cost<Addable> cost2) {
+        if(cost1 == null && cost2 == null) {
+            return 0;
+        }
+
+        if(cost1 == null) {
+            return (cost2 == null)? 0 : -1;
+        }
+
+        return cost1.compareTo(cost2);
     }
 
     /**

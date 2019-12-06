@@ -84,7 +84,10 @@ public final class Cost<T extends Addable> implements Comparable{
      * @throws NullPointerException if the input object is null
      */
     public int compareTo(Object other) {
-        Objects.requireNonNull(other);
+        //Objects.requireNonNull(other);
+        if(other == null) {
+            return -1;
+        }
         if (other instanceof Cost) {
             int boolCompare = Boolean.compare(((Cost) other).isKnown(), isKnown());
             if (boolCompare != 0) {
