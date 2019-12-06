@@ -32,7 +32,14 @@ final class PathState {
         }
     }
 
-    // build method
+    /**
+     * The constructor for the PathState class
+     * 
+     * @param nodes        a set of nodes on the path
+     * @param origin       the origin of the path
+     * @param cost		   total cost of the path
+     * @return a new PathState class
+     */
     static PathState of(Set<Node> nodes, Node origin, Cost<Addable> cost) {
         Objects.requireNonNull(nodes, "PathState, of() -> null nodes set");
         Objects.requireNonNull(origin, "PathState, of() -> null origin");
@@ -51,10 +58,25 @@ final class PathState {
         }
     }
 
+    /**
+     * The constructor for the PathState class with zero cost
+     * 
+     * @param nodes       a set of nodes on the path
+     * @param origin      the origin of the path
+     * @return a new PathState class with zero cost
+     */
     static PathState of(Set<Node> nodes, Node origin) {
         return PathState.of(nodes, origin, Cost.ZERO);
     }
 
+    /**
+     * Add a node and a pathNode to the PathState
+     * Put the input node to the nodeMap
+     * Add the input pathNode to the unreached set
+     * 
+     * @param node
+     * @param pathNode
+     */
     private void addToList(Node node, PathNode pathNode) {
         Objects.requireNonNull(node, "Node null");
         Objects.requireNonNull(pathNode, "PathNode null");
@@ -63,8 +85,11 @@ final class PathState {
         unreached.add(pathNode);
     }
 
-    // replaces the route node for the corresponding node, assumes node is in
-    // the route state and is unreached
+    /**
+     * Replace the route node for the corresponding node, assumes node is in the route state and is unreached
+     * 
+     * @param pathNode    input pathNode used to replace
+     */
     final void replaceNode(PathNode pathNode) {
         Objects.requireNonNull(pathNode, "PathState, replaceNode -> given route node is null");
         Node node = pathNode.getNode();
@@ -76,11 +101,18 @@ final class PathState {
         unreached.add(pathNode);
     }
 
-    // returns true if all nodes are reached
+    /**
+     * 
+     * @return true if all nodes are reached
+     */
     final boolean allReached() {
         return unreached.isEmpty();
     }
 
+    /**
+     * 
+     * @return the closest pathNode in the unreached set, which has the minimum cost
+     */
     final PathNode closestUnreached() {
         PathNode smallestArrivalTime = unreached.pollFirst();
         if (smallestArrivalTime == null) {
@@ -93,8 +125,11 @@ final class PathState {
         }
     }
 
-    // returns the route node corresponding to the node, assumes the node is in the
-    // route state
+    /**
+     * 
+     * @param node
+     * @return the route node corresponding to the node, assumes the node is in the route state
+     */
     final PathNode pathNode(Node node) {
         Objects.requireNonNull(node, "PathState, pathNode -> node is null");
         assert (nodeMap.containsKey(node));
