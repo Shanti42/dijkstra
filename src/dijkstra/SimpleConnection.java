@@ -58,7 +58,7 @@ final class SimpleConnection extends Connection {
      * @throws NullPointerException is thrown if connection is null
      */
     @Override
-    boolean isLowerCost(Connection connection) {
+    protected boolean isLowerCost(Connection connection) {
         Objects.requireNonNull(connection, "SimpleCollection, isLowerCost -> connection null");
         return getCost().compareTo(connection.getCost()) < 0;
     }
