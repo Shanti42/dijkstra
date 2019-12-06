@@ -74,49 +74,49 @@ public class CostTest {
         // bad data, input is null
         @Test(expected = NullPointerException.class)
         public void badData1() {
-            c2.compare(null);
+            c2.compareTo(null);
         }
 
         // bad data, input is not SimpleAddable
         @Test(expected = IllegalArgumentException.class)
         public void badData2() {
-            c2.compare(1);
+            c2.compareTo(1);
         }
 
         // good data, code coverage
         @Test
         public void codeCoverage() {
-            Assert.assertTrue(c2.compare(c3) == 0);
+            Assert.assertTrue(c2.compareTo(c3) == 0);
         }
 
         // branch test
         @Test
         public void branchTest1() {
-            Assert.assertTrue(c2.compare(c4) < 0);
+            Assert.assertTrue(c2.compareTo(c4) < 0);
         }
 
         // branch test
         @Test
         public void branchTest2() {
-            Assert.assertTrue(c2.compare(c1) > 0);
+            Assert.assertTrue(c2.compareTo(c1) > 0);
         }
 
         // branch test
         @Test
         public void branchTest3() {
-            Assert.assertTrue(Cost.UNKNOWN.compare(c1) > 0);
+            Assert.assertTrue(Cost.UNKNOWN.compareTo(c1) > 0);
         }
 
         // branch test
         @Test
         public void branchTest4() {
-            Assert.assertTrue(Cost.UNKNOWN.compare(Cost.UNKNOWN) == 0);
+            Assert.assertTrue(Cost.UNKNOWN.compareTo(Cost.UNKNOWN) == 0);
         }
 
         // branch test
         @Test
         public void branchTest5() {
-            Assert.assertTrue(c1.compare(Cost.UNKNOWN) < 0);
+            Assert.assertTrue(c1.compareTo(Cost.UNKNOWN) < 0);
         }
     }
 

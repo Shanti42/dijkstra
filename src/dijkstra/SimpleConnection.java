@@ -66,6 +66,6 @@ final class SimpleConnection extends Connection {
     @Override
     boolean isLowerCost(Connection connection) {
         Objects.requireNonNull(connection, "SimpleCollection, isLowerCost -> connection null");
-        return getCost().compare(connection.getCost()) < 0;
+        return getCost().compareTo(connection.getCost()) < 0;
     }
 }

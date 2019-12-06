@@ -21,7 +21,7 @@ public abstract class Connection {
      * @param cost           the cost of the connection
      * @param connectionType the type of the connection
      */
-    Connection(Node origin, Node destination, Cost cost, ConnectionType connectionType) {
+    Connection(Node origin, Node destination, Cost<Addable> cost, ConnectionType connectionType) {
         this.origin = origin;
         this.destination = destination;
         this.cost = cost;

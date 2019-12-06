@@ -1,4 +1,5 @@
 // public because PathNode is returned by PathFinder, so people will use it
+// non-final because then people can extend it to work with the networks example
 
 // Caitlin
 
@@ -10,7 +11,7 @@ import java.util.Set;
 /**
  * Represents a link along a path, containing a node and optionally the previous node on the path
  */
-public final class PathNode implements Comparable<PathNode> {
+public class PathNode implements Comparable<PathNode> {
 
     private final Node node;
     private final Cost cost; // represents the cost to reach this current node
@@ -18,6 +19,9 @@ public final class PathNode implements Comparable<PathNode> {
     //Null previous denotes that this node is the original departure node
     private final PathNode previous;
 
+    /**
+     * 
+     */
     private PathNode(Node node, Cost cost, PathNode previous) {
         this.node = node;
         this.cost = cost;
@@ -57,16 +61,16 @@ public final class PathNode implements Comparable<PathNode> {
         return cost;
     }
 
-    public final PathNode getPrevious() {
+    public PathNode getPrevious() {
         return previous;
     }
 
-    final Set<Connection> availableConnections() {
+    Set<Connection> availableConnections() {
         assert (isKnown());
         return node.availableConnections();
     }
 
-    final Set<Connection> availableConnections(ConnectionType connectionType) {
+    Set<Connection> availableConnections(ConnectionType connectionType) {
         assert (isKnown());
 
         if (connectionType == null) {
@@ -87,7 +91,7 @@ public final class PathNode implements Comparable<PathNode> {
         if (this.getCost().equals(otherCost)) {
             return this.getNode().compareTo(other.getNode());
         } else {
-            return this.getCost().compare(otherCost);
+            return this.getCost().compareTo(otherCost);
         }
     }
 

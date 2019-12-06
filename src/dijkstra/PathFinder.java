@@ -1,7 +1,7 @@
 // public because that's the point of the package
 // final because we don't want people to mess it up
 
-// Caitlin
+// Caitlin -- done!
 
 package dijkstra;
 
@@ -9,7 +9,9 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * Finds the best path from node to a final destination
+ * Finds the best path from node to a final destination.
+ *
+ * Represents a set of nodes that can be searched.
  */
 public final class PathFinder {
 
@@ -19,19 +21,36 @@ public final class PathFinder {
         this.nodes = nodes;
     }
 
+    /**
+     * Finds and returns the last route node in the fastest route
+     * from the departure node to final destination, with no ConnectionType specified
+     *
+     * @param nodes the nodes in the graph to be traversed
+     *
+     * @return a new PathFinder with the internal set of nodes
+     *
+     * @throws NullPointerException if the set of Nodes is null
+     */
     public static final PathFinder of(Set<Node> nodes) {
         Objects.requireNonNull(nodes, "Received null set of nodes");
 
         return new PathFinder(nodes);
     }
 
-
+    /**
+     * Finds and returns the last route node in the fastest route
+     * from the departure node to final destination, with no ConnectionType specified
+     *
+     * @param start          the departure node
+     * @param end            the final destination
+     * @return
+     */
     public final PathNode bestPath(Node start, Node end) {
         return bestPath(start, end, null);
     }
 
     /**
-     * Finds and returns tha last route node in the fastest route
+     * Finds and returns the last route node in the fastest route
      * from the departure node to final destination
      *
      * @param start          the departure node
@@ -68,7 +87,7 @@ public final class PathFinder {
                      * */
                     findShortestPathLocal(currentNode, connectionType, pathState);
 
-                } catch (Exception e) {
+                } catch (RuntimeException e) {
                     throw new IllegalStateException("Error while searching for best path", e);
                 }
             }
@@ -82,13 +101,13 @@ public final class PathFinder {
 
             Cost<Addable> destinationCost = pathState.pathNode(connection.getDestination()).getCost();
 
-            if (connection.getCost().compare(destinationCost) < 0) {
+            if (connection.getCost().compareTo(destinationCost) < 0) {
                 pathState.replaceNode(PathNode.of(connection, currentNode));
             }
         }
     }
 
-    public static class TESTHOOK {
+    static class TESTHOOK {
         public static void findShortestPathLocal_test(PathFinder finder, PathNode currentNode, ConnectionType connectionType, PathState pathState) {
             finder.findShortestPathLocal(currentNode, connectionType, pathState);
         }
