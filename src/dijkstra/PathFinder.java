@@ -43,7 +43,7 @@ public final class PathFinder {
      *
      * @param start          the departure node
      * @param end            the final destination
-     * @return
+     * @return the last PathNode on the path to get from start to end, or null if none found
      */
     public final PathNode bestPath(Node start, Node end) {
         return bestPath(start, end, null);
@@ -56,7 +56,10 @@ public final class PathFinder {
      * @param start          the departure node
      * @param end            the final destination
      * @param connectionType the connectionType of the passenger
-     * @return
+     * @return the last PathNode on the path to get from start to end, or null if none found
+     *
+     * @throws IllegalStateException if there was an issue while searching
+     * @throws NullPointerException if start or end are null
      */
     public final PathNode bestPath(Node start, Node end, ConnectionType connectionType) {
         //check for null values

@@ -78,7 +78,23 @@ public class PathNode implements Comparable<PathNode> {
         Objects.requireNonNull(node, "received null node");
 
         return new PathNode(node, node.getNodeCost(), null);
+    }
 
+    /**
+     * Builder method that takes in a node.
+     *
+     * @param node the destination node
+     * @param cost the cost associated with this PathNode
+     *
+     * @return a new PathNode of "node" with previous PathNode as null
+     *
+     * @throws NullPointerException if node is null (cost and previous can be null)
+     *
+     */
+    public static final PathNode of(Node node, Cost<Addable> cost, PathNode previous) {
+        Objects.requireNonNull(node, "received null node");
+
+        return new PathNode(node, cost, previous);
     }
 
     /**
