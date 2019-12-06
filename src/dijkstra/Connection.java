@@ -34,7 +34,7 @@ public abstract class Connection {
      *
      * @return the origin id of the Connection
      */
-    String originID() {
+    protected String originID() {
         return origin.getID();
     }
 
@@ -43,7 +43,7 @@ public abstract class Connection {
      *
      * @return the origin of the Connection
      */
-    Node getOrigin() {
+    protected Node getOrigin() {
         return origin;
     }
 
@@ -52,7 +52,7 @@ public abstract class Connection {
      *
      * @return the destination of the Connection
      */
-    Node getDestination() {
+    protected Node getDestination() {
         return destination;
     }
 
@@ -61,7 +61,7 @@ public abstract class Connection {
      *
      * @return the cost of the Connection
      */
-    Cost<Addable> getCost() {
+    protected Cost<Addable> getCost() {
         return cost;
     }
 
@@ -70,7 +70,7 @@ public abstract class Connection {
      *
      * @return the connection type of the Connection
      */
-    ConnectionType getConnectionType() {
+    protected ConnectionType getConnectionType() {
         return connectionType;
     }
 
@@ -82,7 +82,7 @@ public abstract class Connection {
      * @param connection the connection being compared
      * @return true if this connection has a lower cost than the given connection, false otherwise
      */
-    abstract boolean isLowerCost(Connection connection);
+    protected abstract boolean isLowerCost(Connection connection);
 
     /**
      * Returns the hash code of this Connection

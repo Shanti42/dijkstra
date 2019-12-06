@@ -62,7 +62,7 @@ final class ConnectionGroup {
      * Removes the connection from the connection group if it is contained in the group.
      * Returns true if the operation was successful.
      *
-     * @param connection
+     * @param connection the connection to be removed
      * @return returns true if the connection has been removed successfully
      */
     final boolean remove(Connection connection) {

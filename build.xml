@@ -110,7 +110,7 @@ $ANT_HOME/lib must contain (see Ant-JUnit and JaCoCo installation guides):
   <!--   ant doc: generate JavaDoc documentation -->
   <target name="doc">
     <mkdir dir="${doc.dir}"/>
-    <javadoc destdir="${doc.dir}">
+    <javadoc destdir="${doc.dir}" package="true">
       <fileset dir="${src.dir}" defaultexcludes="yes">
 	<exclude name="**/*Test.java"/>
       </fileset>

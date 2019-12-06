@@ -33,12 +33,12 @@ public final class Node implements Comparable<Node> {
     /**
      * The constructor for the Node class
      *
-     * @param ID       the unique identification of a node
+     * @param code       the unique identification of a node
      * @param nodeCost the cost of a node
      * @return a new node class
      * @throws NullPointerException if the input code or nodeCost is null
      */
-    static final Node of(String code, Cost<Addable> nodeCost) {
+    protected static final Node of(String code, Cost<Addable> nodeCost) {
         Objects.requireNonNull(code, "Node identifier ID is null");
         Objects.requireNonNull(nodeCost, "Connection time parameter is null");
         return new Node(code, nodeCost);
@@ -49,7 +49,7 @@ public final class Node implements Comparable<Node> {
      *
      * @return ID
      */
-    String getID() {
+    protected String getID() {
         return ID;
     }
 
@@ -58,7 +58,7 @@ public final class Node implements Comparable<Node> {
      *
      * @return nodeCost
      */
-    Cost getNodeCost() {
+    protected Cost getNodeCost() {
         return nodeCost;
     }
 
@@ -111,7 +111,7 @@ public final class Node implements Comparable<Node> {
     /**
      * Add a connection to the group of connections originating from this node
      *
-     * @param connection
+     * @param connection the connection to be added
      * @return whether the connection is added successfully
      */
     final boolean addConnection(Connection connection) {
@@ -121,7 +121,7 @@ public final class Node implements Comparable<Node> {
     /**
      * Remove a connection from the group of connections originating from this node
      *
-     * @param connection
+     * @param connection the connection to be removed
      * @return whether the connection is removed successfully
      */
     final boolean removeConnection(Connection connection) {
