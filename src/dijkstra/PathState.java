@@ -73,6 +73,14 @@ final class PathState {
         return PathState.of(nodes, origin, origin.getNodeCost());
     }
 
+    /**
+     * Add a node and a pathNode to the PathState
+     * Put the input node to the nodeMap
+     * Add the input pathNode to the unreached set
+     *
+     * @param node
+     * @param pathNode
+     */
     private void addToList(Node node, PathNode pathNode) {
         Objects.requireNonNull(node, "Node null");
         Objects.requireNonNull(pathNode, "PathNode null");
@@ -128,8 +136,11 @@ final class PathState {
         }
     }
 
-    // returns the route node corresponding to the node, assumes the node is in the
-    // route state
+    /**
+     *
+     * @param node
+     * @return the route node corresponding to the node, assumes the node is in the route state
+     */
     final PathNode pathNode(Node node) {
         Objects.requireNonNull(node, "PathState, pathNode -> node is null");
         assert (nodeMap.containsKey(node));

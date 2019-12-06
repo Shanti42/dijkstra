@@ -34,6 +34,7 @@ public final class Node implements Comparable<Node> {
      *
      * @param ID               the unique identification of a node
      * @param nodeCost         the cost of a node
+     * @return a new node class
      */
     static final Node of(String code, Cost<Addable> nodeCost) {
         Objects.requireNonNull(code, "Node identifier ID is null");
