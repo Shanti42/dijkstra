@@ -1,7 +1,7 @@
 // public because PathNode is returned by PathFinder, so people will use it
 // non-final because then people can extend it to work with the networks example
 
-// Caitlin
+// Caitlin -- done!
 
 package dijkstra;
 
@@ -19,33 +19,64 @@ public class PathNode implements Comparable<PathNode> {
     //Null previous denotes that this node is the original departure node
     private final PathNode previous;
 
-    /**
-     * 
-     */
+
     private PathNode(Node node, Cost cost, PathNode previous) {
         this.node = node;
         this.cost = cost;
         this.previous = previous;
     }
 
+    /**
+     * Builder method that takes in a connection and a previous node
+     *
+     * @param connection a connection that represents the path from the origin to the destination
+     * @param previous a PathNode that represents the origin of the connection
+     *
+     * @return a new PathNode with connection's destination as its node and previous node "previous"
+     *
+     * @throws NullPointerException if connection is null
+     *
+     */
     public static final PathNode of(Connection connection, PathNode previous) {
         Objects.requireNonNull(connection, "connection received null");
         //Previous node can be null, so no null check
+        Cost<Addable> cost = connection.getCost().plus(connection.getDestination().getNodeCost());
+
         if(previous == null) {
-            return new PathNode(connection.getDestination(), connection.getCost(), null);
+            return new PathNode(connection.getDestination(), cost, null);
         }
 
-        return new PathNode(connection.getDestination(), connection.getCost().plus(previous.getCost()), previous);
+        return new PathNode(connection.getDestination(), cost.plus(previous.getCost()), previous);
     }
 
+    /**
+     * Builder method that takes in a node and a previous node
+     *
+     * @param node the destination node
+     * @param previous a PathNode that represents previous node in the path
+     *
+     * @return a new PathNode of "node" with previous "previous"
+     *
+     * @throws NullPointerException if node is null
+     *
+     */
     public static final PathNode of(Node node, PathNode previous) {
         Objects.requireNonNull(node, "received null node");
         //Previous node can be null, so no null check
 
         return new PathNode(node, node.getNodeCost(), previous);
-
     }
 
+    /**
+     * Builder method that takes in a node.
+     *
+     * @param node the destination node
+     *
+     * @return a new PathNode of "node" with previous PathNode as null
+     *
+     * @throws NullPointerException if node is null
+     *
+     */
     public static final PathNode of(Node node) {
         Objects.requireNonNull(node, "received null node");
 
@@ -53,23 +84,56 @@ public class PathNode implements Comparable<PathNode> {
 
     }
 
-    public Node getNode() {
+    /**
+     * A getter method for the internal node
+     *
+     * @return the node that this PathNode represents
+     */
+    public final Node getNode() {
         return node;
     }
 
-    public Cost getCost() {
+    /**
+     * A getter method for the cost to get to this point on the path
+     *
+     * @return the cost to get to this point on the PathNode
+     */
+    public final Cost getCost() {
         return cost;
     }
 
+    /**
+     * A getter method for the previous PathNode on the path
+     *
+     * Overridable in case people want to have multiple previous nodes.
+     *
+     * @return the previous PathNode in this path
+     */
     public PathNode getPrevious() {
         return previous;
     }
 
+    /**
+     * Returns all available outgoing connections associated with this node
+     *
+     * @return a set of availible connections outgoing from this node
+     *
+     * @throws AssertionError if we don't know the cost (we should only run this method if the cost is known)
+     */
     Set<Connection> availableConnections() {
         assert (isKnown());
-        return node.availableConnections();
+        return getNode().availableConnections();
     }
 
+    /**
+     * Returns all available outgoing connections associated with this node with the specified connection type
+     *
+     * @param connectionType the type of connection that the outgoing connections should have
+     *
+     * @return a set of availible connections outgoing from this node of the specified connection type
+     *
+     * @throws AssertionError if we don't know the cost (we should only run this method if the cost is known)
+     */
     Set<Connection> availableConnections(ConnectionType connectionType) {
         assert (isKnown());
 
@@ -80,10 +144,25 @@ public class PathNode implements Comparable<PathNode> {
         return node.availableConnections(cost, connectionType);
     }
 
+    /**
+     * Determines if the cost of this PathNode is known or not.
+     *
+     * @return boolean that is true if the PathNode's cost is known, and false otherwise
+     */
     public final boolean isKnown() {
         return cost.isKnown();
     }
 
+    /**
+     * Compares this object to another PathNode. First compares their cost, and if their costs are equal,
+     * compares their nodes.
+     *
+     * @param other the PathNode to be compared
+     *
+     * @returns an integer based on which object comes first.
+     *
+     * @throws NullPointerException if other is null
+     */
     @Override
     public int compareTo(PathNode other) {
         Objects.requireNonNull(other, "PathNode, compareTo() -> Null parameter for other PathNode");
@@ -95,8 +174,13 @@ public class PathNode implements Comparable<PathNode> {
         }
     }
 
-    /*
-     * AUTO GENERATED BY INTELLIJ
+    /**
+     * An equals method that compares all internal values. If all internal values are equal, then they're equal
+     * (same cost, node, and previous node)
+     *
+     * @param o the Object to be compared
+     *
+     * @return a boolean that is true if o is equal to this object, and false otherwise
      */
     @Override
     public boolean equals(Object o) {
@@ -108,7 +192,7 @@ public class PathNode implements Comparable<PathNode> {
                 Objects.equals(previous, pathNode.previous);
     }
 
-    // for testing purposes
+    // for testing purposes ONLY: delete later
     @Override
     public String toString() {
         return node.getID();
