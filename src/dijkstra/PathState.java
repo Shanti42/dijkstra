@@ -1,5 +1,4 @@
-// Caitlin -- done (package private, so no javadoc)
-// package private because don't need to override
+// Caitlin
 
 package dijkstra;
 
@@ -32,14 +31,25 @@ final class PathState {
         }
     }
 
-    // build method
+    /**
+     * Builder method that takes in a list of nodes in the graph, a starting Node, and any cost just to reach/start
+     * at that node
+     *
+     * @param nodes the set of nodes in the graph
+     * @param origin the node that the graph "starts" at
+     * @param cost the cost (if any) associated with starting at that point
+     *
+     * @return a new PathState with the associated nodes, origin, and cost
+     *
+     * @throws NullPointerException if nodes, origin, or cost are null (cost can be zero, but not null/unknown)
+     */
     static PathState of(Set<Node> nodes, Node origin, Cost<Addable> cost) {
         Objects.requireNonNull(nodes, "PathState, of() -> null nodes set");
         Objects.requireNonNull(origin, "PathState, of() -> null origin");
         Objects.requireNonNull(cost, "PathState, of() -> null cost time");
         try {
             return new PathState(nodes, origin, cost);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             if (e instanceof NullPointerException) {
                 LOGGER.log(Level.SEVERE, "Null pointer exception found when generating PathState.");
             }
@@ -51,8 +61,16 @@ final class PathState {
         }
     }
 
+    /**
+     * Builder method that takes in a list of nodes in the graph and a starting Node
+     *
+     * @param nodes the set of nodes in the graph
+     * @param origin the node that the graph "starts" at
+     *
+     * @return a new PathState with the associated nodes, origin, and the same cost as the origin node
+     */
     static PathState of(Set<Node> nodes, Node origin) {
-        return PathState.of(nodes, origin, Cost.ZERO);
+        return PathState.of(nodes, origin, origin.getNodeCost());
     }
 
     private void addToList(Node node, PathNode pathNode) {
@@ -63,8 +81,15 @@ final class PathState {
         unreached.add(pathNode);
     }
 
-    // replaces the route node for the corresponding node, assumes node is in
-    // the route state and is unreached
+    /**
+     * Replaces the route node for the corresponding node, assumes node is in the route state and is unreached.
+     *
+     * @param pathNode the node to replace
+     *
+     * @throws NullPointerException if the input pathNode is null
+     * @throws AssertionError if the node associated with PathNode isn't in PathState, or the node is already reached
+     *
+     */
     final void replaceNode(PathNode pathNode) {
         Objects.requireNonNull(pathNode, "PathState, replaceNode -> given route node is null");
         Node node = pathNode.getNode();
@@ -76,11 +101,21 @@ final class PathState {
         unreached.add(pathNode);
     }
 
-    // returns true if all nodes are reached
+    /**
+     * Returns true if all nodes are reached, and false otherwise.
+     *
+     * @return boolean that is true if all nodes are reached, and false otherwise.
+     */
     final boolean allReached() {
         return unreached.isEmpty();
     }
 
+    /**
+     * Returns the closest unreached point on this graph, if any.
+     *
+     * @return a PathNode that represents the closest unreached point on this graph.
+     * If there are no more reachable nodes (disconnected graph), then
+     */
     final PathNode closestUnreached() {
         PathNode smallestArrivalTime = unreached.pollFirst();
         if (smallestArrivalTime == null) {
