@@ -27,8 +27,19 @@ public final class PathNode implements Comparable<PathNode> {
     public static final PathNode of(Connection connection, PathNode previous) {
         Objects.requireNonNull(connection, "connection received null");
         //Previous node can be null, so no null check
+        if(previous == null) {
+            return new PathNode(connection.getDestination(), connection.getCost(), null);
+        }
 
         return new PathNode(connection.getDestination(), connection.getCost().plus(previous.getCost()), previous);
+    }
+
+    public static final PathNode of(Node node, PathNode previous) {
+        Objects.requireNonNull(node, "received null node");
+        //Previous node can be null, so no null check
+
+        return new PathNode(node, node.getNodeCost(), previous);
+
     }
 
     public static final PathNode of(Node node) {

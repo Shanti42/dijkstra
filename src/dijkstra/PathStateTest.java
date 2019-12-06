@@ -45,7 +45,7 @@ public class PathStateTest {
     public void replaceNode_test() {
         assertNull(state.pathNode(node2).getPrevious());
 
-        PathNode replacement = PathNode.of(node2, cost6, state.pathNode(node1));
+        PathNode replacement = PathNode.of(node2, state.pathNode(node1));
         state.replaceNode(replacement);
 
         assertTrue(replacement.equals(state.pathNode(node2)));
@@ -54,13 +54,13 @@ public class PathStateTest {
     @Test(expected = AssertionError.class)
     public void replaceNode_test_invalidNode() {
         Node node4 = Node.of("CDE", cost4);
-        PathNode replacement = PathNode.of(node4, cost5, state.pathNode(node2));
+        PathNode replacement = PathNode.of(node4, state.pathNode(node2));
         state.replaceNode(replacement);
     }
 
     @Test(expected = AssertionError.class)
     public void replaceNode_test_knownNode() {
-        PathNode replacement = PathNode.of(node1, cost6, state.pathNode(node2));
+        PathNode replacement = PathNode.of(node1, state.pathNode(node2));
 
         state.closestUnreached(); // pops origin
         state.replaceNode(replacement);
@@ -69,8 +69,8 @@ public class PathStateTest {
     @Test
     public void allReached_test() {
         assertFalse(state.allReached());
-        state.replaceNode(PathNode.of(node2, cost6, state.pathNode(node1)));
-        state.replaceNode(PathNode.of(node3, cost6, state.pathNode(node2)));
+        state.replaceNode(PathNode.of(node2, state.pathNode(node1)));
+        state.replaceNode(PathNode.of(node3, state.pathNode(node2)));
 
         state.closestUnreached(); // pops origin
         assertFalse(state.allReached());
@@ -84,8 +84,8 @@ public class PathStateTest {
 
     @Test
     public void closestUnreached_test() {
-        PathNode replace1 = PathNode.of(node2, cost5, state.pathNode(node1));
-        PathNode replace2 = PathNode.of(node3, cost6.plus(cost5), state.pathNode(node2));
+        PathNode replace1 = PathNode.of(node2, state.pathNode(node1));
+        PathNode replace2 = PathNode.of(node3, state.pathNode(node2));
 
         state.replaceNode(replace1);
         state.replaceNode(replace2);
@@ -97,8 +97,8 @@ public class PathStateTest {
 
     @Test(expected = NoSuchElementException.class)
     public void closestUnreached_test_tooMany() {
-        PathNode replace1 = PathNode.of(node2, cost5, state.pathNode(node1));
-        PathNode replace2 = PathNode.of(node3, cost6.plus(cost5), state.pathNode(node2));
+        PathNode replace1 = PathNode.of(node2, state.pathNode(node1));
+        PathNode replace2 = PathNode.of(node3, state.pathNode(node2));
 
         state.replaceNode(replace1);
         state.replaceNode(replace2);
@@ -112,7 +112,7 @@ public class PathStateTest {
 
     @Test
     public void closestUnreached_test_notReachable() {
-        state.replaceNode(PathNode.of(node2, cost5, state.pathNode(node1)));
+        state.replaceNode(PathNode.of(node2, state.pathNode(node1)));
         state.closestUnreached(); // node1
         state.closestUnreached(); // node2
         assertNull(state.closestUnreached()); // node3 (unreachable, no path)
@@ -120,7 +120,7 @@ public class PathStateTest {
 
     @Test
     public void pathNode_test() {
-        PathNode expected = PathNode.of(node2, Cost.UNKNOWN, null);
+        PathNode expected = PathNode.of(node2, null);
         assertEquals(expected, state.pathNode(node2));
     }
 
@@ -138,7 +138,7 @@ public class PathStateTest {
     @Test
     public void addToList_test() {
         Node node4 = Node.of("123", cost2);
-        PathNode path4 = PathNode.of(node4, Cost.UNKNOWN, null);
+        PathNode path4 = PathNode.of(node4, null);
         PathState.TESTHOOK.addToList_test(state, node4, path4);
         assertEquals(path4, state.pathNode(node4));
     }
@@ -152,7 +152,7 @@ public class PathStateTest {
     @Test(expected = NullPointerException.class)
     public void assToList_test_null_node() {
         Node node4 = Node.of("123", cost2);
-        PathNode path4 = PathNode.of(node4, Cost.UNKNOWN, null);
+        PathNode path4 = PathNode.of(node4, null);
         PathState.TESTHOOK.addToList_test(state, null, path4);
     }
 

@@ -101,12 +101,12 @@ public class PathFinderTest {
     public void testFindShortestPathLocal() {
         PathState state = PathState.of(nodes, node1);
         assertNull(state.pathNode(node2).getPrevious());
-        PathFinder.TESTHOOK.findShortestPathLocal_test(finder, PathNode.of(node1, Cost.ZERO), null, state);
+        PathFinder.TESTHOOK.findShortestPathLocal_test(finder, PathNode.of(node1), null, state);
         assertNotNull(state.pathNode(node2).getPrevious());
 
         PathNode prev = state.pathNode(node2);
 
-        PathFinder.TESTHOOK.findShortestPathLocal_test(finder, PathNode.of(node0, Cost.ZERO), null, state);
+        PathFinder.TESTHOOK.findShortestPathLocal_test(finder, PathNode.of(node0), null, state);
         assertEquals(prev, state.pathNode(node2));
     }
 

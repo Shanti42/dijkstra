@@ -24,7 +24,7 @@ final class PathState {
     private PathState(Set<Node> nodes, Node origin, Cost<Addable> cost) {
         unreached = new TreeSet<>();
         nodeMap = new HashMap<>();
-        addToList(origin, PathNode.of(origin, cost, null));
+        addToList(origin, PathNode.of(origin));
         for (Node node : nodes) {
             if (!node.equals(origin)) {
                 addToList(node, PathNode.of(node));

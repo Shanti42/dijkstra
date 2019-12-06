@@ -26,7 +26,7 @@ public abstract class Connection {
         this.destination = destination;
         this.cost = cost;
         this.connectionType = connectionType;
-        this.origin.addConnection(this);
+        origin.addConnection(this);
     }
 
     /**
