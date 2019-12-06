@@ -1,5 +1,3 @@
-// SOMETHINGS WRONG HERE! D:
-
 package dijkstra;
 
 
