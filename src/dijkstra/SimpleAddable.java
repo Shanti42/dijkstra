@@ -41,7 +41,8 @@ public final class SimpleAddable implements Addable {
     /**
      * The public constructor for the SimpleAddable class
      *
-     * @param value        represents (BigInteger) cost in this example  
+     * @param value        represents (BigInteger) cost in this example
+     * @throws NullPointerException if the input value is null
      */
     public final static SimpleAddable of(BigInteger value) {
         Objects.requireNonNull(value, "SimpleAddable, of -> value null");
@@ -54,6 +55,7 @@ public final class SimpleAddable implements Addable {
     *
     * @param obj           the other simpleAddable to be compared
     * @return -1, 0 or 1 if this simpleAddable's value is less than, equal to, or greater than the other's.
+    * @throws NullPointerException if the input object is null
     */
     @Override
     public final int compareTo(Object obj) {
@@ -72,6 +74,7 @@ public final class SimpleAddable implements Addable {
      *
      * @param a           the other simpleAddable to be added
      * @return the simpleAddable resulting from this simpleAddable and the other
+     * @throws NullPointerException if the input object is null
      */
     @Override
     public final SimpleAddable plus(Addable a) {
