@@ -25,7 +25,7 @@ public final class ConnectionType {
     /**
      * Creates a new ConnectionType with the given identifier
      *
-     * @param identifier
+     * @param identifier the identifier for the cost
      * @return a new ConnectionType with the given identifier
      * @throws NullPointerException if the given identifier string is null
      */

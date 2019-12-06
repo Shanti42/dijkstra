@@ -16,3 +16,4 @@ element-list
 *.zip
 resources/*
 *.css
+javadoc/*

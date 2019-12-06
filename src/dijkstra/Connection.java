@@ -3,8 +3,8 @@
 package dijkstra;
 
 /**
- * Represents Connections of different types.
- * A Connection represents a non stop path from one node to another node
+ *
+ * Represents a non stop path from one node to another node
  */
 public abstract class Connection {
 

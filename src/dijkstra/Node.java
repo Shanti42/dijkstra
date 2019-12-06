@@ -3,14 +3,15 @@
 
 package dijkstra;
 
-/**
- * Represents a node on a path
- */
+
 
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a node on a path
+ */
 public final class Node implements Comparable<Node> {
 
     // short string identifier for the Node

@@ -31,7 +31,8 @@ public final class Cost<T extends Addable> implements Comparable {
     /**
      * Return a cost based on the input
      *
-     * @param object an input of type Addable that this cost represents
+     * @param <T> an input of type Addable that this cost represents
+     * @param object used for calculating the value of the cost
      * @return a new cost with the given object for calculating it's value
      * @throws NullPointerException if the input object is null
      */
