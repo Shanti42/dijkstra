@@ -122,7 +122,9 @@ final class PathState {
      * Returns the closest unreached point on this graph, if any.
      *
      * @return a PathNode that represents the closest unreached point on this graph.
-     * If there are no more reachable nodes (disconnected graph), then
+     * If there are no more reachable nodes (disconnected graph), then it returns null.
+     *
+     * @throws NoSuchElementException if all nodes are reached
      */
     final PathNode closestUnreached() {
         PathNode smallestArrivalTime = unreached.pollFirst();
@@ -137,9 +139,14 @@ final class PathState {
     }
 
     /**
+     * Gets the PathNode on this graph associated with the input node
      *
-     * @param node
+     * @param node the node that we want to find
+     *
      * @return the route node corresponding to the node, assumes the node is in the route state
+     *
+     * @throws NullPointerException if node is null
+     * @throws AssertionError if this PathState doesn't contain a node that matches the input
      */
     final PathNode pathNode(Node node) {
         Objects.requireNonNull(node, "PathState, pathNode -> node is null");
