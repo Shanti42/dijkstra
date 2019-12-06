@@ -1,3 +1,5 @@
+// this is public because it's an interface
+
 package dijkstra;
 
 /**

@@ -1,3 +1,6 @@
+// public because PathNode is returned by PathFinder, so people will use it
+// final because we don't want people to mess with it
+
 // Caitlin
 
 package dijkstra;

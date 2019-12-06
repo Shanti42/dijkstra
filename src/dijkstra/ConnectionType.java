@@ -1,3 +1,6 @@
+// public because people will need to create instances of them when they're creating connections
+// final so that people can't extend it? *** do we want this? ask Ellis/talk about tomorrow
+
 package dijkstra;
 
 import java.util.Objects;
@@ -5,7 +8,7 @@ import java.util.Objects;
 /**
  * Represents the type of a connection
  */
-public class ConnectionType {
+public final class ConnectionType {
 
     //identifies the connection type
     private final String identifier;

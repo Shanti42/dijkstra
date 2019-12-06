@@ -1,5 +1,5 @@
 //yian
-
+// NOTE: this is public because Cost has a method that uses it (Cost.ZERO return a SimpleAddable)
 package dijkstra;
 
 import java.math.BigInteger;
@@ -25,6 +25,11 @@ public final class SimpleAddable implements Addable {
         this.value = value;
     }
 
+    /**
+     * The getter for the internal value of the SimpleAddable instance.
+     *
+     * @return the internal value
+     */
     public BigInteger getValue() {
         return value;
     }
@@ -52,7 +57,7 @@ public final class SimpleAddable implements Addable {
     * Compares one simpleAddable to the other.
     * A simpleAddable can be compared by internal values it holds
     *
-    * @param the other simpleAddable to be compared
+    * @param obj the other simpleAddable to be compared
     * @return -1, 0 or 1 if this simpleAddable's value is less than, equal to, or greater than the other's.
     */
     @Override
@@ -70,7 +75,7 @@ public final class SimpleAddable implements Addable {
      * Returns a new simpleAddable, which is the result of the addition of this simpleAddable and the given simpleAddable.
      * Two simpleAddables can be added by internal values they hold
      *
-     * @param the other simpleAddable to be added
+     * @param a the other simpleAddable to be added
      * @return the simpleAddable resulting from this simpleAddable and the other
      */
     @Override
@@ -88,7 +93,7 @@ public final class SimpleAddable implements Addable {
      * Check whether one simpleAddable and the other are equal.
      * A simpleAddable can be compared by internal values it holds
      *
-     * @param the other simpleAddable to be compared
+     * @param other the other simpleAddable to be compared
      * @return true or false if this simpleAddable's value is equal to, or not equal to the other's.
      */
     @Override

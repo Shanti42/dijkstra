@@ -1,3 +1,6 @@
+// public because users need to create nodes to use PathFinder
+// final because people don't need to modify it
+
 package dijkstra;
 
 //yian

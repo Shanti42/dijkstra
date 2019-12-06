@@ -1,4 +1,4 @@
-// Caitlin -- done (package private, so no javadoc) 
+// Caitlin -- done (package private, so no javadoc)
 
 package dijkstra;
 

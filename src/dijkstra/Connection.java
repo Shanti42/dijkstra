@@ -1,3 +1,5 @@
+// this is public because it's abstract
+
 package dijkstra;
 
 /**
@@ -81,7 +83,6 @@ public abstract class Connection {
      * @return true if this connection has a lower cost than the given connection, false otherwise
      */
     abstract boolean isLowerCost(Connection connection);
-
 
     /**
      * Returns the hash code of this Connection

@@ -1,6 +1,7 @@
 // Caitlin
+// public because people will need to use this generic class to assign costs to edges, etc.
+// final because people won't need to extend it/could mess it up if they do
 
-//yian
 package dijkstra;
 
 

@@ -1,3 +1,6 @@
+// public because that's the point of the package
+// final because we don't want people to mess it up
+
 // Caitlin
 
 package dijkstra;

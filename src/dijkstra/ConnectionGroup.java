@@ -112,6 +112,7 @@ final class ConnectionGroup {
      *
      * @param connection the connection whose origin is being checked
      * @param errorMsg   the error message to be added to the exception if the origins don't match
+     *
      * @throws IllegalArgumentException if the given connection's origin is not equal
      *                                  to the origin of the connection group
      * @throws NullPointerException if the given connection is null
