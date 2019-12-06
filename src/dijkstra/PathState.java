@@ -1,4 +1,5 @@
 // Caitlin -- done (package private, so no javadoc)
+// package private because don't need to override
 
 package dijkstra;
 

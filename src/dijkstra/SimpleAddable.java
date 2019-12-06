@@ -30,7 +30,7 @@ public final class SimpleAddable implements Addable {
      *
      * @return the internal value
      */
-    public BigInteger getValue() {
+    public final BigInteger getValue() {
         return value;
     }
 

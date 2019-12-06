@@ -1,4 +1,6 @@
 // Caitlin -- done!
+// technically javadoc isn't required because package private D:
+// should be package private because is only for testing purposes
 
 package dijkstra;
 
