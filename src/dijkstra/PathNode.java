@@ -34,17 +34,14 @@ public class PathNode implements Comparable<PathNode> {
      *
      * @return a new PathNode with connection's destination as its node and previous node "previous"
      *
-     * @throws NullPointerException if connection is null
+     * @throws NullPointerException if connection or previous is null
      *
      */
     public static final PathNode of(Connection connection, PathNode previous) {
         Objects.requireNonNull(connection, "connection received null");
-        //Previous node can be null, so no null check
-        Cost<Addable> cost = connection.getCost().plus(connection.getDestination().getNodeCost());
+        Objects.requireNonNull(connection, "previous received null");
 
-        if(previous == null) {
-            return new PathNode(connection.getDestination(), cost, null);
-        }
+        Cost<Addable> cost = connection.getCost().plus(connection.getDestination().getNodeCost());
 
         return new PathNode(connection.getDestination(), cost.plus(previous.getCost()), previous);
     }

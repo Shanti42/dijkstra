@@ -1,3 +1,5 @@
+// SOMETHING'S WRONG HERE!
+
 package dijkstra;
 
 import org.junit.Before;

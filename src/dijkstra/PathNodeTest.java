@@ -37,6 +37,7 @@ public class PathNodeTest {
     private Node unknownNode = Node.of("AB", Cost.UNKNOWN);
     private PathNode unknownPathNode = PathNode.of(unknownNode);
 
+    PathNode bob_pathNode = PathNode.of(bob);
     Connection connection = SimpleConnection.of(bob, susan, small, bus);;
 
     @Before
@@ -156,8 +157,9 @@ public class PathNodeTest {
 
     @Test
     public void testOf() {
-        PathNode path = PathNode.of(connection, null);
-        assertEquals(path.getCost(), connection.getCost());
+        PathNode path = PathNode.of(connection, bob_pathNode);
+        assertEquals(path.getCost(), connection.getCost().plus
+                (connection.getOrigin().getNodeCost().plus(connection.getDestination().getNodeCost())));
     }
 
 
