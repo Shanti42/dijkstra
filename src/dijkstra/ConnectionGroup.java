@@ -18,7 +18,7 @@ final class ConnectionGroup {
     // Represents origin node for all connections in group
     private final Node origin;
 
-    // ***** TODO: when I change Cost here to Cost<Addable it breaks :( (or maybe ask Ellis)
+    // When I change Cost here to Cost<Addable> it breaks :(
     // Map of departure time to the collection of connections that have that departure time
     private final NavigableMap<Cost, Set<Connection>> connections = new TreeMap<Cost, Set<Connection>>();
 

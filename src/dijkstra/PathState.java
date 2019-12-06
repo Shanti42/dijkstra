@@ -1,4 +1,4 @@
-// Caitlin
+// Caitlin -- done!
 
 package dijkstra;
 

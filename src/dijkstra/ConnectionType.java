@@ -1,5 +1,5 @@
 // public because people will need to create instances of them when they're creating connections
-// final so that people can't extend it? *** do we want this? ask Ellis/talk about tomorrow
+// final so that people can't extend it
 
 package dijkstra;
 
