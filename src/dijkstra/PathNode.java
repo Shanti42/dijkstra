@@ -76,6 +76,7 @@ public class PathNode implements Comparable<PathNode> {
      *
      * @param node the destination node
      * @param cost the cost associated with this PathNode
+     * @param previous the path node that came before this path node
      * @return a new PathNode of "node" with previous PathNode as null
      * @throws NullPointerException if node is null (cost and previous can be null)
      */
@@ -157,7 +158,7 @@ public class PathNode implements Comparable<PathNode> {
      *
      * @param other the PathNode to be compared
      * @throws NullPointerException if other is null
-     * @returns an integer based on which object comes first.
+     * @return an integer based on which object comes first.
      */
     @Override
     public int compareTo(PathNode other) {

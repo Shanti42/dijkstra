@@ -9,3 +9,10 @@
 
 build/*
 report/*
+*.html
+jquery/*
+element-list
+*.js
+*.zip
+resources/*
+*.css

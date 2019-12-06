@@ -32,7 +32,8 @@ public final class SimpleAddable implements Addable {
     /**
      * The public constructor for the SimpleAddable class
      *
-     * @param value        represents (int) cost in this example  
+     * @param value        represents (int) cost in this example
+     * @return a new simple addable with the given value
      */
     public final static SimpleAddable of(int value) {
         return new SimpleAddable(BigInteger.valueOf(value));
@@ -42,6 +43,7 @@ public final class SimpleAddable implements Addable {
      * The public constructor for the SimpleAddable class
      *
      * @param value        represents (BigInteger) cost in this example
+     * @return a new SimpleAddable with the given value
      * @throws NullPointerException if the input value is null
      */
     public final static SimpleAddable of(BigInteger value) {

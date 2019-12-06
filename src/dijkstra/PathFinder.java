@@ -10,7 +10,7 @@ import java.util.Set;
 
 /**
  * Finds the best path from node to a final destination.
- *
+ * <p>
  * Represents a set of nodes that can be searched.
  */
 public final class PathFinder {
@@ -26,9 +26,7 @@ public final class PathFinder {
      * from the departure node to final destination, with no ConnectionType specified
      *
      * @param nodes the nodes in the graph to be traversed
-     *
      * @return a new PathFinder with the internal set of nodes
-     *
      * @throws NullPointerException if the set of Nodes is null
      */
     public static final PathFinder of(Set<Node> nodes) {
@@ -41,8 +39,8 @@ public final class PathFinder {
      * Finds and returns the last route node in the fastest route
      * from the departure node to final destination, with no ConnectionType specified
      *
-     * @param start          the departure node
-     * @param end            the final destination
+     * @param start the departure node
+     * @param end   the final destination
      * @return the last PathNode on the path to get from start to end, or null if none found
      */
     public final PathNode bestPath(Node start, Node end) {
@@ -57,9 +55,8 @@ public final class PathFinder {
      * @param end            the final destination
      * @param connectionType the connectionType of the passenger
      * @return the last PathNode on the path to get from start to end, or null if none found
-     *
      * @throws IllegalStateException if there was an issue while searching
-     * @throws NullPointerException if start or end are null
+     * @throws NullPointerException  if start or end are null
      */
     public final PathNode bestPath(Node start, Node end, ConnectionType connectionType) {
         //check for null values
@@ -82,12 +79,10 @@ public final class PathFinder {
                     if (currentNode.getNode().equals(end)) {
                         return currentNode;
                     }
+                    //for all available paths from currentNode with proper connectionType:
+                    //if that (destination node’s total cost via the path) < (previous cost of the node)
+                    //replace that node with a node that has currentNode as it’s previous
 
-                    /*
-                     * for all available paths from “currentNode” with proper connectionType:
-                     if that (destination node’s total cost via the path) < (previous cost of the node)
-                     replace that node with a node that has “currentNode” as it’s “previous”
-                     * */
                     findShortestPathLocal(currentNode, connectionType, pathState);
 
                 } catch (RuntimeException e) {

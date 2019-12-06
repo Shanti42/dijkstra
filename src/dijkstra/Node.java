@@ -89,7 +89,7 @@ public final class Node implements Comparable<Node> {
     /**
      * Compare this node with the other object
      *
-     * @param object the other node to be compared
+     * @param otherNode the other node to be compared
      * @return -1, 0, or 1 if this node's ID is smaller than, equal to, or larger than the other node's ID
      */
     @Override
