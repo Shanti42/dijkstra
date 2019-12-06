@@ -71,10 +71,9 @@ public class CostTest {
         Cost c3 = Cost.of(SimpleAddable.of(BigInteger.ONE));
         Cost c4 = Cost.of(SimpleAddable.of(BigInteger.TEN));
 
-        // bad data, input is null
-        @Test(expected = NullPointerException.class)
+
         public void badData1() {
-            c2.compareTo(null);
+            assertEquals(c2.compareTo(null), -1);
         }
 
         // bad data, input is not SimpleAddable
